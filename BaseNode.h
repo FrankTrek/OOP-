@@ -8,12 +8,13 @@
 //更新日志 lastest date 4.7
 /*
     *4.7 补充了initalise的接口注释并在BaseNode功能中指出
+    *4.7 补充了重制函数，作为保护成员，支持多态
  */
 
 
 
 
-
+//hhh
 #ifndef BaseNode_h
 #define BaseNode_h
 #include <vector>
@@ -38,7 +39,7 @@ namespace Computational_Graph
         bool flag_IsValid;            //检验输入是否合法的标记
         NodeArray output_nodes;       //记录后继节点的数组
         NodeArray input_nodes;        //记录前继节点的数组
-        
+        virtual void Reset() { cout<<"this funct has not been defined yet\n"; }
     public:
         BaseNode() { flag_IsValid = true; }
         virtual ~BaseNode() {}
