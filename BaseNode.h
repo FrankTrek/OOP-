@@ -54,7 +54,7 @@ namespace Computational_Graph
         bool IsValid() const {return flag;}       //返回是否合法的方法
         virtual void Reset() { cout<<"this funct has not been defined yet\n"; }  //提供重新初始化的接口（归零）
         virtual void Reset(T& a) { cout<<"this funct has not been defined yet\n"; } //提供重新初始化的接口（含参数）
-        virtual T& value() const { cout<<"this funct has not been defined yet\n";} //显示value的接口
+        virtual T& Value() const { cout<<"this funct has not been defined yet\n";} //显示value的接口
        
        
         void Set_output_nodes( BaseNode* b)      //构建后继节点集
