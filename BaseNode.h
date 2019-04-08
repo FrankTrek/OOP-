@@ -39,9 +39,11 @@ namespace Computational_Graph
         bool flag_IsValid;            //检验输入是否合法的标记
         NodeArray output_nodes;       //记录后继节点的数组
         NodeArray input_nodes;        //记录前继节点的数组
+        string name;                  //记录节点名称
         virtual void Reset() { cout<<"this funct has not been defined yet\n"; }
     public:
         BaseNode() { flag_IsValid = true; }
+        BaseNode(const string& a): name(a){flag_IsValid = true;}
         virtual ~BaseNode() {}
         
         //以下为提供的接口
