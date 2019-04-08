@@ -8,11 +8,11 @@
 
 //更新日志 latest date 4.7
 /*
-   *4.7  在Node.h中的枚举量中添加Trinary，
-   *4.7  在Node.h中的Node类补充提供参数的构造函数
-   *4.8  将Node.h中vlaue转移至保护成员
-   *4.8  补充了查看数值的方法
-*/
+ *4.7  在Node.h中的枚举量中添加Trinary，
+ *4.7  在Node.h中的Node类补充提供参数的构造函数
+ *4.8  将Node.h中vlaue转移至保护成员
+ *4.8  补充了查看数值的方法
+ */
 #ifndef Node_h
 #define Node_h
 #include "BaseNode.h"
@@ -22,7 +22,7 @@ namespace Computational_Graph{
     template <typename T>
     class Node : public BaseNode<T>
     {
-   
+        
     protected:
         T value;    //节点的值
         T gradi;    //节点的导数
@@ -38,7 +38,7 @@ namespace Computational_Graph{
         {
             return value;
         }
-        virtual T& Value () const override                                       //返回节点数值
+        virtual T Value () const override                                       //返回节点数值
         {
             return value;
         }
@@ -48,7 +48,7 @@ namespace Computational_Graph{
     template <typename T>
     class Operation : public BaseNode<T>
     {
-    
+        
     protected:
         T value;    //节点的值
         T gradi;    //节点的导数
@@ -87,7 +87,7 @@ namespace Computational_Graph{
             Set_input_nodes(&node2);
             type = Binary;
         }
-        virtual T& Value () const override                                       //返回节点数值
+        virtual T Value () const override                                       //返回节点数值
         {
             return value;
         }
