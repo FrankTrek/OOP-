@@ -11,6 +11,7 @@
    *4.7  在Node.h中的枚举量中添加Trinary，
    *4.7  在Node.h中的Node类补充提供参数的构造函数
    *4.8  将Node.h中vlaue转移至保护成员
+   *4.8  补充了查看数值的方法
 */
 #ifndef Node_h
 #define Node_h
@@ -34,6 +35,10 @@ namespace Computational_Graph{
             value = data;
         }
         virtual T Forward () override                                       //正向传播的零元运算的接口
+        {
+            return value;
+        }
+        virtual T& Value () const override                                       //返回节点数值
         {
             return value;
         }
@@ -82,7 +87,10 @@ namespace Computational_Graph{
             Set_input_nodes(&node2);
             type = Binary;
         }
-        
+        virtual T& Value () const override                                       //返回节点数值
+        {
+            return value;
+        }
     };
 }
 
