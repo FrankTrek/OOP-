@@ -7,12 +7,12 @@
 //
 //更新日志 lastest date 4.7
 /*
-    *4.7 补充了initalise的接口注释并在BaseNode功能中指出
-    *4.7 补充了重制函数，作为保护成员，支持多态
-    *4.8 增加了返回是否合法的方法
-    *4.8 补充了节点名称，并更新了构造函数
-    *4.8 补充了重置函数的接口
-    *4.8 补充了提供节点数值的接口，为const类型
+ *4.7 补充了initalise的接口注释并在BaseNode功能中指出
+ *4.7 补充了重制函数，作为保护成员，支持多态
+ *4.8 增加了返回是否合法的方法
+ *4.8 补充了节点名称，并更新了构造函数
+ *4.8 补充了重置函数的接口
+ *4.8 补充了提供节点数值的接口，为const类型纯虚函数
  */
 
 
@@ -44,7 +44,7 @@ namespace Computational_Graph
         NodeArray output_nodes;       //记录后继节点的数组
         NodeArray input_nodes;        //记录前继节点的数组
         string name;                  //记录节点名称
-       
+        
     public:
         BaseNode() { flag = true; }
         BaseNode(const string& a): name(a){flag = true;}
@@ -54,9 +54,9 @@ namespace Computational_Graph
         bool IsValid() const {return flag;}       //返回是否合法的方法
         virtual void Reset() { cout<<"this funct has not been defined yet\n"; }  //提供重新初始化的接口（归零）
         virtual void Reset(T& a) { cout<<"this funct has not been defined yet\n"; } //提供重新初始化的接口（含参数）
-        virtual T& Value() const { cout<<"this funct has not been defined yet\n";} //显示value的接口
-       
-       
+        virtual T Value() const =0;//显示value的接口
+        
+        
         void Set_output_nodes( BaseNode* b)      //构建后继节点集
         {
             output_nodes.push_back(b);
@@ -99,19 +99,19 @@ namespace Computational_Graph
     };
     
     /* 这个基类实现的功能：
-       *形式为模版类编程
-       *以受保护成员的形式提供了判断是否输入合法的旗帜
-       *以受保护成员的形式提供了前继节点集和后继节点集
-       *提供了前向传播的主要接口
-       *为后向传播预留了借口
-       *关闭了各种复制以及类型转换
-       *输入节点的初始话接口
+     *形式为模版类编程
+     *以受保护成员的形式提供了判断是否输入合法的旗帜
+     *以受保护成员的形式提供了前继节点集和后继节点集
+     *提供了前向传播的主要接口
+     *为后向传播预留了借口
+     *关闭了各种复制以及类型转换
+     *输入节点的初始话接口
      
      
      
-       *将在Operator类中补充各种类型的运算操作
-       *将在Variable与Const类中补充它的数值信息以及赋值操作
-    */
+     *将在Operator类中补充各种类型的运算操作
+     *将在Variable与Const类中补充它的数值信息以及赋值操作
+     */
     template <typename T>
     struct Graph_Node{
         BaseNode<T> * node;              //指向基类节点的指针
@@ -121,3 +121,4 @@ namespace Computational_Graph
 }
 
 #endif /* BaseNode_h */
+
