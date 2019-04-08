@@ -10,6 +10,7 @@
 /*
    *4.7  在Node.h中的枚举量中添加Trinary，
    *4.7  在Node.h中的Node类补充提供参数的构造函数
+   *4.8  将Node.h中vlaue转移至保护成员
 */
 #ifndef Node_h
 #define Node_h
@@ -20,9 +21,9 @@ namespace Computational_Graph{
     template <typename T>
     class Node : public BaseNode<T>
     {
-    private:
-        T value;    //节点的值
+   
     protected:
+        T value;    //节点的值
         T gradi;    //节点的导数
     public:
         Node() = default;
@@ -41,9 +42,9 @@ namespace Computational_Graph{
     template <typename T>
     class Operation : public BaseNode<T>
     {
-    private:
-        T value;    //节点的值
+    
     protected:
+        T value;    //节点的值
         T gradi;    //节点的导数
         int type;
     public:
