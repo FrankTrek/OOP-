@@ -9,6 +9,10 @@
 /*
     *4.7 补充了initalise的接口注释并在BaseNode功能中指出
     *4.7 补充了重制函数，作为保护成员，支持多态
+    *4.8 增加了返回是否合法的方法
+    *4.8 补充了节点名称，并更新了构造函数
+    *4.8 补充了重置函数的接口
+    *4.8 补充了提供节点数值的接口，为const类型
  */
 
 
@@ -36,17 +40,23 @@ namespace Computational_Graph
     {
     protected:
         typedef std::vector<BaseNode*> NodeArray;  //在BaseNode名称空间中NodeArray为std::vector<BaseNode*>的别名
-        bool flag_IsValid;            //检验输入是否合法的标记
+        bool flag;            //检验输入是否合法的标记
         NodeArray output_nodes;       //记录后继节点的数组
         NodeArray input_nodes;        //记录前继节点的数组
         string name;                  //记录节点名称
-        virtual void Reset() { cout<<"this funct has not been defined yet\n"; }
+       
     public:
-        BaseNode() { flag_IsValid = true; }
-        BaseNode(const string& a): name(a){flag_IsValid = true;}
+        BaseNode() { flag = true; }
+        BaseNode(const string& a): name(a){flag = true;}
         virtual ~BaseNode() {}
         
         //以下为提供的接口
+        bool IsValid() const {return flag;}       //返回是否合法的方法
+        virtual void Reset() { cout<<"this funct has not been defined yet\n"; }  //提供重新初始化的接口（归零）
+        virtual void Reset(T& a) { cout<<"this funct has not been defined yet\n"; } //提供重新初始化的接口（含参数）
+        virtual T& value() const { cout<<"this funct has not been defined yet\n";} //显示value的接口
+       
+       
         void Set_output_nodes( BaseNode* b)      //构建后继节点集
         {
             output_nodes.push_back(b);
