@@ -79,7 +79,7 @@ namespace Computational_Graph{
             Set_input_nodes(&node1);
             type = Unary;
         }
-        Operation (cosnt string& a,BaseNode<T>& node1,BaseNode<T>& node2):BaseNode<T>(a) //2元运算符
+        Operation (const string& a,BaseNode<T>& node1,BaseNode<T>& node2):BaseNode<T>(a) //2元运算符
         {
             node1.Set_output_nodes(this);
             node2.Set_output_nodes(this);
