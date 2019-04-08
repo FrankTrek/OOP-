@@ -28,6 +28,7 @@ namespace Computational_Graph{
     public:
         Node() = default;
         Node(const T& a): value(a) {}                                      //包含数值初始化的构造函数
+        Node(const T& a,const string& b):BaseNode<T>(b), value(a) {}
         virtual void Initalize(T& data) override
         {
             value = data;
@@ -57,6 +58,23 @@ namespace Computational_Graph{
             type = Unary;
         }
         Operation (BaseNode<T>& node1,BaseNode<T>& node2) //2元运算符
+        {
+            node1.Set_output_nodes(this);
+            node2.Set_output_nodes(this);
+            Set_input_nodes(&node1);
+            Set_input_nodes(&node2);
+            type = Binary;
+        }
+        //以上为匿名版本
+        //以下为带名称的版本
+        Operation(const string& a):BaseNode<T>(a) { type = Nullary; }       //0元运算符
+        Operation (const string& a,BaseNode<T>& node1):BaseNode<T>(a)        //1元运算符
+        {
+            node1.Set_output_nodes(this);
+            Set_input_nodes(&node1);
+            type = Unary;
+        }
+        Operation (cosnt string& a,BaseNode<T>& node1,BaseNode<T>& node2):BaseNode<T>(a) //2元运算符
         {
             node1.Set_output_nodes(this);
             node2.Set_output_nodes(this);
