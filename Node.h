@@ -12,6 +12,8 @@
  *4.7  在Node.h中的Node类补充提供参数的构造函数
  *4.8  将Node.h中vlaue转移至保护成员
  *4.8  补充了查看数值的方法
+ *4.8  Z.补充了Reset，将所有后续flag设置为0 value为-Max的接口
+ *4.8  Z.补充了只有string初始化Node的接口
  */
 #ifndef Node_h
 #define Node_h
@@ -30,6 +32,7 @@ namespace Computational_Graph{
         Node() = default;
         Node(const T& a): value(a) {}                                      //包含数值初始化的构造函数
         Node(const T& a,const string& b):BaseNode<T>(b), value(a) {}
+        Node(const string& b):BaseNode<T>(b){} ;
         virtual void Initalize(T& data) override
         {
             value = data;
@@ -42,6 +45,20 @@ namespace Computational_Graph{
         {
             return value;
         }
+        //调试用函数
+        void debug_print(){
+        	cout << this->value << "|" << this->flag << endl ;
+		}
+		//
+        
+        void Reset() override final{
+			this->flag = 0 ;
+			value = Minus_Max ;
+			for(auto i: this->output_nodes){
+				i->Reset() ;
+			}
+		}
+		
         ~Node(){}
         
     };

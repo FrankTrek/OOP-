@@ -13,6 +13,7 @@
  *4.8 补充了节点名称，并更新了构造函数
  *4.8 补充了重置函数的接口
  *4.8 补充了提供节点数值的接口，为const类型纯虚函数
+ *4.8 Z.设置了setflag接口
  */
 
 
@@ -52,11 +53,14 @@ namespace Computational_Graph
         
         //以下为提供的接口
         bool IsValid() const {return flag;}       //返回是否合法的方法
-        virtual void Reset() { cout<<"this funct has not been defined yet\n"; }  //提供重新初始化的接口（归零）
+        virtual void Reset() { 
+			cout<<"this funct has not been defined yet\n"; }  //提供重新初始化的接口（归零）
         virtual void Reset(T& a) { cout<<"this funct has not been defined yet\n"; } //提供重新初始化的接口（含参数）
         virtual T Value() const =0;//显示value的接口
         
-        
+        void Set_flag(bool i){
+        	flag = i ;
+		} 
         void Set_output_nodes( BaseNode* b)      //构建后继节点集
         {
             output_nodes.push_back(b);
