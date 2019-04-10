@@ -14,6 +14,9 @@
  *4.8  补充了查看数值的方法
  *4.8  Z.补充了Reset，将所有后续flag设置为0 value为-Max的接口
  *4.8  Z.补充了只有string初始化Node的接口
+ * 4.10 Z.补充了forward的报错信息和对flag的设置
+ * 4.10 Z.修改了只用string初始化Node,使placeholder初始化为-max
+ * 4.10 Z.Attention:修改RESET
  */
 #ifndef Node_h
 #define Node_h
@@ -32,13 +35,19 @@ namespace Computational_Graph{
         Node() = default;
         Node(const T& a): value(a) {}                                      //包含数值初始化的构造函数
         Node(const T& a,const string& b):BaseNode<T>(b), value(a) {}
-        Node(const string& b):BaseNode<T>(b){} ;
+        Node(const string& b):BaseNode<T>(b){
+            value = Minus_Max ;
+        } ;
         virtual void Initalize(T& data) override
         {
             value = data;
         }
         virtual T Forward () override                                       //正向传播的零元运算的接口
         {
+            if(value == Minus_Max) {
+                cout << "Error" << endl;
+                this->flag = 0 ;
+            }
             return value;
         }
         virtual T Value () const override                                       //返回节点数值
@@ -52,7 +61,7 @@ namespace Computational_Graph{
 		//
         
         void Reset() override final{
-			this->flag = 0 ;
+            this->flag = 1;
 			value = Minus_Max ;
 			for(auto i: this->output_nodes){
 				i->Reset() ;
