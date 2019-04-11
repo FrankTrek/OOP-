@@ -45,7 +45,7 @@ namespace Computational_Graph
         NodeArray output_nodes;       //记录后继节点的数组
         NodeArray input_nodes;        //记录前继节点的数组
         string name;                  //记录节点名称
-        
+        T value;    //节点的值
     public:
         BaseNode() { flag = true; }
         BaseNode(const string& a): name(a){flag = true;}
