@@ -29,7 +29,7 @@ namespace Computational_Graph{
     {
         
     protected:
-        T value;    //节点的值
+        
         T gradi;    //节点的导数
     public:
         Node() = default;
@@ -76,7 +76,7 @@ namespace Computational_Graph{
     {
         
     protected:
-        T value;    //节点的值
+       
         T gradi;    //节点的导数
         int type;
     public:
