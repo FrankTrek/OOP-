@@ -1,63 +1,68 @@
+//
+//  Const.h
+//  OOP Computation Graph
+//
+//  Created by ç‹ä¸€è¯º on 2019/4/13.
+//  Copyright Â© 2019 ç‹ä¸€è¯º. All rights reserved.
+//
 //OOP Computational_graph
 
-//¸üĞÂÈÕÖ¾ latest date 4.7
-//4.7ÎÒ¾õµÃNodeÖĞIn ºÍ forward ¶¼¿ÉÒÔÖ±½Ó¹Òfinal?
-//¸Ğ¾õÓÃ²»µ½ÒÆ¶¯&¿½±´£¬»òĞí¿ÉÒÔdelete? 
-//C V ¹¹ÔìÊ±±Ø´øÊıÖµ£¬P¹¹ÔìÊ±½ûÖ¹´øÖµ 
-
-
+//æ›´æ–°æ—¥å¿— lastest date 4.8
+/*
+ 4.8
+ */
 #pragma once
-#include <iostream> 
+#include <iostream>
 #include "Node.h"
 
 
 namespace Computational_Graph{
-
-
-  class Constant : public Node<float> {
     
-    public :
     
-    	using Node<float>::Forward ;
-    	//²»ÔÊĞí³ıÈ¥¹¹ÔìÊ±µÄ³õÊ¼»¯ 
-    
-    	Const() = delete ;
-		Constant(float i):Node(i){
-			this->flag_IsValid = 1 ;
-		} ;
-		//¹¹Ôì£ºÖ»ÔÊĞí´ø²ÎÊı¹¹Ôì£¬´ËÊ±ÎŞÂÛÈçºÎ¶¼ºÏ·¨ 
-		~Constant(){} ;
-		//setanswerÒÀÀµÊä³ö 
-		 
-	}; 
+    class Constant : public Node<float> {
+        
+        public :
+        
+        using Node<float>::Forward ;
+        
+        Constant() = delete;
+        Constant(const float& i) = delete;
+        
+        Constant(const float& i ,const string& s):Node<float>(i,s){
+        } ;
+        
+        ~Constant(){} ;
+    };
     
     
     class Variable : public Node<float> {
-    
-    public :
-
-    	using Node<float>::Forward ;
-    	using Node<float>::Initalize ;
-    	
-		Varaible() = delete ;
-		Variable(float i):Node(i){
-			this->flag_IsValid = 1 ;
-		} ;
-		//setanswerÒÀÀµÊä³ö 
-		~Variable() ;
-		 
-	}; 
+        
+        public :
+        
+        using Node<float>::Forward ;
+        using Node<float>::Initalize ;
+        
+        Variable() = delete ;
+        Variable(const float& i) = delete ;
+        Variable(const float& i ,const string& s):Node<float>(i,s){
+        } ;
+        //setanswerä¾é äºè¾“å‡ºï¼Œå¾…è¡¥å……
+        ~Variable(){} ;
+        
+    };
     
     class Placeholder : public Node<float>{
-    	
-    public :
-    	using Node<float>::Forward ;
-		using Node<float>::Initalize ;
-		
-		Placeholder(){} ; 
-		Placeholder(float) = delete ;
-		~Placeholder(){} ;
-		
-		 
-	};
+        
+        public :
+        using Node<float>::Forward ;
+        using Node<float>::Initalize ;
+        
+        Placeholder(){} ;
+        Placeholder(const float& a) = delete ;
+        Placeholder(const string& s):Node<float>(s){
+        }
+        ~Placeholder(){} ;
+        
+        
+    };
 }

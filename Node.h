@@ -17,6 +17,7 @@
  * 4.10 Z.补充了forward的报错信息和对flag的设置
  * 4.10 Z.修改了只用string初始化Node,使placeholder初始化为-max
  * 4.10 Z.Attention:修改RESET
+ * 4.12 将operation类的构造函数由传引用改为传指针
  */
 #ifndef Node_h
 #define Node_h
@@ -29,7 +30,7 @@ namespace Computational_Graph{
     {
         
     protected:
-        
+        T value;    //节点的值
         T gradi;    //节点的导数
     public:
         Node() = default;
@@ -45,7 +46,7 @@ namespace Computational_Graph{
         virtual T Forward () override                                       //正向传播的零元运算的接口
         {
             if(value == Minus_Max) {
-                cout << "Error" << endl;
+                std::cerr << "Error" << endl;
                 this->flag = 0 ;
             }
             return value;
@@ -56,18 +57,18 @@ namespace Computational_Graph{
         }
         //调试用函数
         void debug_print(){
-        	cout << this->value << "|" << this->flag << endl ;
-		}
-		//
+            std::cerr << this->value << "|" << this->flag << endl ;
+        }
+        //
         
         void Reset() override final{
             this->flag = 1;
-			value = Minus_Max ;
-			for(auto i: this->output_nodes){
-				i->Reset() ;
-			}
-		}
-		
+            value = Minus_Max ;
+            for(auto i: this->output_nodes){
+                i->Reset() ;
+            }
+        }
+        
         ~Node(){}
         
     };
@@ -76,42 +77,46 @@ namespace Computational_Graph{
     {
         
     protected:
-       
+        T value;    //节点的值
         T gradi;    //节点的导数
         int type;
     public:
         using BaseNode<T>::Set_input_nodes;
         Operation() { type = Nullary; }       //0元运算符
-        Operation (BaseNode<T>& node1)        //1元运算符
+        Operation (BaseNode<T>* node1)        //1元运算符
         {
-            node1.Set_output_nodes(this);
-            Set_input_nodes(&node1);
+            node1->Set_output_nodes(this);
+            Set_input_nodes(node1);
             type = Unary;
+            value = Minus_Max;
         }
-        Operation (BaseNode<T>& node1,BaseNode<T>& node2) //2元运算符
+        Operation (BaseNode<T>* node1,BaseNode<T>* node2) //2元运算符
         {
-            node1.Set_output_nodes(this);
-            node2.Set_output_nodes(this);
-            Set_input_nodes(&node1);
-            Set_input_nodes(&node2);
+            node1->Set_output_nodes(this);
+            node2->Set_output_nodes(this);
+            Set_input_nodes(node1);
+            Set_input_nodes(node2);
             type = Binary;
+            value = Minus_Max;
         }
         //以上为匿名版本
         //以下为带名称的版本
         Operation(const string& a):BaseNode<T>(a) { type = Nullary; }       //0元运算符
-        Operation (const string& a,BaseNode<T>& node1):BaseNode<T>(a)        //1元运算符
+        Operation (const string& a,BaseNode<T>* node1):BaseNode<T>(a)        //1元运算符
         {
-            node1.Set_output_nodes(this);
+            node1->Set_output_nodes(this);
             Set_input_nodes(&node1);
             type = Unary;
+            value = Minus_Max;
         }
-        Operation (const string& a,BaseNode<T>& node1,BaseNode<T>& node2):BaseNode<T>(a) //2元运算符
+        Operation (const string& a,BaseNode<T>* node1,BaseNode<T>* node2):BaseNode<T>(a) //2元运算符
         {
-            node1.Set_output_nodes(this);
-            node2.Set_output_nodes(this);
+            node1->Set_output_nodes(this);
+            node2->Set_output_nodes(this);
             Set_input_nodes(&node1);
             Set_input_nodes(&node2);
             type = Binary;
+            value = Minus_Max;
         }
         virtual T Value () const override                                       //返回节点数值
         {

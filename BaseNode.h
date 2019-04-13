@@ -14,6 +14,8 @@
  *4.8 补充了重置函数的接口
  *4.8 补充了提供节点数值的接口，为const类型纯虚函数
  *4.8 Z.设置了setflag接口
+ *4.12 增加了检查是否出现有向回路的方法
+ *4.12 将Struct中的指针改为shared_ptr
  */
 
 
@@ -25,6 +27,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <memory>
 namespace Computational_Graph
 {
     //所有的Computatal Garph相关类储存在Computational_Graph名称空间中
@@ -34,18 +37,21 @@ namespace Computational_Graph
     using std::cout;
     using std::endl;
     const float Minus_Max = -100000000000;    //用于给定float下界以判断是否完成输入
-    enum { Varible, Const, Operator };
+    enum { Varible, Const, Operator ,Placehold};
     //写在之前的警告⚠️：必须在之后的继承类中补充关于前向传播的定义，否则继承类将依然成为虚类⚠️⚠️⚠️
     template <typename T>
     class BaseNode
     {
+   
+        
+       
     protected:
         typedef std::vector<BaseNode*> NodeArray;  //在BaseNode名称空间中NodeArray为std::vector<BaseNode*>的别名
         bool flag;            //检验输入是否合法的标记
         NodeArray output_nodes;       //记录后继节点的数组
         NodeArray input_nodes;        //记录前继节点的数组
         string name;                  //记录节点名称
-        T value;    //节点的值
+        
     public:
         BaseNode() { flag = true; }
         BaseNode(const string& a): name(a){flag = true;}
@@ -53,14 +59,14 @@ namespace Computational_Graph
         
         //以下为提供的接口
         bool IsValid() const {return flag;}       //返回是否合法的方法
-        virtual void Reset() { 
-			cout<<"this funct has not been defined yet\n"; }  //提供重新初始化的接口（归零）
+        virtual void Reset() {
+            cout<<"this funct has not been defined yet\n"; }  //提供重新初始化的接口（归零）
         virtual void Reset(T& a) { cout<<"this funct has not been defined yet\n"; } //提供重新初始化的接口（含参数）
         virtual T Value() const =0;//显示value的接口
         
         void Set_flag(bool i){
-        	flag = i ;
-		} 
+            flag = i ;
+        }
         void Set_output_nodes( BaseNode* b)      //构建后继节点集
         {
             output_nodes.push_back(b);
@@ -93,6 +99,21 @@ namespace Computational_Graph
         {
             cout<<"Func Print() has not yet been defined\n";
         }
+        //新增4.12 检查是否出现有向回路  true for 有
+        bool IsCycle(const string& a)
+        {
+            for(auto x : input_nodes)
+            {
+                if(x->name == a)
+                {
+                    std::cerr<<"Loop Error\n";
+                    return true;
+                }
+                x->IsCycle(a);
+            }
+            return false;
+        }
+       
         
         
         // 以下为禁用一些默认的格式转换
@@ -118,11 +139,10 @@ namespace Computational_Graph
      */
     template <typename T>
     struct Graph_Node{
-        BaseNode<T> * node;              //指向基类节点的指针
+        std::shared_ptr<BaseNode<T> > node;              //指向基类节点的指针
         string Nodename;                 //节点的名称
         int Mode;                        //节点的种类
     };                                   //计算图中的节点
 }
 
 #endif /* BaseNode_h */
-
