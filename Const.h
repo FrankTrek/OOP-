@@ -1,9 +1,11 @@
 //OOP Computational_graph
 
-//æ›´æ–°æ—¥å¿— lastest date 4.8
-/* 
- 4.8
-*/
+//¸üĞÂÈÕÖ¾ latest date 4.7
+//4.7ÎÒ¾õµÃNodeÖĞIn ºÍ forward ¶¼¿ÉÒÔÖ±½Ó¹Òfinal?
+//¸Ğ¾õÓÃ²»µ½ÒÆ¶¯&¿½±´£¬»òĞí¿ÉÒÔdelete? 
+//C V ¹¹ÔìÊ±±Ø´øÊıÖµ£¬P¹¹ÔìÊ±½ûÖ¹´øÖµ 
+
+
 #pragma once
 #include <iostream> 
 #include "Node.h"
@@ -17,14 +19,16 @@ namespace Computational_Graph{
     public :
     
     	using Node<float>::Forward ;
+    	//²»ÔÊĞí³ıÈ¥¹¹ÔìÊ±µÄ³õÊ¼»¯ 
     
     	Const() = delete ;
-    	Const(const float& i) = delete ;
-
-		Constant(const float& i ,const string& s):Node<float>(i,s){
+		Constant(float i):Node(i){
+			this->flag_IsValid = 1 ;
 		} ;
-
+		//¹¹Ôì£ºÖ»ÔÊĞí´ø²ÎÊı¹¹Ôì£¬´ËÊ±ÎŞÂÛÈçºÎ¶¼ºÏ·¨ 
 		~Constant(){} ;
+		//setanswerÒÀÀµÊä³ö 
+		 
 	}; 
     
     
@@ -35,12 +39,12 @@ namespace Computational_Graph{
     	using Node<float>::Forward ;
     	using Node<float>::Initalize ;
     	
-		Variable() = delete ;
-		Variable(const float& i) = delete ;
-		Variable(const float& i ,const string& s):Node<float>(i,s){
+		Varaible() = delete ;
+		Variable(float i):Node(i){
+			this->flag_IsValid = 1 ;
 		} ;
-		//setanswerä¾é äºè¾“å‡ºï¼Œå¾…è¡¥å……
-		~Variable(){} ;
+		//setanswerÒÀÀµÊä³ö 
+		~Variable() ;
 		 
 	}; 
     
@@ -49,14 +53,11 @@ namespace Computational_Graph{
     public :
     	using Node<float>::Forward ;
 		using Node<float>::Initalize ;
-
-		Placeholder(){} ;
-		Placeholder(const float& a) = delete ;
-		Placeholder(const string& s):Node<float>(s){
-		} 
+		
+		Placeholder(){} ; 
+		Placeholder(float) = delete ;
 		~Placeholder(){} ;
 		
 		 
 	};
 }
-
