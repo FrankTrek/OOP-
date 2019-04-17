@@ -6,6 +6,11 @@
 //  Copyright © 2019 王一诺. All rights reserved.
 //
 
+/*
+ *4.13补充极小量eps
+ */
+
+
 #ifndef Set_Graph_h
 #define Set_Graph_h
 #include "Node.h"
@@ -43,7 +48,7 @@ namespace Computational_Graph{
         }
         void SetAnswer(const string& name, int n)                       //对Variable进行seranswer操作 未完成
         {
-            if(Answer[n]<Minus_Max+0.0000001) std::cerr<<"Invalid Operation\n";
+            if(Answer[n]<=Minus_Max+eps) std::cerr<<"Invalid Operation\n";
             else if(graph[name].Mode== Varible) graph[name].node->Initalize(Answer[n]);
             else std::cerr<<"Set_answer option only for Varible\n";            //如果不为Varible则报错
         }
