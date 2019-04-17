@@ -18,6 +18,7 @@
  * 4.10 Z.修改了只用string初始化Node,使placeholder初始化为-max
  * 4.10 Z.Attention:修改RESET
  * 4.12 将operation类的构造函数由传引用改为传指针
+ * 4.13 补充了三元运算符的构造函数
  */
 #ifndef Node_h
 #define Node_h
@@ -35,7 +36,7 @@ namespace Computational_Graph{
     public:
         Node() = default;
         Node(const T& a): value(a) {}                                      //包含数值初始化的构造函数
-        Node(const T& a,const string& b):BaseNode<T>(b), value(a) {}
+        Node(const T& a, const string& b):BaseNode<T>(b), value(a) {}
         Node(const string& b):BaseNode<T>(b){
             value = Minus_Max ;
         } ;
@@ -99,13 +100,27 @@ namespace Computational_Graph{
             type = Binary;
             value = Minus_Max;
         }
+            //这里补充三元运算符
+        Operation (BaseNode<T>* node1, BaseNode<T>* node2, BaseNode<T>* node3)// 三元运算符
+        {
+            node1->Set_output_nodes(this);
+            node2->Set_output_nodes(this);
+            node3->Set_output_nodes(this);
+            Set_input_nodes(node1);
+            Set_input_nodes(node2);
+            Set_input_nodes(node3);
+            type = Trinary;
+            value = Minus_Max;
+        }
+            //结束
+        
         //以上为匿名版本
         //以下为带名称的版本
         Operation(const string& a):BaseNode<T>(a) { type = Nullary; }       //0元运算符
         Operation (const string& a,BaseNode<T>* node1):BaseNode<T>(a)        //1元运算符
         {
             node1->Set_output_nodes(this);
-            Set_input_nodes(&node1);
+            Set_input_nodes(node1);
             type = Unary;
             value = Minus_Max;
         }
@@ -113,15 +128,33 @@ namespace Computational_Graph{
         {
             node1->Set_output_nodes(this);
             node2->Set_output_nodes(this);
-            Set_input_nodes(&node1);
-            Set_input_nodes(&node2);
+            Set_input_nodes(node1);
+            Set_input_nodes(node2);//这里需要改动
             type = Binary;
+            value = Minus_Max;
+        }
+        
+        Operation (const string& a,BaseNode<T>* node1,BaseNode<T>* node2,BaseNode<T>* node3):BaseNode<T>(a) //2元运算符
+        {
+            node1->Set_output_nodes(this);
+            node2->Set_output_nodes(this);
+            node3->Set_output_nodes(this);
+            Set_input_nodes(node1);
+            Set_input_nodes(node2);
+            Set_input_nodes(node3);
+            type = Trinary;
             value = Minus_Max;
         }
         virtual T Value () const override                                       //返回节点数值
         {
             return value;
         }
+        //
+        void debug_print(){
+            std::cerr << this->value << "|" << this->flag << endl ;
+        }
+        
+        //
     };
 }
 
