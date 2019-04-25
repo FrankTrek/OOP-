@@ -2,13 +2,17 @@
 //  Set_Graph.h
 //  OOP Computation Graph
 //
-//  Created by ç‹ä¸€è¯º on 2019/4/12.
-//  Copyright Â© 2019 ç‹ä¸€è¯º. All rights reserved.
+//  Created by ÍõÒ»Åµ on 2019/4/12.
+//  Copyright ? 2019 ÍõÒ»Åµ. All rights reserved.
 //
 
 /*
- *4.13 Cai. è¡¥å……æå°é‡eps
- *4.21 Cai. è¡¥å…¨äº†Set_Graph:: Operationç±»æ‰€æœ‰æ„é€ å‡½æ•°
+ *4.13²¹³ä¼«Ğ¡Á¿eps
+ *4.20 Z.I.PVC()ÊµÏÖ 
+ *4.20 Z.processing Stage3 ¼ÓÈëReset
+ *4.20 ¼ÓÈë ×îÖÕ½Úµãres µÄ¼ÇÂ¼ 
+ *4.20 Z.40ĞĞÓĞÒ»¸öĞÄÀïÃ»µ×µÄ¿ÉÄÜÎ£ÏÕ²Ù×÷ 
+ *4.23 ĞŞ¸ÄCompute Ê¹¼ÆËã´íÎóµÄµã²»Êä³ö 
  */
 
 
@@ -22,51 +26,30 @@
 namespace Computational_Graph{
     class Set_Graph{
         typedef Graph_Node<float> GNode;
-        std::map<string, GNode> graph;          //å›¾
-        std::vector<string> info;              //å¤„ç†çš„ä¿¡æ¯
-        std::vector<float> Answer;             //è¾“å‡ºçš„ä¿¡æ¯
+        std::map<string, GNode> graph;          //Í¼
+        std::vector<string> info;              //´¦ÀíµÄĞÅÏ¢
+        std::vector<float> Answer;             //Êä³öµÄĞÅÏ¢
+        string res ; 
     public:
-        Set_Graph() {}
-        Set_Graph(std::vector<string> && a)       //ç›´æ¥ä¼ å…¥ä¿¡æ¯çš„æ„é€ å‡½æ•°
+        Set_Graph() {
+			res = "HAVEN't BEEN PUT IN" ;
+		}
+        Set_Graph(std::vector<string> && a)       //Ö±½Ó´«ÈëĞÅÏ¢µÄ¹¹Ôìº¯Êı
         {
             info = std::move(a);
         }
-        void Input_info(std::vector<string> && a) //ä¼ å…¥ä¿¡æ¯
+
+        void Input_info(std::vector<string> &&a) //´«ÈëĞÅÏ¢
         {
             info = std::move(a);
+            //WARNING?
         }
-        void processing_Stage3();//å¯¹è¾“å…¥å­—ç¬¦ä¸²çš„å¤„ç†  æœªå®Œæˆ
-        /*
-         æ³¨æ„è¿™é‡Œæ˜¯ä¿®æ”¹
-        void ADD(const string& obj, const string& p1, const string& p2);                //åŠ æ³•æ“ä½œ
-        void Multi(const string& obj, const string& p1, const string& p2);               //ä¹˜æ³•æ“ä½œ
-        void MINUS(const string& obj, const string& p1, const string& p2);               //å‡æ³•æ“ä½œ
-        void Div(const string& obj, const string& p1, const string& p2);                 //é™¤æ³•æ“ä½œ
-        void Print(const string& name);//æ‰§è¡Œæ‰“å°æ“ä½œ  æœªå®Œæˆ
-        //å‡è£…è¿™é‡Œæœ‰ä¸€å¨æ“ä½œç¬¦
-        //add by Cai on 4.21
-        void Cond(const string& obj, const string &p1, const string& p2, const string& p3);//Cond æ“ä½œ
-        void XIAOYU (const string& obj, const string& p1, const string& p2);
-        void XIAODENG (const string& obj, const string& p1, const string& p2);
-        void DAYU (const string& obj, const string& p1, const string& p2);
-        void DADENG (const string& obj, const string& p1, const string& p2);
-        void DENGYU (const string& obj, const string& p1, const string& p2);
-        void BUDENG (const string& obj, const string& p1, const string& p2);
-        
-        void Sin(const string& obj, const string &p1);
-        void Exp(const string& obj, const string &p1);
-        void Tanh(const string& obj, const string &p1);
-        void Log(const string& obj, const string &p1);
-        void Sigmoid(const string& obj, const string &p1);
-        void Print(const string& obj, const string &p1);
-         */
-        //----------------------------------------------------------------------------
-        //4.21 é’ˆå¯¹ä»£ç é‡å¤è¿‡äºä¸¥é‡ï¼Œæˆ‘è¦æ¢ä¸€ä¸ªå†™æ³•
-        template <class A>
+        void processing_Stage3();                        //¶ÔÊäÈë×Ö·û´®µÄ´¦Àí  Î´Íê³É
+    template <class A>
         void Jianli_2(const string& obj, const string& p1, const string& p2)
         {
             auto x = graph.find(obj);  auto pt1 = graph.find(p1); auto pt2 = graph.find(p2);
-            if(x!=graph.end())           //è¢«é‡å®šä¹‰é”™è¯¯
+            if(x!=graph.end())           //±»ÖØ¶¨Òå´íÎó
             {
                 std::cerr<<"False Redefination\n";
             }
@@ -87,7 +70,7 @@ namespace Computational_Graph{
         void Jianli_1(const string& obj, const string& p1)
         {
             auto x = graph.find(obj);  auto pt1 = graph.find(p1);
-            if(x!=graph.end())           //è¢«é‡å®šä¹‰é”™è¯¯
+            if(x!=graph.end())           //±»ÖØ¶¨Òå´íÎó
             {
                 std::cerr<<"False Redefination\n";
             }
@@ -107,7 +90,7 @@ namespace Computational_Graph{
         void Jianli_3(const string& obj, const string& p1, const string& p2,const string & p3)
         {
             auto x = graph.find(obj);  auto pt1 = graph.find(p1); auto pt2 = graph.find(p2); auto pt3= graph.find(p3);
-            if(x!=graph.end())           //è¢«é‡å®šä¹‰é”™è¯¯
+            if(x!=graph.end())           //±»ÖØ¶¨Òå´íÎó
             {
                 std::cerr<<"False Redefination\n";
             }
@@ -121,40 +104,54 @@ namespace Computational_Graph{
                 graph[obj].Nodename = obj;
                 BaseNode<float>* para1 = graph[p1].node.get();
                 BaseNode<float>* para2 = graph[p2].node.get();
-                BaseNode<float>* para3 = graph[p2].node.get();
+                BaseNode<float>* para3 = graph[p3].node.get();
                 graph[obj].node = std::make_shared<A>(obj,para1, para2,para3);
             }
         }
         
         
-        //----------------------------------------------------------------------------
-        void Compute(const string& a)             //å¯¹äºè¡¨è¾¾å¼è¿›è¡Œè®¡ç®—
+        //¼Ù×°ÕâÀïÓĞÒ»¶Ö²Ù×÷·û
+        void Compute(const string& a)             //¶ÔÓÚ±í´ïÊ½½øĞĞ¼ÆËã
         {
              float b = graph[a].node->Forward();
              Answer.push_back(b);
-             cout<<b<<std::endl;
+             if(b!= Minus_Max) cout<<b<<std::endl;
         }
-        void SetAnswer(const string& name, int n)                       //å¯¹Variableè¿›è¡Œseransweræ“ä½œ æœªå®Œæˆ
+        
+        
+		
+        void SetAnswer(const string& name, int n)                       //¶ÔVariable½øĞĞseranswer²Ù×÷ Î´Íê³É
         {
             if(Answer[n]<=Minus_Max+eps) std::cerr<<"Invalid Operation\n";
             else if(graph[name].Mode== Varible) graph[name].node->Initalize(Answer[n]);
-            else std::cerr<<"Set_answer option only for Varible\n";            //å¦‚æœä¸ä¸ºVaribleåˆ™æŠ¥é”™
+            else std::cerr<<"Set_answer option only for Varible\n";            //Èç¹û²»ÎªVaribleÔò±¨´í
         }
-        void Initalize_PVC();                          //æœªå®Œæˆ
-        void Initalize_Op();                           //æœªå®Œæˆ
-        void Initalize_Ph(const string& name);               //å¯¹äºPh(nåå­—ä¸ºname)è¿›è¡Œåˆå§‹åŒ–ï¼›
-        void Initalize_V(const string& name, float num);               //å¯¹äºV(nåå­—ä¸ºname)è¿›è¡Œåˆå§‹åŒ–ï¼›
-        void Initalize_C(const string& name, float num);               //å¯¹äºC(nåå­—ä¸ºname)è¿›è¡Œåˆå§‹åŒ–ï¼›
-        void Initalize_Input(const string& name, float num)           //åœ¨ç¬¬ä¸‰é˜¶æ®µå¯¹äºè¾“å…¥è¿›è¡Œåˆå§‹åŒ–;
+        void Initalize_PVC();                          //Î´Íê³É
+        void Initalize_Op();                           //Î´Íê³É
+        void Initalize_Ph(const string& name);               //¶ÔÓÚPh(nÃû×ÖÎªname)½øĞĞ³õÊ¼»¯£»
+        void Initalize_V(const string& name, float num);               //¶ÔÓÚV(nÃû×ÖÎªname)½øĞĞ³õÊ¼»¯£»
+        void Initalize_C(const string& name, float num);               //¶ÔÓÚC(nÃû×ÖÎªname)½øĞĞ³õÊ¼»¯£»
+        void Initalize_Input(const string& name, float num)           //ÔÚµÚÈı½×¶Î¶ÔÓÚÊäÈë½øĞĞ³õÊ¼»¯;
         {
            if(graph[name].Mode==Placehold) graph[name].node->Initalize(num);
            else std::cerr<<"Invalid Operation\n";
         }
-        bool IsValid(const string& name)           //å…³äºè¿™ä¸ªèŠ‚ç‚¹å»ºç«‹æ˜¯å¦åˆæ³•
+        bool IsValid(const string& name)           //¹ØÓÚÕâ¸ö½Úµã½¨Á¢ÊÇ·ñºÏ·¨
         {
             return graph[name].node->IsCycle(graph[name].Nodename);
         }
         
+        //debugÓÃº¯Êı
+		void print_debug(){
+			for(auto i : info){
+				cout << i << " " ;
+			}
+			cout << "\n" ;
+			cout << res << "\n" ;
+		} 
+		string getres(){
+			return res ;
+		} 
     };
 }
 

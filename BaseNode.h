@@ -2,22 +2,22 @@
 //  BaseNode.h
 //  OOP Computation Graph
 //
-//  Created by ç‹ä¸€è¯º on 2019/4/4.
-//  Copyright Â© 2019 ç‹ä¸€è¯º. All rights reserved.
+//  Created by ÍõÒ»Åµ on 2019/4/4.
+//  Copyright ? 2019 ÍõÒ»Åµ. All rights reserved.
 //
-//æ›´æ–°æ—¥å¿— lastest date 4.7
+//¸üĞÂÈÕÖ¾ lastest date 4.7
 /*
- *4.7 è¡¥å……äº†initaliseçš„æ¥å£æ³¨é‡Šå¹¶åœ¨BaseNodeåŠŸèƒ½ä¸­æŒ‡å‡º
- *4.7 è¡¥å……äº†é‡åˆ¶å‡½æ•°ï¼Œä½œä¸ºä¿æŠ¤æˆå‘˜ï¼Œæ”¯æŒå¤šæ€
- *4.8 å¢åŠ äº†è¿”å›æ˜¯å¦åˆæ³•çš„æ–¹æ³•
- *4.8 è¡¥å……äº†èŠ‚ç‚¹åç§°ï¼Œå¹¶æ›´æ–°äº†æ„é€ å‡½æ•°
- *4.8 è¡¥å……äº†é‡ç½®å‡½æ•°çš„æ¥å£
- *4.8 è¡¥å……äº†æä¾›èŠ‚ç‚¹æ•°å€¼çš„æ¥å£ï¼Œä¸ºconstç±»å‹çº¯è™šå‡½æ•°
- *4.8 Z.è®¾ç½®äº†setflagæ¥å£
- *4.12 å¢åŠ äº†æ£€æŸ¥æ˜¯å¦å‡ºç°æœ‰å‘å›è·¯çš„æ–¹æ³•
- *4.12 å°†Structä¸­çš„æŒ‡é’ˆæ”¹ä¸ºshared_ptr
- *4.13 è¡¥å……æå°é‡eps
- *4.17 å°†Print()å‡½æ•°æ”¹ä¸ºä¸“é—¨è¾“å‡ºèŠ‚ç‚¹åçš„å‡½æ•°
+ *4.7 ²¹³äÁËinitaliseµÄ½Ó¿Ú×¢ÊÍ²¢ÔÚBaseNode¹¦ÄÜÖĞÖ¸³ö
+ *4.7 ²¹³äÁËÖØÖÆº¯Êı£¬×÷Îª±£»¤³ÉÔ±£¬Ö§³Ö¶àÌ¬
+ *4.8 Ôö¼ÓÁË·µ»ØÊÇ·ñºÏ·¨µÄ·½·¨
+ *4.8 ²¹³äÁË½ÚµãÃû³Æ£¬²¢¸üĞÂÁË¹¹Ôìº¯Êı
+ *4.8 ²¹³äÁËÖØÖÃº¯ÊıµÄ½Ó¿Ú
+ *4.8 ²¹³äÁËÌá¹©½ÚµãÊıÖµµÄ½Ó¿Ú£¬ÎªconstÀàĞÍ´¿Ğéº¯Êı
+ *4.8 Z.ÉèÖÃÁËsetflag½Ó¿Ú
+ *4.12 Ôö¼ÓÁË¼ì²éÊÇ·ñ³öÏÖÓĞÏò»ØÂ·µÄ·½·¨
+ *4.12 ½«StructÖĞµÄÖ¸Õë¸ÄÎªshared_ptr
+ *4.13 ²¹³ä¼«Ğ¡Á¿eps
+ *4.17 ½«Print()º¯Êı¸ÄÎª×¨ÃÅÊä³ö½ÚµãÃûµÄº¯Êı
  */
 
 
@@ -32,16 +32,16 @@
 #include <memory>
 namespace Computational_Graph
 {
-    //æ‰€æœ‰çš„Computatal Garphç›¸å…³ç±»å‚¨å­˜åœ¨Computational_Graphåç§°ç©ºé—´ä¸­
+    //ËùÓĞµÄComputatal GarphÏà¹ØÀà´¢´æÔÚComputational_GraphÃû³Æ¿Õ¼äÖĞ
     using std::string;
     using std::ostream;
     using std::istream;
     using std::cout;
     using std::endl;
-    const float Minus_Max = -100000000000;//ç”¨äºç»™å®šfloatä¸‹ç•Œä»¥åˆ¤æ–­æ˜¯å¦å®Œæˆè¾“å…¥
+    const float Minus_Max = -100000000000;//ÓÃÓÚ¸ø¶¨floatÏÂ½çÒÔÅĞ¶ÏÊÇ·ñÍê³ÉÊäÈë
     const float eps=1e-7;
     enum { Varible, Const, Operator ,Placehold};
-    //å†™åœ¨ä¹‹å‰çš„è­¦å‘Šâš ï¸ï¼šå¿…é¡»åœ¨ä¹‹åçš„ç»§æ‰¿ç±»ä¸­è¡¥å……å…³äºå‰å‘ä¼ æ’­çš„å®šä¹‰ï¼Œå¦åˆ™ç»§æ‰¿ç±»å°†ä¾ç„¶æˆä¸ºè™šç±»âš ï¸âš ï¸âš ï¸
+    //Ğ´ÔÚÖ®Ç°µÄ¾¯¸æ??£º±ØĞëÔÚÖ®ºóµÄ¼Ì³ĞÀàÖĞ²¹³ä¹ØÓÚÇ°Ïò´«²¥µÄ¶¨Òå£¬·ñÔò¼Ì³ĞÀà½«ÒÀÈ»³ÉÎªĞéÀà??????
     template <typename T>
     class BaseNode
     {
@@ -49,60 +49,64 @@ namespace Computational_Graph
         
        
     protected:
-        typedef std::vector<BaseNode*> NodeArray;  //åœ¨BaseNodeåç§°ç©ºé—´ä¸­NodeArrayä¸ºstd::vector<BaseNode*>çš„åˆ«å
-        bool flag;            //æ£€éªŒè¾“å…¥æ˜¯å¦åˆæ³•çš„æ ‡è®°
-        NodeArray output_nodes;       //è®°å½•åç»§èŠ‚ç‚¹çš„æ•°ç»„
-        NodeArray input_nodes;        //è®°å½•å‰ç»§èŠ‚ç‚¹çš„æ•°ç»„
-        string name;                  //è®°å½•èŠ‚ç‚¹åç§°
+        typedef std::vector<BaseNode*> NodeArray;  //ÔÚBaseNodeÃû³Æ¿Õ¼äÖĞNodeArrayÎªstd::vector<BaseNode*>µÄ±ğÃû
+        bool flag;            //¼ìÑéÊäÈëÊÇ·ñºÏ·¨µÄ±ê¼Ç
+        NodeArray output_nodes;       //¼ÇÂ¼ºó¼Ì½ÚµãµÄÊı×é
+        NodeArray input_nodes;        //¼ÇÂ¼Ç°¼Ì½ÚµãµÄÊı×é
+        string name;                  //¼ÇÂ¼½ÚµãÃû³Æ
         
     public:
         BaseNode() { flag = true; }
         BaseNode(const string& a): name(a){flag = true;}
         virtual ~BaseNode() {}
         
-        //ä»¥ä¸‹ä¸ºæä¾›çš„æ¥å£
-        bool IsValid() const {return flag;}       //è¿”å›æ˜¯å¦åˆæ³•çš„æ–¹æ³•
-        virtual void Reset() {
-            cout<<"this funct has not been defined yet\n"; }  //æä¾›é‡æ–°åˆå§‹åŒ–çš„æ¥å£ï¼ˆå½’é›¶ï¼‰
-        virtual void Reset(T& a) { cout<<"this funct has not been defined yet\n"; } //æä¾›é‡æ–°åˆå§‹åŒ–çš„æ¥å£ï¼ˆå«å‚æ•°ï¼‰
-        virtual T Value() const =0;//æ˜¾ç¤ºvalueçš„æ¥å£
+        //ÒÔÏÂÎªÌá¹©µÄ½Ó¿Ú
+        bool IsValid() const {return flag;}       //·µ»ØÊÇ·ñºÏ·¨µÄ·½·¨
+        virtual void Reset_f() {
+            cout<<"Reset_f funct has not been defined yet\n"; }  //Ìá¹©ÖØĞÂ³õÊ¼»¯µÄ½Ó¿Ú£¨¹éÁã£©
+        virtual void Reset_b() {
+            cout<<"Reset_b funct has not been defined yet\n"; }  //Ìá¹©ÖØĞÂ³õÊ¼»¯µÄ½Ó¿Ú£¨¹éÁã£©
+        virtual void Reset(){
+			cout<<"func: Reset has not been defined yet\n";	} 
+        virtual void Reset(T& a) { cout<<"this funct has not been defined yet\n"; } //Ìá¹©ÖØĞÂ³õÊ¼»¯µÄ½Ó¿Ú£¨º¬²ÎÊı£©
+        virtual T Value() const =0;//ÏÔÊ¾valueµÄ½Ó¿Ú
         
         void Set_flag(bool i){
             flag = i ;
         }
-        void Set_output_nodes( BaseNode* b)      //æ„å»ºåç»§èŠ‚ç‚¹é›†
+        void Set_output_nodes( BaseNode* b)      //¹¹½¨ºó¼Ì½Úµã¼¯
         {
             output_nodes.push_back(b);
         }
         
-        void Set_input_nodes( BaseNode* b)       //æ„å»ºå‰ç»§èŠ‚ç‚¹é›†
+        void Set_input_nodes( BaseNode* b)       //¹¹½¨Ç°¼Ì½Úµã¼¯
         {
             input_nodes.push_back(b);
         }
-        virtual void Initalize(T& data)          //ç”¨äºè¾“å…¥èŠ‚ç‚¹çš„åˆå§‹è¯æ¥å£
+        virtual void Initalize(T& data)          //ÓÃÓÚÊäÈë½ÚµãµÄ³õÊ¼»°½Ó¿Ú
         {
             cout<<"Func Initalize(T data) has not yet been defined\n";
         }
-        virtual void SetConst(T& data)     //VariableèŠ‚ç‚¹çš„æ“ä½œæ¥å£
+        virtual void SetConst(T& data)     //Variable½ÚµãµÄ²Ù×÷½Ó¿Ú
         {
             cout<<"Func SetConst(T data) has not yet been defined\n";
         }
-        virtual void SetAnswer(int n)     //VariableèŠ‚ç‚¹çš„æ“ä½œæ¥å£
+        virtual void SetAnswer(int n)     //Variable½ÚµãµÄ²Ù×÷½Ó¿Ú
         {
             cout<<"Func SetAnswer(int n) has not yet been defined\n";
         }
         
-        virtual T Forward () = 0;                                  //æ­£å‘ä¼ æ’­çš„è¿ç®—çš„æ¥å£
+        virtual T Forward () = 0;                                  //ÕıÏò´«²¥µÄÔËËãµÄ½Ó¿Ú
         
-        virtual void Backward()     //åå‘ä¼ æ’­çš„æ¥å£
+        virtual void Backward()     //ºóÏò´«²¥µÄ½Ó¿Ú
         {
             cout<<"Func Backward()  has not yet been defined\n";
         }
-        virtual void Print()          //æ‰“å°ä¿¡æ¯çš„æ¥å£ 4.17 æ”¹ä¸ºä¸“é—¨æ‰“å°èŠ‚ç‚¹å
+        virtual void Print()          //´òÓ¡ĞÅÏ¢µÄ½Ó¿Ú 4.17 ¸ÄÎª×¨ÃÅ´òÓ¡½ÚµãÃû
         {
             cout<<name;
         }
-        //æ–°å¢4.12 æ£€æŸ¥æ˜¯å¦å‡ºç°æœ‰å‘å›è·¯  true for æœ‰
+        //ĞÂÔö4.12 ¼ì²éÊÇ·ñ³öÏÖÓĞÏò»ØÂ·  true for ÓĞ
         bool IsCycle(const string& a)
         {
             for(auto x : input_nodes)
@@ -116,36 +120,39 @@ namespace Computational_Graph
             }
             return false;
         }
-       
-        
-        
-        // ä»¥ä¸‹ä¸ºç¦ç”¨ä¸€äº›é»˜è®¤çš„æ ¼å¼è½¬æ¢
+       virtual string returntype() {
+			return "func: returntype has not been defined yet\n";
+	}  
+	
+		//debugÊ±Ê¹ÓÃµÄº¯Êı 
+               
+        // ÒÔÏÂÎª½ûÓÃÒ»Ğ©Ä¬ÈÏµÄ¸ñÊ½×ª»»
         BaseNode (const BaseNode& A) = delete;
         BaseNode (BaseNode&& A) =delete ;
         BaseNode& operator = (const BaseNode& A) = delete;
         BaseNode& operator = (BaseNode&& A) = delete;
     };
     
-    /* è¿™ä¸ªåŸºç±»å®ç°çš„åŠŸèƒ½ï¼š
-     *å½¢å¼ä¸ºæ¨¡ç‰ˆç±»ç¼–ç¨‹
-     *ä»¥å—ä¿æŠ¤æˆå‘˜çš„å½¢å¼æä¾›äº†åˆ¤æ–­æ˜¯å¦è¾“å…¥åˆæ³•çš„æ——å¸œ
-     *ä»¥å—ä¿æŠ¤æˆå‘˜çš„å½¢å¼æä¾›äº†å‰ç»§èŠ‚ç‚¹é›†å’Œåç»§èŠ‚ç‚¹é›†
-     *æä¾›äº†å‰å‘ä¼ æ’­çš„ä¸»è¦æ¥å£
-     *ä¸ºåå‘ä¼ æ’­é¢„ç•™äº†å€Ÿå£
-     *å…³é—­äº†å„ç§å¤åˆ¶ä»¥åŠç±»å‹è½¬æ¢
-     *è¾“å…¥èŠ‚ç‚¹çš„åˆå§‹åŒ–æ¥å£
+    /* Õâ¸ö»ùÀàÊµÏÖµÄ¹¦ÄÜ£º
+     *ĞÎÊ½ÎªÄ£°æÀà±à³Ì
+     *ÒÔÊÜ±£»¤³ÉÔ±µÄĞÎÊ½Ìá¹©ÁËÅĞ¶ÏÊÇ·ñÊäÈëºÏ·¨µÄÆìÖÄ
+     *ÒÔÊÜ±£»¤³ÉÔ±µÄĞÎÊ½Ìá¹©ÁËÇ°¼Ì½Úµã¼¯ºÍºó¼Ì½Úµã¼¯
+     *Ìá¹©ÁËÇ°Ïò´«²¥µÄÖ÷Òª½Ó¿Ú
+     *ÎªºóÏò´«²¥Ô¤ÁôÁË½è¿Ú
+     *¹Ø±ÕÁË¸÷ÖÖ¸´ÖÆÒÔ¼°ÀàĞÍ×ª»»
+     *ÊäÈë½ÚµãµÄ³õÊ¼»¯½Ó¿Ú
      
      
      
-     *å°†åœ¨Operatorç±»ä¸­è¡¥å……å„ç§ç±»å‹çš„è¿ç®—æ“ä½œ
-     *å°†åœ¨Variableä¸Constç±»ä¸­è¡¥å……å®ƒçš„æ•°å€¼ä¿¡æ¯ä»¥åŠèµ‹å€¼æ“ä½œ
+     *½«ÔÚOperatorÀàÖĞ²¹³ä¸÷ÖÖÀàĞÍµÄÔËËã²Ù×÷
+     *½«ÔÚVariableÓëConstÀàÖĞ²¹³äËüµÄÊıÖµĞÅÏ¢ÒÔ¼°¸³Öµ²Ù×÷
      */
     template <typename T>
     struct Graph_Node{
-        std::shared_ptr<BaseNode<T> > node;              //æŒ‡å‘åŸºç±»èŠ‚ç‚¹çš„æŒ‡é’ˆ
-        string Nodename;                 //èŠ‚ç‚¹çš„åç§°
-        int Mode;                        //èŠ‚ç‚¹çš„ç§ç±»
-    };                                   //è®¡ç®—å›¾ä¸­çš„èŠ‚ç‚¹
+        std::shared_ptr<BaseNode<T> > node;              //Ö¸Ïò»ùÀà½ÚµãµÄÖ¸Õë
+        string Nodename;                 //½ÚµãµÄÃû³Æ
+        int Mode;                        //½ÚµãµÄÖÖÀà
+    };                                   //¼ÆËãÍ¼ÖĞµÄ½Úµã
 }
 
 #endif /* BaseNode_h */

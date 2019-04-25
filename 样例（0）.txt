@@ -1,0 +1,141 @@
+¡¾1¡¿
+3
+x P 
+y P 
+z C 3.0 
+4 
+a = x + y 
+b = a - z 
+c = b * a 
+res = z / c
+5 
+EVAL x 1 x 1.0 
+EVAL a 2 x 1.0 y 2.0 
+EVAL b 2 x 1.0 y 0.0 
+EVAL c 1 y 1.0 
+EVAL res 2 x -1.0 y 1.0
+
+¡¾2¡¿
+3 
+x P 
+y P 
+z C 3.0 
+7 
+a = SIN z 
+b = LOG y
+c = EXP x 
+d = SIGMOID c 
+e = TANH d 
+t = a + b 
+res = t * e 
+4 
+EVAL res 2 x 1.0 y 2.0 
+EVAL res 2 x 1.0 y -1.0 
+EVAL c 2 x 1.0 y 2.0 
+EVAL d 2 x 1.0 y 1.0
+
+
+//debugÑùÀý
+3 
+x P 
+y P 
+z C 3.0 
+7 
+a = SIN z 
+b = LOG y
+c = EXP x 
+d = SIGMOID c 
+e = TANH d 
+t = a + b 
+res = t * e 
+4 
+EVAL res 2 x 1.0 y 2.0 
+EVAL a 2 x 1.0 y -1.0 
+EVAL b 2 x 1.0 y -1.0 
+EVAL c 2 x 1.0 y 2.0 
+EVAL d 2 x 1.0 y 1.0
+
+¡¾3¡¿
+3 
+x P 
+y P 
+z C 3.0 
+5 
+a = x + y 
+b = PRINT a 
+c = b * z 
+d = PRINT c 
+res = b * d 
+5 
+EVAL x 1 x 1.0 
+EVAL a 2 x 1.0 y 2.0
+EVAL b 2 x 1.0 y 0.0 
+EVAL c 2 x 2.0 y 1.0 
+EVAL res 2 x -1.0 y 1.0
+
+¡¾4¡¿
+2 
+x P 
+z C 3.0 
+4 
+t = Print x 
+a = t + z 
+b = t + a 
+c = t + b 
+1 
+EVAL c 1 x 1.0
+
+¡¾5¡¿
+2 
+x P 
+y V 1.0 
+1 
+res = x + y 
+3
+EVAL res 1 x 1.0 
+SETANSWER y 1
+EVAL y 0
+
+
+2 
+x P 
+y V 1.0 
+1 
+res = x + y 
+3
+EVAL res 1 x 2.0 
+SETANSWER y 1
+EVAL y 0
+
+
+¡¾6¡¿
+3 
+x P 
+y P 
+z C 3.0 
+7 
+a = x < y 
+b = a <= y 
+c = b > a 
+d = c >= b 
+e = d == c 
+t = a + e 
+res = t * z 
+1 
+EVAL res 2 x 1.0 y 2.0
+
+¡¾7¡¿
+3 
+x P 
+y P 
+z C 3.0 
+5 
+a = x + y 
+b = a - z 
+c = x > y 
+t = COND c a b 
+res = COND b a c 
+2 
+EVAL t 2 x 1.0 y -1.0 
+EVAL res 2 x 1.0 y -1.0
+

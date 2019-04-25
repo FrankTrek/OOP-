@@ -1,20 +1,21 @@
+
 //
 //  Operation.h
 //  OOP Computation Graph
 //
-//  Created by ç‹ä¸€è¯º on 2019/4/13.
-//  Copyright Â© 2019 ç‹ä¸€è¯º. All rights reserved.
+//  Created by ÍõÒ»Åµ on 2019/4/13.
+//  Copyright ? 2019 ÍõÒ»Åµ. All rights reserved.
 //
 
 //
 //  Operation.h
-//  çœŸæ­£çš„å¤§ä½œä¸š
+//  ÕæÕıµÄ´ó×÷Òµ
 //
-//  Created by è”¡ on 2019/4/8.
-//  Copyright Â© 2019å¹´ è”¡. All rights reserved.
+//  Created by ²Ì on 2019/4/8.
+//  Copyright ? 2019Äê ²Ì. All rights reserved.
 //
-//4.12 å°†operationç±»çš„æ„é€ å‡½æ•°ç”±ä¼ å¼•ç”¨æ”¹ä¸ºä¼ æŒ‡é’ˆ
-//4.13 è¡¥å……äº†æ‰€æœ‰äºŒå…ƒå‡½æ•°ä»¥åŠCONDå‡½æ•°
+//4.12 ½«operationÀàµÄ¹¹Ôìº¯ÊıÓÉ´«ÒıÓÃ¸ÄÎª´«Ö¸Õë
+//4.13 ²¹³äÁËËùÓĞ¶şÔªº¯ÊıÒÔ¼°CONDº¯Êı
 #ifndef Operation_h
 #define Operation_h
 #include "BaseNode.h"
@@ -23,7 +24,7 @@
 
 
 namespace  Computational_Graph{
-    class Addition : public Operation<float>{//åŠ å·
+    class Addition : public Operation<float>{//¼ÓºÅ
         
     public:
         
@@ -57,7 +58,7 @@ namespace  Computational_Graph{
             ;
         }
     };
-    class Multiply: public Operation<float>{//ä¹˜å·
+    class Multiply: public Operation<float>{//³ËºÅ
         
     public:
         
@@ -91,7 +92,7 @@ namespace  Computational_Graph{
             ;
         }
     };
-    class Minus: public Operation<float>{//å‡å·
+    class Minus: public Operation<float>{//¼õºÅ
         
     public:
         
@@ -127,7 +128,7 @@ namespace  Computational_Graph{
     };
     
     
-    class Division: public Operation<float>{//é™¤å·
+    class Division: public Operation<float>{//³ıºÅ
         
     public:
         
@@ -169,7 +170,7 @@ namespace  Computational_Graph{
     };
     //-------------------------------------------------------------------
     //
-    class Xiaoyu: public Operation<float>{//å°äº
+    class Xiaoyu: public Operation<float>{//Ğ¡ÓÚ
     public:
         Xiaoyu(BaseNode<float>* Node1, BaseNode<float> *Node2): Operation(Node1,Node2){}
         Xiaoyu(const string a, BaseNode<float>* Node1, BaseNode<float>* Node2) : Operation(a,Node1,Node2){}
@@ -200,7 +201,7 @@ namespace  Computational_Graph{
             ;
         }
     };
-    class Xiaodeng: public Operation<float>{//å°äºç­‰äº
+    class Xiaodeng: public Operation<float>{//Ğ¡ÓÚµÈÓÚ
     public:
         Xiaodeng(BaseNode<float>* Node1, BaseNode<float> *Node2): Operation(Node1,Node2){}
         Xiaodeng(const string a, BaseNode<float>* Node1, BaseNode<float>* Node2) : Operation(a,Node1,Node2){}
@@ -231,7 +232,7 @@ namespace  Computational_Graph{
             ;
         }
     };
-    class Dayu: public Operation<float>{//å¤§äº
+    class Dayu: public Operation<float>{//´óÓÚ
     public:
         Dayu(BaseNode<float>* Node1, BaseNode<float> *Node2): Operation(Node1,Node2){}
         Dayu(const string a, BaseNode<float>* Node1, BaseNode<float>* Node2) : Operation(a,Node1,Node2){}
@@ -262,7 +263,7 @@ namespace  Computational_Graph{
             ;
         }
     };
-    class Dadeng: public Operation<float>{//å¤§äºç­‰äº
+    class Dadeng: public Operation<float>{//´óÓÚµÈÓÚ
     public:
         Dadeng(BaseNode<float>* Node1, BaseNode<float> *Node2): Operation(Node1,Node2){}
         Dadeng(const string a, BaseNode<float>* Node1, BaseNode<float>* Node2) : Operation(a,Node1,Node2){}
@@ -293,7 +294,7 @@ namespace  Computational_Graph{
             ;
         }
     };
-    class Dengyu: public Operation<float>{//ç­‰äºå·
+    class Dengyu: public Operation<float>{//µÈÓÚºÅ
     public:
         Dengyu(BaseNode<float>* Node1, BaseNode<float> *Node2): Operation(Node1,Node2){}
         Dengyu(const string a, BaseNode<float>* Node1, BaseNode<float>* Node2) : Operation(a,Node1,Node2){}
@@ -324,7 +325,7 @@ namespace  Computational_Graph{
             ;
         }
     };
-    class Budeng: public Operation<float>{//ä¸ç­‰äºå·
+    class Budeng: public Operation<float>{//²»µÈÓÚºÅ
     public:
         Budeng(BaseNode<float>* Node1, BaseNode<float> *Node2): Operation(Node1,Node2){}
         Budeng(const string a, BaseNode<float>* Node1, BaseNode<float>* Node2) : Operation(a,Node1,Node2){}
@@ -368,21 +369,14 @@ namespace  Computational_Graph{
             }
             
             else {
-                bool flag;
+                bool flag_t;
                 float c=input_nodes[0]->Forward();
                 if(c==Minus_Max){
                     flag=false;
                     return Minus_Max;
                 }
-                if(abs(c-1.0)<eps)
-                    flag=true;
-                else if(abs(c-0.0)<eps)
-                    flag=false;
-                else {
-                    std::cerr<<"ERROR: COND parameter c is not a comparison expression"<<endl;
-                    flag=false;
-                    return Minus_Max;
-                }
+                if(c > eps) flag_t=true;
+                else if(c <= eps ) flag_t=false;
                 
                 float a=input_nodes[1]->Forward();
                 if(a==Minus_Max){
@@ -390,11 +384,13 @@ namespace  Computational_Graph{
                     return Minus_Max;
                 }
                 float b=input_nodes[2]->Forward();
+          //      cout << b ;
                 if(b==Minus_Max){
                     flag=false;
                     return Minus_Max;
                 }
-                value=(flag? a:b);
+                value=(flag_t? a:b);
+        //        std::cout << " a" << a << " b" << b << " value" << value <<"\n" ;
                 return value;
             }
             

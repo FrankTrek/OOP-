@@ -1,9 +1,9 @@
 //
 //  Operation2.h
-//  çœŸæ­£çš„å¤§ä½œä¸š
+//  ÕæÕýµÄ´ó×÷Òµ
 //
-//  Created by è”¡ on 2019/4/15.
-//  Copyright Â© 2019å¹´ è”¡. All rights reserved.
+//  Created by ²Ì on 2019/4/15.
+//  Copyright ? 2019Äê ²Ì. All rights reserved.
 //
 
 #ifndef Operation2_h
@@ -125,7 +125,7 @@ namespace Computational_Graph{
                     return Minus_Max;
                 }
                 else {
-                    value=1/(1+exp(a));
+                    value=1/(1+exp(-1*a));
                     return value;
                 }
             }

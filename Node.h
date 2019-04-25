@@ -2,40 +2,47 @@
 //  Node.h
 //  OOP Computation Graph
 //
-//  Created by ç‹ä¸€è¯º on 2019/4/5.
-//  Copyright Â© 2019 ç‹ä¸€è¯º. All rights reserved.
+//  Created by ÍõÒ»Åµ on 2019/4/5.
+//  Copyright ? 2019 ÍõÒ»Åµ. All rights reserved.
 //
 
-//æ›´æ–°æ—¥å¿— latest date 4.7
+//¸üĞÂÈÕÖ¾ latest date 4.7
 /*
- *4.7  åœ¨Node.hä¸­çš„æšä¸¾é‡ä¸­æ·»åŠ Trinaryï¼Œ
- *4.7  åœ¨Node.hä¸­çš„Nodeç±»è¡¥å……æä¾›å‚æ•°çš„æ„é€ å‡½æ•°
- *4.8  å°†Node.hä¸­vlaueè½¬ç§»è‡³ä¿æŠ¤æˆå‘˜
- *4.8  è¡¥å……äº†æŸ¥çœ‹æ•°å€¼çš„æ–¹æ³•
- *4.8  Z.è¡¥å……äº†Resetï¼Œå°†æ‰€æœ‰åç»­flagè®¾ç½®ä¸º0 valueä¸º-Maxçš„æ¥å£
- *4.8  Z.è¡¥å……äº†åªæœ‰stringåˆå§‹åŒ–Nodeçš„æ¥å£
- * 4.10 Z.è¡¥å……äº†forwardçš„æŠ¥é”™ä¿¡æ¯å’Œå¯¹flagçš„è®¾ç½®
- * 4.10 Z.ä¿®æ”¹äº†åªç”¨stringåˆå§‹åŒ–Node,ä½¿placeholderåˆå§‹åŒ–ä¸º-max
- * 4.10 Z.Attention:ä¿®æ”¹RESET
- * 4.12 å°†operationç±»çš„æ„é€ å‡½æ•°ç”±ä¼ å¼•ç”¨æ”¹ä¸ºä¼ æŒ‡é’ˆ
- * 4.13 è¡¥å……äº†ä¸‰å…ƒè¿ç®—ç¬¦çš„æ„é€ å‡½æ•°
+ *4.7  ÔÚNode.hÖĞµÄÃ¶¾ÙÁ¿ÖĞÌí¼ÓTrinary£¬
+ *4.7  ÔÚNode.hÖĞµÄNodeÀà²¹³äÌá¹©²ÎÊıµÄ¹¹Ôìº¯Êı
+ *4.8  ½«Node.hÖĞvlaue×ªÒÆÖÁ±£»¤³ÉÔ±
+ *4.8  ²¹³äÁË²é¿´ÊıÖµµÄ·½·¨
+ *4.8  Z.²¹³äÁËReset£¬½«ËùÓĞºóĞøflagÉèÖÃÎª0 valueÎª-MaxµÄ½Ó¿Ú
+ *4.8  Z.²¹³äÁËÖ»ÓĞstring³õÊ¼»¯NodeµÄ½Ó¿Ú
+ * 4.10 Z.²¹³äÁËforwardµÄ±¨´íĞÅÏ¢ºÍ¶ÔflagµÄÉèÖÃ
+ * 4.10 Z.ĞŞ¸ÄÁËÖ»ÓÃstring³õÊ¼»¯Node,Ê¹placeholder³õÊ¼»¯Îª-max
+ * 4.10 Z.Attention:ĞŞ¸ÄRESET
+ * 4.12 ½«operationÀàµÄ¹¹Ôìº¯ÊıÓÉ´«ÒıÓÃ¸ÄÎª´«Ö¸Õë
+ * 4.13 ²¹³äÁËÈıÔªÔËËã·ûµÄ¹¹Ôìº¯Êı
+ * 4.20 Z.ĞŞ¸ÄÁËErrorµÄ±¨´íĞÅÏ¢ 
+ * 4.20 Z.²¹³äÁËNodeÀàÖĞµÄtypeº¯Êı ·µ»Øtype 
  */
 #ifndef Node_h
 #define Node_h
 #include "BaseNode.h"
+#include <vector>
+#include <sstream>
+using std::vector ; 
+
 namespace Computational_Graph{
-    enum{Nullary, Unary, Binary, Trinary};                               //ç”¨äºæ ‡è®°è®¡ç®—ç¬¦çš„å‚æ•°ä¸ªæ•°
+    enum{Nullary, Unary, Binary, Trinary};                               //ÓÃÓÚ±ê¼Ç¼ÆËã·ûµÄ²ÎÊı¸öÊı
     
     template <typename T>
     class Node : public BaseNode<T>
     {
         
     protected:
-        T value;    //èŠ‚ç‚¹çš„å€¼
-        T gradi;    //èŠ‚ç‚¹çš„å¯¼æ•°
+        T value;    //½ÚµãµÄÖµ
+        T gradi;    //½ÚµãµÄµ¼Êı
+      
     public:
         Node() = default;
-        Node(const T& a): value(a) {}                                      //åŒ…å«æ•°å€¼åˆå§‹åŒ–çš„æ„é€ å‡½æ•°
+        Node(const T& a): value(a) {}                                      //°üº¬ÊıÖµ³õÊ¼»¯µÄ¹¹Ôìº¯Êı
         Node(const T& a, const string& b):BaseNode<T>(b), value(a) {}
         Node(const string& b):BaseNode<T>(b){
             value = Minus_Max ;
@@ -44,31 +51,44 @@ namespace Computational_Graph{
         {
             value = data;
         }
-        virtual T Forward () override                                       //æ­£å‘ä¼ æ’­çš„é›¶å…ƒè¿ç®—çš„æ¥å£
+        virtual T Forward () override                                       //ÕıÏò´«²¥µÄÁãÔªÔËËãµÄ½Ó¿Ú
         {
             if(value == Minus_Max) {
-                std::cerr << "Error" << endl;
+                std::cerr << "Error: an unavailable or ungiven value for Node\n";
                 this->flag = 0 ;
             }
             return value;
         }
-        virtual T Value () const override                                       //è¿”å›èŠ‚ç‚¹æ•°å€¼
+        virtual T Value () const override                                       //·µ»Ø½ÚµãÊıÖµ
         {
             return value;
         }
-        //è°ƒè¯•ç”¨å‡½æ•°
+        //µ÷ÊÔÓÃº¯Êı
         void debug_print(){
             std::cerr << this->value << "|" << this->flag << endl ;
         }
         //
-        
         void Reset() override final{
-            this->flag = 1;
-            value = Minus_Max ;
+        	this->flag = 1;
+        	this->value = Minus_Max ;
+		}
+        
+        void Reset_f() override final{
+            this->Reset() ;
             for(auto i: this->output_nodes){
-                i->Reset() ;
+                i->Reset_f() ;
             }
         }
+        void Reset_b() override final{
+        	if(this->returntype() == "Constant" || this->returntype() == "Variable"){
+        		return ;
+			}
+			this->Reset();
+			for(auto i: this->input_nodes){
+				i->Reset_b() ;
+			}
+		}  
+
         
         ~Node(){}
         
@@ -78,20 +98,20 @@ namespace Computational_Graph{
     {
         
     protected:
-        T value;    //èŠ‚ç‚¹çš„å€¼
-        T gradi;    //èŠ‚ç‚¹çš„å¯¼æ•°
+        T value;    //½ÚµãµÄÖµ
+        T gradi;    //½ÚµãµÄµ¼Êı
         int type;
     public:
         using BaseNode<T>::Set_input_nodes;
-        Operation() { type = Nullary; }       //0å…ƒè¿ç®—ç¬¦
-        Operation (BaseNode<T>* node1)        //1å…ƒè¿ç®—ç¬¦
+        Operation() { type = Nullary; }       //0ÔªÔËËã·û
+        Operation (BaseNode<T>* node1)        //1ÔªÔËËã·û
         {
             node1->Set_output_nodes(this);
             Set_input_nodes(node1);
             type = Unary;
             value = Minus_Max;
         }
-        Operation (BaseNode<T>* node1,BaseNode<T>* node2) //2å…ƒè¿ç®—ç¬¦
+        Operation (BaseNode<T>* node1,BaseNode<T>* node2) //2ÔªÔËËã·û
         {
             node1->Set_output_nodes(this);
             node2->Set_output_nodes(this);
@@ -100,8 +120,8 @@ namespace Computational_Graph{
             type = Binary;
             value = Minus_Max;
         }
-            //è¿™é‡Œè¡¥å……ä¸‰å…ƒè¿ç®—ç¬¦
-        Operation (BaseNode<T>* node1, BaseNode<T>* node2, BaseNode<T>* node3)// ä¸‰å…ƒè¿ç®—ç¬¦
+            //ÕâÀï²¹³äÈıÔªÔËËã·û
+        Operation (BaseNode<T>* node1, BaseNode<T>* node2, BaseNode<T>* node3)// ÈıÔªÔËËã·û
         {
             node1->Set_output_nodes(this);
             node2->Set_output_nodes(this);
@@ -112,29 +132,54 @@ namespace Computational_Graph{
             type = Trinary;
             value = Minus_Max;
         }
-            //ç»“æŸ
+            //½áÊø
+            
+        string returntype() override final{
+			return "Operation" ;
+		}
+		
+	    void Reset() override final{
+      	this->flag = 1;
+       	this->value = Minus_Max ;
+		}
+            
+        void Reset_f() override final{
+            this->Reset() ; 
+            for(auto i: this->output_nodes){
+                i->Reset_f() ;
+            }
+        }
+        void Reset_b() override final{
+        	if(this->returntype() == "Constant" || this->returntype() == "Variable"){
+        		return ;
+			}
+			this->Reset();
+			for(auto i: this->input_nodes){
+				i->Reset_b() ;
+			}
+		}
         
-        //ä»¥ä¸Šä¸ºåŒ¿åç‰ˆæœ¬
-        //ä»¥ä¸‹ä¸ºå¸¦åç§°çš„ç‰ˆæœ¬
-        Operation(const string& a):BaseNode<T>(a) { type = Nullary; }       //0å…ƒè¿ç®—ç¬¦
-        Operation (const string& a,BaseNode<T>* node1):BaseNode<T>(a)        //1å…ƒè¿ç®—ç¬¦
+        //ÒÔÉÏÎªÄäÃû°æ±¾
+        //ÒÔÏÂÎª´øÃû³ÆµÄ°æ±¾
+        Operation(const string& a):BaseNode<T>(a) { type = Nullary; }       //0ÔªÔËËã·û
+        Operation (const string& a,BaseNode<T>* node1):BaseNode<T>(a)        //1ÔªÔËËã·û
         {
             node1->Set_output_nodes(this);
             Set_input_nodes(node1);
             type = Unary;
             value = Minus_Max;
         }
-        Operation (const string& a,BaseNode<T>* node1,BaseNode<T>* node2):BaseNode<T>(a) //2å…ƒè¿ç®—ç¬¦
+        Operation (const string& a,BaseNode<T>* node1,BaseNode<T>* node2):BaseNode<T>(a) //2ÔªÔËËã·û
         {
             node1->Set_output_nodes(this);
             node2->Set_output_nodes(this);
             Set_input_nodes(node1);
-            Set_input_nodes(node2);//è¿™é‡Œéœ€è¦æ”¹åŠ¨
+            Set_input_nodes(node2);//ÕâÀïĞèÒª¸Ä¶¯
             type = Binary;
             value = Minus_Max;
         }
         
-        Operation (const string& a,BaseNode<T>* node1,BaseNode<T>* node2,BaseNode<T>* node3):BaseNode<T>(a) //2å…ƒè¿ç®—ç¬¦
+        Operation (const string& a,BaseNode<T>* node1,BaseNode<T>* node2,BaseNode<T>* node3):BaseNode<T>(a) //2ÔªÔËËã·û
         {
             node1->Set_output_nodes(this);
             node2->Set_output_nodes(this);
@@ -145,7 +190,7 @@ namespace Computational_Graph{
             type = Trinary;
             value = Minus_Max;
         }
-        virtual T Value () const override                                       //è¿”å›èŠ‚ç‚¹æ•°å€¼
+        virtual T Value () const override                                       //·µ»Ø½ÚµãÊıÖµ
         {
             return value;
         }
@@ -160,3 +205,4 @@ namespace Computational_Graph{
 
 
 #endif /* Node_h */
+
