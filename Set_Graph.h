@@ -115,9 +115,9 @@ namespace Computational_Graph{
         void Compute(const string& a)             //对于表达式进行计算
         {
             float b = graph[a].node->Forward();
-            cout.setf(std::ios_base::showpoint);
+           // cout.setf(std::ios_base::showpoint);
             Answer.push_back(b);
-            if(!(b-eps<=Minus_Max)) cout<<std::setprecision(4)<<b<<std::endl;
+            if(!(b-eps<=Minus_Max)) cout<<std::fixed<<std::setprecision(4)<<b<<std::endl;
         }
         
         
