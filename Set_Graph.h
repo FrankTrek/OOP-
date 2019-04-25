@@ -2,17 +2,17 @@
 //  Set_Graph.h
 //  OOP Computation Graph
 //
-//  Created by ÍõÒ»Åµ on 2019/4/12.
-//  Copyright ? 2019 ÍõÒ»Åµ. All rights reserved.
+//  Created by ç‹ä¸€è¯º on 2019/4/12.
+//  Copyright ? 2019 ç‹ä¸€è¯º. All rights reserved.
 //
 
 /*
- *4.13²¹³ä¼«Ğ¡Á¿eps
- *4.20 Z.I.PVC()ÊµÏÖ 
- *4.20 Z.processing Stage3 ¼ÓÈëReset
- *4.20 ¼ÓÈë ×îÖÕ½Úµãres µÄ¼ÇÂ¼ 
- *4.20 Z.40ĞĞÓĞÒ»¸öĞÄÀïÃ»µ×µÄ¿ÉÄÜÎ£ÏÕ²Ù×÷ 
- *4.23 ĞŞ¸ÄCompute Ê¹¼ÆËã´íÎóµÄµã²»Êä³ö 
+ *4.13è¡¥å……æå°é‡eps
+ *4.20 Z.I.PVC()å®ç°
+ *4.20 Z.processing Stage3 åŠ å…¥Reset
+ *4.20 åŠ å…¥ æœ€ç»ˆèŠ‚ç‚¹res çš„è®°å½•
+ *4.20 Z.40è¡Œæœ‰ä¸€ä¸ªå¿ƒé‡Œæ²¡åº•çš„å¯èƒ½å±é™©æ“ä½œ
+ *4.23 ä¿®æ”¹Compute ä½¿è®¡ç®—é”™è¯¯çš„ç‚¹ä¸è¾“å‡º
  */
 
 
@@ -20,36 +20,37 @@
 #define Set_Graph_h
 #include "Node.h"
 #include <map>
+#include <iomanip>
 #include "Const.h"
 #include "Operation.h"
 #include "Operation2.h"
 namespace Computational_Graph{
     class Set_Graph{
         typedef Graph_Node<float> GNode;
-        std::map<string, GNode> graph;          //Í¼
-        std::vector<string> info;              //´¦ÀíµÄĞÅÏ¢
-        std::vector<float> Answer;             //Êä³öµÄĞÅÏ¢
-        string res ; 
+        std::map<string, GNode> graph;          //å›¾
+        std::vector<string> info;              //å¤„ç†çš„ä¿¡æ¯
+        std::vector<float> Answer;             //è¾“å‡ºçš„ä¿¡æ¯
+        string res ;
     public:
         Set_Graph() {
-			res = "HAVEN't BEEN PUT IN" ;
-		}
-        Set_Graph(std::vector<string> && a)       //Ö±½Ó´«ÈëĞÅÏ¢µÄ¹¹Ôìº¯Êı
+            res = "HAVEN't BEEN PUT IN" ;
+        }
+        Set_Graph(std::vector<string> && a)       //ç›´æ¥ä¼ å…¥ä¿¡æ¯çš„æ„é€ å‡½æ•°
         {
             info = std::move(a);
         }
-
-        void Input_info(std::vector<string> &&a) //´«ÈëĞÅÏ¢
+        
+        void Input_info(std::vector<string> &&a) //ä¼ å…¥ä¿¡æ¯
         {
             info = std::move(a);
             //WARNING?
         }
-        void processing_Stage3();                        //¶ÔÊäÈë×Ö·û´®µÄ´¦Àí  Î´Íê³É
-    template <class A>
+        void processing_Stage3();                        //å¯¹è¾“å…¥å­—ç¬¦ä¸²çš„å¤„ç†  æœªå®Œæˆ
+        template <class A>
         void Jianli_2(const string& obj, const string& p1, const string& p2)
         {
             auto x = graph.find(obj);  auto pt1 = graph.find(p1); auto pt2 = graph.find(p2);
-            if(x!=graph.end())           //±»ÖØ¶¨Òå´íÎó
+            if(x!=graph.end())           //è¢«é‡å®šä¹‰é”™è¯¯
             {
                 std::cerr<<"False Redefination\n";
             }
@@ -70,7 +71,7 @@ namespace Computational_Graph{
         void Jianli_1(const string& obj, const string& p1)
         {
             auto x = graph.find(obj);  auto pt1 = graph.find(p1);
-            if(x!=graph.end())           //±»ÖØ¶¨Òå´íÎó
+            if(x!=graph.end())           //è¢«é‡å®šä¹‰é”™è¯¯
             {
                 std::cerr<<"False Redefination\n";
             }
@@ -90,7 +91,7 @@ namespace Computational_Graph{
         void Jianli_3(const string& obj, const string& p1, const string& p2,const string & p3)
         {
             auto x = graph.find(obj);  auto pt1 = graph.find(p1); auto pt2 = graph.find(p2); auto pt3= graph.find(p3);
-            if(x!=graph.end())           //±»ÖØ¶¨Òå´íÎó
+            if(x!=graph.end())           //è¢«é‡å®šä¹‰é”™è¯¯
             {
                 std::cerr<<"False Redefination\n";
             }
@@ -110,49 +111,65 @@ namespace Computational_Graph{
         }
         
         
-        //¼Ù×°ÕâÀïÓĞÒ»¶Ö²Ù×÷·û
-        void Compute(const string& a)             //¶ÔÓÚ±í´ïÊ½½øĞĞ¼ÆËã
+        //å‡è£…è¿™é‡Œæœ‰ä¸€å¨æ“ä½œç¬¦
+        void Compute(const string& a)             //å¯¹äºè¡¨è¾¾å¼è¿›è¡Œè®¡ç®—
         {
-             float b = graph[a].node->Forward();
-             Answer.push_back(b);
-             if(b!= Minus_Max) cout<<b<<std::endl;
+            float b = graph[a].node->Forward();
+            Answer.push_back(b);
+            if(!(b-eps<=Minus_Max)) cout<<std::setprecision(4)<<b<<std::endl;
         }
         
         
-		
-        void SetAnswer(const string& name, int n)                       //¶ÔVariable½øĞĞseranswer²Ù×÷ Î´Íê³É
+        
+        void SetAnswer(const string& name, int n)                       //å¯¹Variableè¿›è¡Œseransweræ“ä½œ æœªå®Œæˆ
         {
             if(Answer[n]<=Minus_Max+eps) std::cerr<<"Invalid Operation\n";
             else if(graph[name].Mode== Varible) graph[name].node->Initalize(Answer[n]);
-            else std::cerr<<"Set_answer option only for Varible\n";            //Èç¹û²»ÎªVaribleÔò±¨´í
+            else std::cerr<<"Set_answer option only for Varible\n";            //å¦‚æœä¸ä¸ºVaribleåˆ™æŠ¥é”™
         }
-        void Initalize_PVC();                          //Î´Íê³É
-        void Initalize_Op();                           //Î´Íê³É
-        void Initalize_Ph(const string& name);               //¶ÔÓÚPh(nÃû×ÖÎªname)½øĞĞ³õÊ¼»¯£»
-        void Initalize_V(const string& name, float num);               //¶ÔÓÚV(nÃû×ÖÎªname)½øĞĞ³õÊ¼»¯£»
-        void Initalize_C(const string& name, float num);               //¶ÔÓÚC(nÃû×ÖÎªname)½øĞĞ³õÊ¼»¯£»
-        void Initalize_Input(const string& name, float num)           //ÔÚµÚÈı½×¶Î¶ÔÓÚÊäÈë½øĞĞ³õÊ¼»¯;
+        void Initalize_PVC();                          //æœªå®Œæˆ
+        void Initalize_Op();                           //æœªå®Œæˆ
+        void Initalize_Ph(const string& name);               //å¯¹äºPh(nåå­—ä¸ºname)è¿›è¡Œåˆå§‹åŒ–ï¼›
+        void Initalize_V(const string& name, float num);               //å¯¹äºV(nåå­—ä¸ºname)è¿›è¡Œåˆå§‹åŒ–ï¼›
+        void Initalize_C(const string& name, float num);               //å¯¹äºC(nåå­—ä¸ºname)è¿›è¡Œåˆå§‹åŒ–ï¼›
+        void Initalize_Input(const string& name, float num)           //åœ¨ç¬¬ä¸‰é˜¶æ®µå¯¹äºè¾“å…¥è¿›è¡Œåˆå§‹åŒ–;
         {
-           if(graph[name].Mode==Placehold) graph[name].node->Initalize(num);
-           else std::cerr<<"Invalid Operation\n";
+            if(graph[name].Mode==Placehold) graph[name].node->Initalize(num);
+            else std::cerr<<"Invalid Operation\n";
         }
-        bool IsValid(const string& name)           //¹ØÓÚÕâ¸ö½Úµã½¨Á¢ÊÇ·ñºÏ·¨
+        bool IsValid(const string& name)           //å…³äºè¿™ä¸ªèŠ‚ç‚¹å»ºç«‹æ˜¯å¦åˆæ³•
         {
             return graph[name].node->IsCycle(graph[name].Nodename);
         }
         
-        //debugÓÃº¯Êı
-		void print_debug(){
-			for(auto i : info){
-				cout << i << " " ;
-			}
-			cout << "\n" ;
-			cout << res << "\n" ;
-		} 
-		string getres(){
-			return res ;
-		} 
+        //debugç”¨å‡½æ•°
+        void print_debug(){
+            for(auto i : info){
+                cout << i << " " ;
+            }
+            cout << "\n" ;
+            cout << res << "\n" ;
+        }
+        string getres(){
+            return res ;
+        }
     };
 }
+/*
+
+ for(auto i = graph.begin(); i!= gragh.end(); i++)
+ {
+    if(i->Name!= "res" && i->IsFinalNode()) { std::cerr<<"Incomplete defination\n"; break;}   //æœ‰å¤šäºä¸€ä¸ªç»ˆæèŠ‚ç‚¹çš„æƒ…å†µ
+     else if(i->Name == "res" &&! i->IsFinalNode()) {std::cerr<<"False Defination\n"; break;}  //resæœ‰yåç»§èŠ‚ç‚¹çš„æƒ…å†µ
+ }
+ 
+ 
+ */
+
+
+
+
+
+
 
 #endif /* Set_Graph_h */
