@@ -1,9 +1,9 @@
 //
 //  Operation2.h
-//  真正的大作业
+//  脮忙脮媒碌脛麓贸脳梅脪碌
 //
-//  Created by 蔡 on 2019/4/15.
-//  Copyright ? 2019年 蔡. All rights reserved.
+//  Created by 虏脤 on 2019/4/15.
+//  Copyright ? 2019脛锚 虏脤. All rights reserved.
 //
 
 #ifndef Operation2_h
@@ -19,6 +19,8 @@ namespace Computational_Graph{
         float Forward() override{
             if(flag==false)
                 return Minus_Max;
+            else if(abs(value-Minus_Max)>eps)
+                return value;
             else {
                 float a=input_nodes[0]->Forward();
                 if(a-eps<=Minus_Max){
@@ -42,6 +44,8 @@ namespace Computational_Graph{
         float Forward() override{
             if(flag==false)
                 return Minus_Max;
+            else if(abs(value-Minus_Max)>eps)
+                return value;
             else {
                 float a=input_nodes[0]->Forward();
                 if(a-eps<=Minus_Max){
@@ -65,6 +69,8 @@ namespace Computational_Graph{
         float Forward() override{
             if(flag==false)
                 return Minus_Max;
+            else if(abs(value-Minus_Max)>eps)
+                return value;
             else {
                 float a=input_nodes[0]->Forward();
                 if(a-eps<=Minus_Max){
@@ -88,6 +94,8 @@ namespace Computational_Graph{
         float Forward() override{
             if(flag==false)
                 return Minus_Max;
+            else if(abs(value-Minus_Max)>eps)
+                return value;
             else {
                 float a=input_nodes[0]->Forward();
                 if(a-eps<=Minus_Max){
@@ -118,6 +126,8 @@ namespace Computational_Graph{
         float Forward() override{
             if(flag==false)
                 return Minus_Max;
+            else if(abs(value-Minus_Max)>eps)
+                return value;
             else {
                 float a=input_nodes[0]->Forward();
                 if(a-eps<=Minus_Max){
@@ -143,11 +153,13 @@ namespace Computational_Graph{
             if(flag==false){
                 return Minus_Max;
             }
+            else if(abs(value-Minus_Max)>eps)
+                return value;
             else {
                 float a=input_nodes[0]->Forward();
                 if(a-eps<=Minus_Max){
                     flag=false;
-                    cout<<"Print Operator: ";input_nodes[0]->Print();cout<<"= "<<a<<endl;
+                    //cout<<"Print Operator: ";input_nodes[0]->Print();cout<<"= "<<a<<endl;
                     return Minus_Max;
                 }
                 else {
