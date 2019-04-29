@@ -14,7 +14,38 @@
 #include "Const.h"
 #include "Node.h"
 namespace Computational_Graph{
-    
+	
+	vector<string> Set_Graph::Input(int stage){
+			string s ;
+			vector<string>Input1 ;
+			getline(std::cin,s) ;
+			std::stringstream ss(s) ;
+			string x ;
+			while(ss >> x){
+				if(stage == 2 && x == "=") continue ;
+				Input1.push_back(x) ;
+			}
+			ss.str("") ;
+			ss.clear() ;
+			return Input1 ;
+			 }
+    void Set_Graph::Construct(int stage,int line_N){
+    	for(int i = 1; i<= line_N ; i++ ){
+    		this->Input_info(Input(stage)) ;
+    		if(stage == 1){
+    			this->Initalize_PVC() ;
+			}
+			else if(stage == 2){
+				this->Initalize_Op() ;
+			}
+			else if(stage == 3){
+				this->processing_Stage3() ;
+			}
+			else{
+				cout <<"。显然这是不可能的" ; 
+			}
+		}
+	}
     void Set_Graph::Initalize_PVC(){
         if(info[1] == "P"){
             Initalize_Ph(info[0]) ;
@@ -76,7 +107,6 @@ namespace Computational_Graph{
     
     void Set_Graph::Initalize_Op()          //第二阶段的操作
     {//add by Cai on 4.21
-        res = info[0] ;
         if(info[2]=="+")                 //为加法;
         {
             //ADD(info[0], info[1], info[3]);
