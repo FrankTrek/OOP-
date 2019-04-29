@@ -30,11 +30,9 @@ namespace Computational_Graph{
         std::map<string, GNode> graph;          //图
         std::vector<string> info;              //处理的信息
         std::vector<float> Answer;             //输出的信息
-        string res ;
+    
     public:
-        Set_Graph() {
-            res = "HAVEN't BEEN PUT IN" ;
-        }
+        Set_Graph() {}
         Set_Graph(std::vector<string> && a)       //直接传入信息的构造函数
         {
             info = std::move(a);
@@ -43,8 +41,11 @@ namespace Computational_Graph{
         void Input_info(std::vector<string> &&a) //传入信息
         {
             info = std::move(a);
-            //WARNING?
         }
+        
+        vector<string> Input(int stage) ;
+        void Construct(int stage, int line_N);
+        
         void processing_Stage3();                        //对输入字符串的处理  未完成
         template <class A>
         void Jianli_2(const string& obj, const string& p1, const string& p2)
@@ -142,22 +143,9 @@ namespace Computational_Graph{
         {
             return graph[name].node->IsCycle(graph[name].Nodename);
         }
-        
-        //debug用函数
-        void print_debug(){
-            for(auto i : info){
-                cout << i << " " ;
-            }
-            cout << "\n" ;
-            cout << res << "\n" ;
-        }
-        string getres(){
-            return res ;
-        }
     };
 }
 /*
-
  for(auto i = graph.begin(); i!= gragh.end(); i++)
  {
     if(i->Name!= "res" && i->IsFinalNode()) { std::cerr<<"Incomplete defination\n"; break;}   //有多于一个终极节点的情况
