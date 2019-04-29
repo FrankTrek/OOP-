@@ -4,85 +4,26 @@
 using namespace Computational_Graph ;
 using std::stringstream ;
 using std::cin ;  
-using std::cout ; 
-int N1,N2,N3;
-/* run this program using the console pauser or add your own getch, system("pause") or input loop */
-
+using std::cout ;
+// 我认真思考了一下要不要把所有的一切通通打包，在主函数里只留一个简单粗暴的最终版本接口。但后来觉得太粗暴了，那么就是现在这个样子。 
+/*更新日志 
+	4.30 Z 让主函数变得好看了 
+*/ 
 int main() {
-	
-	//Stage 1;
-	string s0 ;
-	getline(cin,s0) ;
-	std::stringstream ss0(s0) ;
-	ss0 >> N1; 
-	ss0.str("") ;
-	ss0.clear() ;
-
-	Set_Graph GRAPH ;
-	
-	//STAGE1 
-	for(int i = 1; i <= N1 ; i++ ){
-			string s ;
-			vector<string>Input1 ;
-			getline(cin,s) ;
-			std::stringstream ss(s) ;
-			string x ;
-			while(ss >> x){
-				Input1.push_back(x) ;
-//				cout << x ;
-			}
-			ss.str("") ;
-			ss.clear() ; 
-		GRAPH.Input_info(std::move(Input1));
-//		GRAPH.print_debug() ;
-		GRAPH.Initalize_PVC() ;
-			
+	int N[4]={0} ;
+ 	Set_Graph GRAPH ;
+// 	while(1){
+ 		for(int i = 1; i <= 3; i++ ){
+			string s0 ;
+			getline(cin,s0) ;
+			std::stringstream ss0(s0) ;
+			ss0 >> N[i]; 
+			ss0.str("") ;
+			ss0.clear() ;
+			GRAPH.Construct(i,N[i]) ;
 	}
-	
-	//STAGE2
-	
-	getline(cin,s0) ;
-	ss0.str(s0) ;
-	ss0 >> N2; 
-	ss0.str("") ;
-	ss0.clear() ;
-	for(int i = 1; i <= N2 ; i++ ){
-			string s ;
-			vector<string>Input1 ;
-			getline(std::cin,s) ;
-			std::stringstream ss(s) ;
-			string x ;
-			while(ss >> x){
-				if( x == "=") continue ;
-				Input1.push_back(x) ;
-//				cout << x ;
-			}	
-			GRAPH.Input_info(std::move(Input1));
-//			GRAPH.print_debug() ;
-			GRAPH.Initalize_Op() ;
-//			cout << GRAPH.getres() << "\n" ;
-		}	
 		
-	//STAGE3
-	getline(cin,s0) ;
-	ss0.str(s0) ;
-	ss0 >> N3; 
-	ss0.str("") ;
-	ss0.clear() ;
-	for(int i = 1; i <= N3 ;i++ ) {
-			string s ;
-			vector<string>Input1 ;
-			getline(std::cin,s) ;
-			std::stringstream ss(s) ;
-			string x ;
-			while(ss >> x){
-				Input1.push_back(x) ;
-//				cout << x ;
-			}	
-			GRAPH.Input_info(std::move(Input1));
-//			GRAPH.print_debug() ;
-			GRAPH.processing_Stage3();
-	}
+//	 }
 
 	return 0;
 }
