@@ -10,6 +10,7 @@
 #define Operation2_h
 #include "Node.h"
 #include <cmath>
+#include <iomanip>
 //SIN,LOG,EXP,TANH,sigmoid,Print
 namespace Computational_Graph{
     class SIN: public Operation<float>{
@@ -19,11 +20,11 @@ namespace Computational_Graph{
         float Forward() override{
             if(flag==false)
                 return Minus_Max;
-            else if(abs(value-Minus_Max)>eps)
+            else if(abs(value-Minus_Max)>eps)           //上一次j访问结果合法
                 return value;
-            else {
-                float a=input_nodes[0]->Forward();
-                if(a-eps<=Minus_Max){
+            else {                                      //第一次访问这个节点
+                float a=input_nodes[0]->Forward();      //得到第一个参数
+                if(abs(a-Minus_Max)<eps){               //得到第一个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
@@ -44,16 +45,22 @@ namespace Computational_Graph{
         float Forward() override{
             if(flag==false)
                 return Minus_Max;
-            else if(abs(value-Minus_Max)>eps)
+            else if(abs(value-Minus_Max)>eps)            //上一次j访问结果合法
                 return value;
-            else {
-                float a=input_nodes[0]->Forward();
-                if(a-eps<=Minus_Max){
+            else {                                       //第一次访问这个节点
+                float a=input_nodes[0]->Forward();        //得到第一个参数
+                if(abs(a-Minus_Max)<eps){                //得到第一个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
                 else {
                     value=exp(a);
+                    if(value> - Minus_Max + eps)
+                    {
+                        std::cerr<<"Numeric Limit Exceeded\n";
+                        flag = false;
+                        return Minus_Max;
+                    }
                     return value;
                 }
             }
@@ -69,16 +76,22 @@ namespace Computational_Graph{
         float Forward() override{
             if(flag==false)
                 return Minus_Max;
-            else if(abs(value-Minus_Max)>eps)
+            else if(abs(value-Minus_Max)>eps)          //上一次j访问结果合法
                 return value;
-            else {
-                float a=input_nodes[0]->Forward();
-                if(a-eps<=Minus_Max){
+            else {                                     //第一次访问这个节点
+                float a=input_nodes[0]->Forward();     //得到第一个参数
+                if(abs(a-Minus_Max)<eps){              //得到第一个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
                 else {
                     value=tanh(a);
+                    if(value> - Minus_Max + eps||value < Minus_Max - eps)
+                    {
+                        std::cerr<<"Numeric Limit Exceeded\n";
+                        flag = false;
+                        return Minus_Max;
+                    }
                     return value;
                 }
             }
@@ -94,11 +107,11 @@ namespace Computational_Graph{
         float Forward() override{
             if(flag==false)
                 return Minus_Max;
-            else if(abs(value-Minus_Max)>eps)
+            else if(abs(value-Minus_Max)>eps)          //上一次j访问结果合法
                 return value;
-            else {
-                float a=input_nodes[0]->Forward();
-                if(a-eps<=Minus_Max){
+            else {                                     //第一次访问这个节点
+                float a=input_nodes[0]->Forward();     //得到第一个参数
+                if(abs(a-Minus_Max)<eps){              //得到第一个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
@@ -109,8 +122,14 @@ namespace Computational_Graph{
                         return Minus_Max;
                     }
                     else{
-                    value=log(a);
-                    return value;
+                        value=log(a);
+                        if(value> - Minus_Max + eps||value < Minus_Max - eps)
+                        {
+                            std::cerr<<"Numeric Limit Exceeded\n";
+                            flag = false;
+                            return Minus_Max;
+                        }
+                        return value;
                     }
                 }
             }
@@ -126,11 +145,11 @@ namespace Computational_Graph{
         float Forward() override{
             if(flag==false)
                 return Minus_Max;
-            else if(abs(value-Minus_Max)>eps)
+            else if(abs(value-Minus_Max)>eps)       //上一次j访问结果合法
                 return value;
-            else {
-                float a=input_nodes[0]->Forward();
-                if(a-eps<=Minus_Max){
+            else {                                  //第一次访问这个节点
+                float a=input_nodes[0]->Forward();  //得到第一个参数
+                if(abs(a-Minus_Max)<eps){           //得到第一个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
@@ -153,18 +172,18 @@ namespace Computational_Graph{
             if(flag==false){
                 return Minus_Max;
             }
-            else if(abs(value-Minus_Max)>eps)
+            else if(abs(value-Minus_Max)>eps)         //上一次j访问结果合法
                 return value;
-            else {
-                float a=input_nodes[0]->Forward();
-                if(a-eps<=Minus_Max){
+            else {                                    //第一次访问这个节点
+                float a=input_nodes[0]->Forward();    //得到第一个参数
+                if(abs(a-Minus_Max)<eps){             //得到第一个参数不合法
                     flag=false;
                     //cout<<"Print Operator: ";input_nodes[0]->Print();cout<<"= "<<a<<endl;
                     return Minus_Max;
                 }
                 else {
                     value=a;
-                    cout<<"Print Operator: ";input_nodes[0]->Print();cout<<"= "<<a<<endl;
+                    cout<<"Print Operator: ";input_nodes[0]->Print();cout<<"= "<<std::fixed<<std::setprecision(4)<<a<<endl;
                     return value;
                 }
             }

@@ -30,7 +30,7 @@ namespace Computational_Graph{
         std::map<string, GNode> graph;          //图
         std::vector<string> info;              //处理的信息
         std::vector<float> Answer;             //输出的信息
-    
+        
     public:
         Set_Graph() {}
         Set_Graph(std::vector<string> && a)       //直接传入信息的构造函数
@@ -116,21 +116,21 @@ namespace Computational_Graph{
         void Compute(const string& a)             //对于表达式进行计算
         {
             float b = graph[a].node->Forward();
-           // cout.setf(std::ios_base::showpoint);
+            // cout.setf(std::ios_base::showpoint);
             Answer.push_back(b);
             if(!(b-eps<=Minus_Max)) cout<<std::fixed<<std::setprecision(4)<<b<<std::endl;
         }
         
         
         
-        void SetAnswer(const string& name, int n)                       //对Variable进行seranswer操作 未完成
+        void SetAnswer(const string& name, int n)                       //对Variable进行seranswer操作
         {
             if(Answer[n]<=Minus_Max+eps) std::cerr<<"Invalid Operation\n";
             else if(graph[name].Mode== Varible) graph[name].node->Initalize(Answer[n]);
             else std::cerr<<"Set_answer option only for Varible\n";            //如果不为Varible则报错
         }
-        void Initalize_PVC();                          //未完成
-        void Initalize_Op();                           //未完成
+        void Initalize_PVC();                          //
+        void Initalize_Op();                           //
         void Initalize_Ph(const string& name);               //对于Ph(n名字为name)进行初始化；
         void Initalize_V(const string& name, float num);               //对于V(n名字为name)进行初始化；
         void Initalize_C(const string& name, float num);               //对于C(n名字为name)进行初始化；
@@ -148,8 +148,8 @@ namespace Computational_Graph{
 /*
  for(auto i = graph.begin(); i!= gragh.end(); i++)
  {
-    if(i->Name!= "res" && i->IsFinalNode()) { std::cerr<<"Incomplete defination\n"; break;}   //有多于一个终极节点的情况
-     else if(i->Name == "res" &&! i->IsFinalNode()) {std::cerr<<"False Defination\n"; break;}  //res有y后继节点的情况
+ if(i->Name!= "res" && i->IsFinalNode()) { std::cerr<<"Incomplete defination\n"; break;}   //有多于一个终极节点的情况
+ else if(i->Name == "res" &&! i->IsFinalNode()) {std::cerr<<"False Defination\n"; break;}  //res有y后继节点的情况
  }
  
  
