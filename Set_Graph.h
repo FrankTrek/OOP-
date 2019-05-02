@@ -27,11 +27,13 @@
 namespace Computational_Graph{
     class Set_Graph{
         typedef Graph_Node<float> GNode;
-        std::map<string, GNode> graph;          //图
+        std::map<string , int > map_for_name;
+        std::map<int, GNode> graph;          //图
         std::vector<string> info;              //处理的信息
         std::vector<float> Answer;             //输出的信息
         
     public:
+        int num=0;
         Set_Graph() {}
         Set_Graph(std::vector<string> && a)       //直接传入信息的构造函数
         {
@@ -50,61 +52,77 @@ namespace Computational_Graph{
         template <class A>
         void Jianli_2(const string& obj, const string& p1, const string& p2)
         {
-            auto x = graph.find(obj);  auto pt1 = graph.find(p1); auto pt2 = graph.find(p2);
-            if(x!=graph.end())           //被重定义错误
+            //auto x = graph.find(map_for_name[obj]);
+            auto pt1 = graph.find(map_for_name[p1]);
+            auto pt2 = graph.find(map_for_name[p2]);
+            /*if(x!=graph.end())           //被重定义错误
             {
                 std::cerr<<"False Redefination\n";
             }
-            else if (pt2==graph.end()||pt1 == graph.end())
+            else */
+            if (pt2==graph.end()||pt1 == graph.end())
             {
                 std::cerr<<"False Parameter defination\n";
             }
             else
             {
-                graph[obj].Mode = Operator;
-                graph[obj].Nodename = obj;
-                
-                graph[obj].node = std::make_shared<A>(obj,graph[p1].node, graph[p2].node);
+                graph[num].Mode = Operator;
+                graph[num].Nodename = obj;
+                graph[num].node = std::make_shared<A>(obj,graph[map_for_name[p1]].node, graph[map_for_name[p2]].node);
+                map_for_name[obj]=num;
+                num++;
             }
         }
         template <class A>
         void Jianli_1(const string& obj, const string& p1)
         {
-            auto x = graph.find(obj);  auto pt1 = graph.find(p1);
-            if(x!=graph.end())           //被重定义错误
+            //auto x = graph.find(obj);
+            auto pt1 = graph.find(map_for_name[p1]);
+            /*if(x!=graph.end())           //被重定义错误
             {
                 std::cerr<<"False Redefination\n";
             }
-            else if (pt1 == graph.end())
+            else*/
+            if (pt1 == graph.end())
             {
                 std::cerr<<"False Parameter defination\n";
             }
             else
             {
-                graph[obj].Mode = Operator;
-                graph[obj].Nodename = obj;
                 
-                graph[obj].node = std::make_shared<A>(obj,graph[p1].node);
+                graph[num].Mode = Operator;
+                graph[num].Nodename = obj;
+                
+                graph[num].node = std::make_shared<A>(obj,graph[map_for_name[p1]].node);
+                map_for_name[obj]=num;
+                num++;
             }
         }
         template <class A>
         void Jianli_3(const string& obj, const string& p1, const string& p2,const string & p3)
         {
-            auto x = graph.find(obj);  auto pt1 = graph.find(p1); auto pt2 = graph.find(p2); auto pt3= graph.find(p3);
-            if(x!=graph.end())           //被重定义错误
+            //auto x = graph.find(obj);
+            auto pt1 = graph.find(map_for_name[p1]);
+            auto pt2 = graph.find(map_for_name[p2]);
+            auto pt3= graph.find(map_for_name[p3]);
+            /*if(x!=graph.end())           //被重定义错误
             {
                 std::cerr<<"False Redefination\n";
             }
-            else if (pt3==graph.end()||pt2==graph.end()||pt1 == graph.end())
+            else */
+            if (pt3==graph.end()||pt2==graph.end()||pt1 == graph.end())
             {
                 std::cerr<<"False Parameter defination\n";
             }
             else
             {
-                graph[obj].Mode = Operator;
-                graph[obj].Nodename = obj;
                 
-                graph[obj].node = std::make_shared<A>(obj,graph[p1].node, graph[p2].node,graph[p3].node);
+                graph[num].Mode = Operator;
+                graph[num].Nodename = obj;
+                
+                graph[num].node = std::make_shared<A>(obj,graph[map_for_name[p1]].node, graph[map_for_name[p2]].node,graph[map_for_name[p3]].node);
+                map_for_name[obj]=num;
+                num++;
             }
         }
         
@@ -112,7 +130,7 @@ namespace Computational_Graph{
         //假装这里有一吨操作符
         void Compute(const string& a)             //对于表达式进行计算
         {
-            float b = graph[a].node->Forward();
+            float b = graph[map_for_name[a]].node->Forward();
             // cout.setf(std::ios_base::showpoint);
             Answer.push_back(b);
             if(!(b-eps<=Minus_Max)) cout<<std::fixed<<std::setprecision(4)<<b<<std::endl;
@@ -123,7 +141,7 @@ namespace Computational_Graph{
         void SetAnswer(const string& name, int n)                       //对Variable进行seranswer操作
         {
             if(Answer[n]<=Minus_Max+eps) std::cerr<<"Invalid Operation\n";
-            else if(graph[name].Mode== Varible) graph[name].node->Initalize(Answer[n]);
+            else if(graph[map_for_name[name]].Mode== Varible) graph[map_for_name[name]].node->Initalize(Answer[n]);
             else std::cerr<<"Set_answer option only for Varible\n";            //如果不为Varible则报错
         }
         void Initalize_PVC();                          //
@@ -133,7 +151,7 @@ namespace Computational_Graph{
         void Initalize_C(const string& name, float num);               //对于C(n名字为name)进行初始化；
         void Initalize_Input(const string& name, float num)           //在第三阶段对于输入进行初始化;
         {
-            if(graph[name].Mode==Placehold) graph[name].node->Initalize(num);
+            if(graph[map_for_name[name]].Mode==Placehold) graph[map_for_name[name]].node->Initalize(num);
             else std::cerr<<"Invalid Operation\n";
         }
        
