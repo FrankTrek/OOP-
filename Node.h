@@ -21,6 +21,7 @@
  * 4.13 补充了三元运算符的构造函数
  * 4.20 Z.修改了Error的报错信息
  * 4.20 Z.补充了Node类中的type函数 返回type
+ *5.2 移除了与后继节点相关的方法
  */
 #ifndef Node_h
 #define Node_h
@@ -73,12 +74,7 @@ namespace Computational_Graph{
             this->value = Minus_Max ;
         }
         
-        void Reset_f() override final{
-            this->Reset() ;
-            for(auto i: this->output_nodes){
-                i->Reset_f() ;
-            }
-        }
+
         void Reset_b() override final{
             if(this->returntype() == "Constant" || this->returntype() == "Variable"){
                 return ;
@@ -87,7 +83,8 @@ namespace Computational_Graph{
             {
                 this->Reset();
                 for(auto i: this->input_nodes){
-                    i->Reset_b() ;
+                    SPointer temp(i);      //得到Spointer
+                    temp->Reset_b() ;
                 }
             }
         }
@@ -107,28 +104,24 @@ namespace Computational_Graph{
     public:
         using BaseNode<T>::Set_input_nodes;
         Operation() { type = Nullary; }       //0元运算符
-        Operation (BaseNode<T>* node1)        //1元运算符
+        Operation (std::shared_ptr<BaseNode<T> >node1)        //1元运算符
         {
-            node1->Set_output_nodes(this);
+            
             Set_input_nodes(node1);
             type = Unary;
             value = Minus_Max;
         }
-        Operation (BaseNode<T>* node1,BaseNode<T>* node2) //2元运算符
+        Operation (std::shared_ptr<BaseNode<T> > node1,std::shared_ptr<BaseNode<T> > node2) //2元运算符
         {
-            node1->Set_output_nodes(this);
-            node2->Set_output_nodes(this);
+           
             Set_input_nodes(node1);
             Set_input_nodes(node2);
             type = Binary;
             value = Minus_Max;
         }
         //这里补充三元运算符
-        Operation (BaseNode<T>* node1, BaseNode<T>* node2, BaseNode<T>* node3)// 三元运算符
+        Operation (std::shared_ptr<BaseNode<T> > node1, std::shared_ptr<BaseNode<T> > node2, std::shared_ptr<BaseNode<T> > node3)// 三元运算符
         {
-            node1->Set_output_nodes(this);
-            node2->Set_output_nodes(this);
-            node3->Set_output_nodes(this);
             Set_input_nodes(node1);
             Set_input_nodes(node2);
             Set_input_nodes(node3);
@@ -146,12 +139,6 @@ namespace Computational_Graph{
             this->value = Minus_Max ;
         }
         
-        void Reset_f() override final{
-            this->Reset() ;
-            for(auto i: this->output_nodes){
-                i->Reset_f() ;
-            }
-        }
         void Reset_b() override final{
             if(this->returntype() == "Constant" || this->returntype() == "Variable"){
                 return ;
@@ -160,7 +147,8 @@ namespace Computational_Graph{
             {
                 this->Reset();
                 for(auto i: this->input_nodes){
-                    i->Reset_b() ;
+                    SPointer temp(i);
+                    temp->Reset_b() ;
                 }
             }
             
@@ -169,28 +157,25 @@ namespace Computational_Graph{
         //以上为匿名版本
         //以下为带名称的版本
         Operation(const string& a):BaseNode<T>(a) { type = Nullary; }       //0元运算符
-        Operation (const string& a,BaseNode<T>* node1):BaseNode<T>(a)        //1元运算符
+        Operation (const string& a,std::shared_ptr<BaseNode<T> > node1):BaseNode<T>(a)        //1元运算符
         {
-            node1->Set_output_nodes(this);
+            
             Set_input_nodes(node1);
             type = Unary;
             value = Minus_Max;
         }
-        Operation (const string& a,BaseNode<T>* node1,BaseNode<T>* node2):BaseNode<T>(a) //2元运算符
+        Operation (const string& a,std::shared_ptr<BaseNode<T> > node1,std::shared_ptr<BaseNode<T> > node2):BaseNode<T>(a) //2元运算符
         {
-            node1->Set_output_nodes(this);
-            node2->Set_output_nodes(this);
+            
             Set_input_nodes(node1);
             Set_input_nodes(node2);//这里需要改动
             type = Binary;
             value = Minus_Max;
         }
         
-        Operation (const string& a,BaseNode<T>* node1,BaseNode<T>* node2,BaseNode<T>* node3):BaseNode<T>(a) //2元运算符
+        Operation (const string& a,std::shared_ptr<BaseNode<T> > node1,std::shared_ptr<BaseNode<T> > node2,std::shared_ptr<BaseNode<T> > node3):BaseNode<T>(a) //2元运算符
         {
-            node1->Set_output_nodes(this);
-            node2->Set_output_nodes(this);
-            node3->Set_output_nodes(this);
+            
             Set_input_nodes(node1);
             Set_input_nodes(node2);
             Set_input_nodes(node3);
