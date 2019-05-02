@@ -63,9 +63,8 @@ namespace Computational_Graph{
             {
                 graph[obj].Mode = Operator;
                 graph[obj].Nodename = obj;
-                BaseNode<float>* para1 = graph[p1].node.get();
-                BaseNode<float>* para2 = graph[p2].node.get();
-                graph[obj].node = std::make_shared<A>(obj,para1, para2);
+                
+                graph[obj].node = std::make_shared<A>(obj,graph[p1].node, graph[p2].node);
             }
         }
         template <class A>
@@ -84,8 +83,8 @@ namespace Computational_Graph{
             {
                 graph[obj].Mode = Operator;
                 graph[obj].Nodename = obj;
-                BaseNode<float>* para1 = graph[p1].node.get();
-                graph[obj].node = std::make_shared<A>(obj,para1);
+                
+                graph[obj].node = std::make_shared<A>(obj,graph[p1].node);
             }
         }
         template <class A>
@@ -104,10 +103,8 @@ namespace Computational_Graph{
             {
                 graph[obj].Mode = Operator;
                 graph[obj].Nodename = obj;
-                BaseNode<float>* para1 = graph[p1].node.get();
-                BaseNode<float>* para2 = graph[p2].node.get();
-                BaseNode<float>* para3 = graph[p3].node.get();
-                graph[obj].node = std::make_shared<A>(obj,para1, para2,para3);
+                
+                graph[obj].node = std::make_shared<A>(obj,graph[p1].node, graph[p2].node,graph[p3].node);
             }
         }
         
@@ -139,10 +136,7 @@ namespace Computational_Graph{
             if(graph[name].Mode==Placehold) graph[name].node->Initalize(num);
             else std::cerr<<"Invalid Operation\n";
         }
-        bool IsValid(const string& name)           //关于这个节点建立是否合法
-        {
-            return graph[name].node->IsCycle(graph[name].Nodename);
-        }
+       
     };
 }
 /*
