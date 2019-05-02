@@ -15,15 +15,16 @@
 namespace Computational_Graph{
     class SIN: public Operation<float>{
     public:
-        SIN(BaseNode<float>* Node1): Operation(Node1){}
-        SIN(const string& a, BaseNode<float>* Node1) : Operation(a,Node1){}
+        SIN(SPointer Node1): Operation(Node1){}
+        SIN(const string& a, SPointer Node1) : Operation(a,Node1){}
         float Forward() override{
             if(flag==false)
                 return Minus_Max;
             else if(abs(value-Minus_Max)>eps)           //上一次j访问结果合法
                 return value;
-            else {                                      //第一次访问这个节点
-                float a=input_nodes[0]->Forward();      //得到第一个参数
+            else {                                     //第一次访问这个节点
+                SPointer temp1(input_nodes[0]);       //将Wpointer转化为Spointer
+                float a=temp1->Forward();      //得到第一个参数
                 if(abs(a-Minus_Max)<eps){               //得到第一个参数不合法
                     flag=false;
                     return Minus_Max;
@@ -40,15 +41,16 @@ namespace Computational_Graph{
     };
     class EXP: public Operation<float>{
     public:
-        EXP(BaseNode<float>* Node1): Operation(Node1){}
-        EXP(const string& a, BaseNode<float>* Node1) : Operation(a,Node1){}
+        EXP(SPointer Node1): Operation(Node1){}
+        EXP(const string& a, SPointer Node1) : Operation(a,Node1){}
         float Forward() override{
             if(flag==false)
                 return Minus_Max;
             else if(abs(value-Minus_Max)>eps)            //上一次j访问结果合法
                 return value;
             else {                                       //第一次访问这个节点
-                float a=input_nodes[0]->Forward();        //得到第一个参数
+                SPointer temp1(input_nodes[0]);  //将Wpointer转化为Spointer
+                float a=temp1->Forward();        //得到第一个参数
                 if(abs(a-Minus_Max)<eps){                //得到第一个参数不合法
                     flag=false;
                     return Minus_Max;
@@ -71,15 +73,16 @@ namespace Computational_Graph{
     };
     class TANH: public Operation<float>{
     public:
-        TANH(BaseNode<float>* Node1): Operation(Node1){}
-        TANH(const string& a, BaseNode<float>* Node1) : Operation(a,Node1){}
+        TANH(SPointer Node1): Operation(Node1){}
+        TANH(const string& a, SPointer Node1) : Operation(a,Node1){}
         float Forward() override{
             if(flag==false)
                 return Minus_Max;
             else if(abs(value-Minus_Max)>eps)          //上一次j访问结果合法
                 return value;
             else {                                     //第一次访问这个节点
-                float a=input_nodes[0]->Forward();     //得到第一个参数
+                SPointer temp1(input_nodes[0]);        //将Wpointer转化为Spointer
+                float a=temp1->Forward();              //得到第一个参数
                 if(abs(a-Minus_Max)<eps){              //得到第一个参数不合法
                     flag=false;
                     return Minus_Max;
@@ -102,15 +105,16 @@ namespace Computational_Graph{
     };
     class LOG: public Operation<float>{
     public:
-        LOG(BaseNode<float>* Node1): Operation(Node1){}
-        LOG(const string& a, BaseNode<float>* Node1) : Operation(a,Node1){}
+        LOG(SPointer Node1): Operation(Node1){}
+        LOG(const string& a, SPointer Node1) : Operation(a,Node1){}
         float Forward() override{
             if(flag==false)
                 return Minus_Max;
             else if(abs(value-Minus_Max)>eps)          //上一次j访问结果合法
                 return value;
             else {                                     //第一次访问这个节点
-                float a=input_nodes[0]->Forward();     //得到第一个参数
+                SPointer temp1(input_nodes[0]);  //将Wpointer转化为Spointer
+                float a=temp1->Forward();     //得到第一个参数
                 if(abs(a-Minus_Max)<eps){              //得到第一个参数不合法
                     flag=false;
                     return Minus_Max;
@@ -140,15 +144,16 @@ namespace Computational_Graph{
     };
     class SINGMOID: public Operation<float>{
     public:
-        SINGMOID(BaseNode<float>* Node1): Operation(Node1){}
-        SINGMOID(const string& a, BaseNode<float>* Node1) : Operation(a,Node1){}
+        SINGMOID(SPointer Node1): Operation(Node1){}
+        SINGMOID(const string& a, SPointer Node1) : Operation(a,Node1){}
         float Forward() override{
             if(flag==false)
                 return Minus_Max;
             else if(abs(value-Minus_Max)>eps)       //上一次j访问结果合法
                 return value;
             else {                                  //第一次访问这个节点
-                float a=input_nodes[0]->Forward();  //得到第一个参数
+                SPointer temp1(input_nodes[0]);  //将Wpointer转化为Spointer
+                float a = temp1->Forward();      //得到第一个参数
                 if(abs(a-Minus_Max)<eps){           //得到第一个参数不合法
                     flag=false;
                     return Minus_Max;
@@ -166,8 +171,8 @@ namespace Computational_Graph{
     //*****
     class Print: public Operation<float>{
     public:
-        Print(BaseNode<float>* Node1): Operation(Node1){}
-        Print(const string& a, BaseNode<float>* Node1) : Operation(a,Node1){}
+        Print(SPointer Node1): Operation(Node1){}
+        Print(const string& a, SPointer Node1) : Operation(a,Node1){}
         float Forward() override{
             if(flag==false){
                 return Minus_Max;
@@ -175,7 +180,8 @@ namespace Computational_Graph{
             else if(abs(value-Minus_Max)>eps)         //上一次j访问结果合法
                 return value;
             else {                                    //第一次访问这个节点
-                float a=input_nodes[0]->Forward();    //得到第一个参数
+                SPointer temp1(input_nodes[0]);  //将Wpointer转化为Spointer
+                float a=temp1->Forward();    //得到第一个参数
                 if(abs(a-Minus_Max)<eps){             //得到第一个参数不合法
                     flag=false;
                     //cout<<"Print Operator: ";input_nodes[0]->Print();cout<<"= "<<a<<endl;
@@ -183,7 +189,7 @@ namespace Computational_Graph{
                 }
                 else {
                     value=a;
-                    cout<<"Print Operator: ";input_nodes[0]->Print();cout<<"= "<<std::fixed<<std::setprecision(4)<<a<<endl;
+                    cout<<"Print Operator: ";temp1->Print();cout<<"= "<<std::fixed<<std::setprecision(4)<<a<<endl;
                     return value;
                 }
             }
