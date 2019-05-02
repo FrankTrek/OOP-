@@ -19,6 +19,7 @@
  *4.13 补充极小量eps
  *4.17 将Print()函数改为专门输出节点名的函数
  *4.25 补充了显示节点名称和是否为最终节点的方法
+ *5.2 删除后继节点集，修改指针组为weak_ptr
  */
 
 
@@ -41,6 +42,7 @@ namespace Computational_Graph
     using std::endl;
     const float Minus_Max = -100000000000;//用于给定float下界以判断是否完成输入
     const float eps=1e-7;
+    
     enum { Varible, Const, Operator ,Placehold};
     //写在之前的警告??：必须在之后的继承类中补充关于前向传播的定义，否则继承类将依然成为虚类??????
     template <typename T>
@@ -50,16 +52,18 @@ namespace Computational_Graph
         
         
     protected:
-        typedef std::vector<BaseNode*> NodeArray;  //在BaseNode名称空间中NodeArray为std::vector<BaseNode*>的别名
+        typedef std::vector<std::weak_ptr<BaseNode<T> > > NodeArray;  //在BaseNode名称空间中NodeArray为std::vector<BaseNode*>的别名
         bool flag;            //检验输入是否合法的标记
-        NodeArray output_nodes;       //记录后继节点的数组
+        
         NodeArray input_nodes;        //记录前继节点的数组
         string name;                  //记录节点名称
         
     public:
         BaseNode() { flag = true; }
         BaseNode(const string& a): name(a){flag = true;}
-        virtual ~BaseNode() {}
+        virtual ~BaseNode() {
+            cout<<name<<"  ended\n";
+        }
         
         //以下为提供的接口
         bool IsValid() const {return flag;}       //返回是否合法的方法
@@ -75,14 +79,10 @@ namespace Computational_Graph
         void Set_flag(bool i){
             flag = i ;
         }
-        void Set_output_nodes( BaseNode* b)      //构建后继节点集
+        \
+        void Set_input_nodes( std::shared_ptr<BaseNode> b)       //构建前继节点集
         {
-            output_nodes.push_back(b);
-        }
-        
-        void Set_input_nodes( BaseNode* b)       //构建前继节点集
-        {
-            input_nodes.push_back(b);
+            input_nodes.push_back(std::weak_ptr<BaseNode>(b));    //
         }
         virtual void Initalize(T& data)          //用于输入节点的初始话接口
         {
@@ -108,25 +108,12 @@ namespace Computational_Graph
             cout<<name;
         }
         //新增4.12 检查是否出现有向回路  true for 有
-        bool IsCycle(const string& a)
-        {
-            for(auto x : input_nodes)
-            {
-                if(x->name == a)
-                {
-                    std::cerr<<"Loop Error\n";
-                    return true;
-                }
-                x->IsCycle(a);
-            }
-            return false;
-        }
+        
         virtual string returntype() {
             return "func: returntype has not been defined yet\n";
         }
         string Name() {return name;}                         //返回节点名称
-        bool IsFinalNode() {return output_nodes.empty();}    //查看是否为最终节点
-        //debug时使用的函数
+        
         
         // 以下为禁用一些默认的格式转换
         BaseNode (const BaseNode& A) = delete;
@@ -149,6 +136,9 @@ namespace Computational_Graph
      *将在Operator类中补充各种类型的运算操作
      *将在Variable与Const类中补充它的数值信息以及赋值操作
      */
+    
+    typedef std::shared_ptr<BaseNode<float> > SPointer;
+    
     template <typename T>
     struct Graph_Node{
         std::shared_ptr<BaseNode<T> > node;              //指向基类节点的指针
