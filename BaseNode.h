@@ -62,7 +62,7 @@ namespace Computational_Graph
         BaseNode() { flag = true; }
         BaseNode(const string& a): name(a){flag = true;}
         virtual ~BaseNode() {
-            cout<<name<<"  ended\n";
+            //cout<<name<<"  ended\n";
         }
         
         //以下为提供的接口
