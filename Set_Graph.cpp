@@ -14,7 +14,7 @@
 #include "Const.h"
 #include "Node.h"
 namespace Computational_Graph{
-    
+    /*
     vector<string> Set_Graph::Input(int stage){
         string s ;
         vector<string>Input1 ;
@@ -47,18 +47,20 @@ namespace Computational_Graph{
             }
         }
     }
+     */
+    
     void Set_Graph::Initalize_PVC(){
         if(info[1] == "P"){
             Initalize_Ph(info[0]) ;
-            //            cout << " P"   ;
+            
         }
         else if(info[1] == "C"){
             Initalize_C(info[0],atof(info[2].c_str())) ;
-            //            cout << "C" ;
+            
         }
         else if(info[1] == "V"){
             Initalize_V(info[0],atof(info[2].c_str())) ;
-            //            cout <<"V" ;
+            
         }
         else std::cerr << "in func'Initalize_PVC': Defination unavailable\n" ;
     }
@@ -72,11 +74,11 @@ namespace Computational_Graph{
         }
         else
         {
-            map_for_name[name]=num;
-            graph[num].Mode = Placehold;
-            graph[num].Nodename = name;
-            graph[num].node = std::make_shared<Placeholder>(name);
-            num++;
+            graph[num].Mode = Placehold;                    //注明类型
+            graph[num].Nodename = name;                     //标记名字
+            graph[num].node = std::make_shared<Placeholder>(name);  //创建节点
+            map_for_name[name]=num;                         //建立name和num的对应
+            num++;                                          //第num个节点建立完毕，num++
         }
     }
     void Set_Graph::Initalize_V(const string& name, float number)               //对于V(n名字为name)进行初始化；
@@ -88,11 +90,12 @@ namespace Computational_Graph{
         }
         else
         {
-            map_for_name[name]=num;
+           
             graph[num].Nodename = name;
             graph[num].Mode = Varible;
-            graph[num].node = std::make_shared<Variable>(number,name);
-            num++;
+            graph[num].node = std::make_shared<Variable>(number,name);   //创建节点
+             map_for_name[name]=num;                        //建立num与name的对应
+            num++;                                           //第num个节点建立完毕，num++
         }
     }
     void Set_Graph::Initalize_C(const string& name, float number)               //对于C(n名字为name)进行初始化；
@@ -104,11 +107,12 @@ namespace Computational_Graph{
         }
         else
         {
-            map_for_name[name]=num;
+            
             graph[num].Mode = Const;
             graph[num].Nodename = name;
-            graph[num].node = std::make_shared<Constant>(number,name);
-            num++;
+            graph[num].node = std::make_shared<Constant>(number,name);  //建立节点
+            map_for_name[name]=num;                                   //建立num与name的对应
+            num++;                                                      //第num个节点建立完毕，num++
         }
     }
     
@@ -195,25 +199,22 @@ namespace Computational_Graph{
         {
             auto ttmp=graph[map_for_name[info[1]]];
             ttmp.node->Reset_b() ;
-            if(info.size()<=2)
+            if(info.size()<=2)          //对于简单节点的计算情况
             {
-                if(ttmp.Mode!=Varible&&ttmp.Mode!=Const){
-                    cout<<"ERROR: Placeholder missing"<<endl;
-                }
-                else {
-                    Compute(info[1]);
-                }
+                
+                Compute(info[1]);
+                
             }
-            else {
+            else {                            //考虑需要Ph参数赋值的情况
                 int times = atoi(info[2].data());     //读取操作次数
                 for(int i = 1; i<= times; i++)
                 {
                     int pos = 2+(i-1)*2 + 1;       //此时读取的位置
-                    string name = info[pos];
-                    float number = atof(info[pos+1].data());
-                    auto tttmp=graph[map_for_name[name]];   //tttmp: 临时的graph里的迭代器
+                    string name = info[pos];         //得到Ph的名字
+                    float value = atof(info[pos+1].data());  //对ph赋的值
+                    auto tttmp=graph[map_for_name[name]];   //得到GNode
                     if(tttmp.Mode!=Placehold) std::cerr<<"Can not Initalize a non-PlaceHolder Object\n";
-                    else tttmp.node->Initalize(number);
+                    else tttmp.node->Initalize(value);
                 }
                 Compute(info[1]);
                 
@@ -222,12 +223,12 @@ namespace Computational_Graph{
         else if(info[0]=="SETCONSTANT")
         {
             string name = info[1];   //获得名字
-            float number = atof(info[2].data());
-            auto ttmp=graph[map_for_name[name]];
+            float value = atof(info[2].data());  //
+            auto ttmp=graph[map_for_name[name]];  //得到要操作的V对应的GNode
             if(ttmp.Mode!=Varible) std::cerr<<"Can not setconstant a non-Varible Object\n";
             else
             {
-                ttmp.node->Initalize(number);
+                ttmp.node->Initalize(value);
             }
             Answer.push_back(Minus_Max);
         }
