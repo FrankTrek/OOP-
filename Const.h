@@ -2,12 +2,12 @@
 //  Const.h
 //  OOP Computation Graph
 //
-//  Created by ÍõÒ»Åµ on 2019/4/13.
-//  Copyright ? 2019 ÍõÒ»Åµ. All rights reserved.
+//  Created by ç‹ä¸€è¯º on 2019/4/13.
+//  Copyright ? 2019 ç‹ä¸€è¯º. All rights reserved.
 //
 //OOP Computational_graph
 
-//¸üĞÂÈÕÖ¾ lastest date 4.8
+//æ›´æ–°æ—¥å¿— lastest date 4.8
 /*
  4.8
  */
@@ -31,8 +31,8 @@ namespace Computational_Graph{
         Constant(const float& i ,const string& s):Node<float>(i,s){
         } ;
         string returntype() override{
-        	return "Constant" ;
-		} 
+            return "Constant" ;
+        }
         ~Constant(){} ;
     };
     
@@ -49,9 +49,9 @@ namespace Computational_Graph{
         Variable(const float& i ,const string& s):Node<float>(i,s){
         } ;
         string returntype() override{
-        	return "Variable" ;
-		} 
-        //setanswerÒÀ¿¿ÓÚÊä³ö£¬´ı²¹³ä
+            return "Variable" ;
+        }
+        //setanswerä¾é äºè¾“å‡ºï¼Œå¾…è¡¥å……
         ~Variable(){} ;
         
     };
@@ -65,13 +65,12 @@ namespace Computational_Graph{
         Placeholder(){} ;
         Placeholder(const float& a) = delete ;
         Placeholder(const string& s):Node<float>(s){
-        }//´´½¨Ò»¸öÃû×Öname 
+        }//åˆ›å»ºä¸€ä¸ªåå­—name
         string returntype() override{
-        	return "Placeholder" ;
-		} 
+            return "Placeholder" ;
+        }
         ~Placeholder(){} ;
         
         
     };
 }
-
