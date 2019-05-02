@@ -25,6 +25,7 @@
 #include "Operation.h"
 #include "Operation2.h"
 namespace Computational_Graph{
+    using std::cin;
     class Set_Graph{
         typedef Graph_Node<float> GNode;
         std::map<string , int > map_for_name;
@@ -35,6 +36,7 @@ namespace Computational_Graph{
     public:
         int num=0;
         Set_Graph() {}
+        /*
         Set_Graph(std::vector<string> && a)       //直接传入信息的构造函数
         {
             info = std::move(a);
@@ -44,90 +46,90 @@ namespace Computational_Graph{
         {
             info = std::move(a);
         }
-        
-        vector<string> Input(int stage) ;
-        void Construct(int stage, int line_N);
-        
-        void processing_Stage3();                        //对输入字符串的处理  未完成
-        template <class A>
-        void Jianli_2(const string& obj, const string& p1, const string& p2)
+        */
+        vector<string> incision()        //对每一次字符串进行切割
         {
-            //auto x = graph.find(map_for_name[obj]);
-            auto pt1 = graph.find(map_for_name[p1]);
-            auto pt2 = graph.find(map_for_name[p2]);
-            /*if(x!=graph.end())           //被重定义错误
+            vector<string> info;
+            string sentence;
+            std::getline(cin,sentence);   //读一整行
+            std::stringstream s1(sentence);  //建立string流
+            string temp;       //存放每一次输入
+            while(s1>>temp)
             {
-                std::cerr<<"False Redefination\n";
+                if(temp!="=") info.push_back(temp);  //压入vector(不存入=)
             }
-            else */
-            if (pt2==graph.end()||pt1 == graph.end())
-            {
-                std::cerr<<"False Parameter defination\n";
-            }
-            else
-            {
-                graph[num].Mode = Operator;
-                graph[num].Nodename = obj;
-                graph[num].node = std::make_shared<A>(obj,graph[map_for_name[p1]].node, graph[map_for_name[p2]].node);
-                map_for_name[obj]=num;
-                num++;
-            }
+            return info;
         }
+       
+        
+        
+        void processing_Stage3();                        //对输入字符串的处理  
+        
         template <class A>
         void Jianli_1(const string& obj, const string& p1)
         {
-            //auto x = graph.find(obj);
-            auto pt1 = graph.find(map_for_name[p1]);
-            /*if(x!=graph.end())           //被重定义错误
-            {
-                std::cerr<<"False Redefination\n";
-            }
-            else*/
-            if (pt1 == graph.end())
+           
+            auto pt1 = map_for_name.find(p1);
+            if (pt1 == map_for_name.end())                      //参数未定义
             {
                 std::cerr<<"False Parameter defination\n";
             }
             else
             {
-                
-                graph[num].Mode = Operator;
-                graph[num].Nodename = obj;
-                
-                graph[num].node = std::make_shared<A>(obj,graph[map_for_name[p1]].node);
-                map_for_name[obj]=num;
-                num++;
+                graph[num].Mode = Operator;       //注明类型
+                graph[num].Nodename = obj;        //注明名称
+                graph[num].node = std::make_shared<A>(obj,graph[map_for_name[p1]].node);  //建立节点
+                map_for_name[obj]=num;            //更新对应关系
+                num++;                            //第num个节点建立完毕，num++
             }
         }
+        
+        template <class A>
+        void Jianli_2(const string& obj, const string& p1, const string& p2)
+        {
+            
+            auto pt1 = map_for_name.find(p1);
+            auto pt2 = map_for_name.find(p2);
+           
+            if (pt2==map_for_name.end()||pt1 == map_for_name.end())  //参数未定义
+            {
+                std::cerr<<"False Parameter defination\n";
+            }
+            else
+            {
+                graph[num].Mode = Operator;
+                graph[num].Nodename = obj;
+                graph[num].node = std::make_shared<A>(obj,graph[map_for_name[p1]].node, graph[map_for_name[p2]].node);//建立节点
+                map_for_name[obj]=num;           //更新对应关系
+                num++;                          //第num个节点建立完毕，num++
+            }
+        }
+        
         template <class A>
         void Jianli_3(const string& obj, const string& p1, const string& p2,const string & p3)
         {
             //auto x = graph.find(obj);
-            auto pt1 = graph.find(map_for_name[p1]);
-            auto pt2 = graph.find(map_for_name[p2]);
-            auto pt3= graph.find(map_for_name[p3]);
-            /*if(x!=graph.end())           //被重定义错误
-            {
-                std::cerr<<"False Redefination\n";
-            }
-            else */
-            if (pt3==graph.end()||pt2==graph.end()||pt1 == graph.end())
+            auto pt1 = map_for_name.find(p1);
+            auto pt2 = map_for_name.find(p2);
+            auto pt3 = map_for_name.find(p3);
+           
+            if (pt3==map_for_name.end()||pt2==map_for_name.end()||pt1 == map_for_name.end())
             {
                 std::cerr<<"False Parameter defination\n";
             }
             else
             {
-                
                 graph[num].Mode = Operator;
                 graph[num].Nodename = obj;
                 
                 graph[num].node = std::make_shared<A>(obj,graph[map_for_name[p1]].node, graph[map_for_name[p2]].node,graph[map_for_name[p3]].node);
-                map_for_name[obj]=num;
-                num++;
+                map_for_name[obj]=num;                    //更新对应关系
+                num++;                                   //第num个节点建立完毕，num++
             }
         }
         
         
-        //假装这里有一吨操作符
+      
         void Compute(const string& a)             //对于表达式进行计算
         {
             float b = graph[map_for_name[a]].node->Forward();
@@ -151,21 +153,47 @@ namespace Computational_Graph{
         void Initalize_C(const string& name, float num);               //对于C(n名字为name)进行初始化；
         void Initalize_Input(const string& name, float num)           //在第三阶段对于输入进行初始化;
         {
-            if(graph[map_for_name[name]].Mode==Placehold) graph[map_for_name[name]].node->Initalize(num);
+            if(graph[map_for_name[name]].Mode==Placehold)
+                graph[map_for_name[name]].node->Initalize(num);
             else std::cerr<<"Invalid Operation\n";
+        }
+        void Stage1()                    //第一阶段的处理
+        {
+            string tmp;
+            getline(cin,tmp);
+            int times = std::stoi(tmp);               //记录输入的次数
+            for(int i = 1; i<=times; i++)  //进行第i次操作
+            {
+                info = incision();   //得到信息
+                Initalize_PVC();     //进行处理
+            }
+        }
+        void Stage2()
+        {
+            string tmp;
+            getline(cin,tmp);
+            int times = std::stoi(tmp);               //记录输入的次数
+            for(int i = 1; i<=times; i++)  //进行第i次操作
+            {
+                info = incision();   //得到信息
+                Initalize_Op();     //进行处理
+            }
+        }
+        void Stage3()
+        {
+            string tmp;
+            getline(cin,tmp);
+            int times = std::stoi(tmp);               //记录输入的次数
+            for(int i = 1; i<=times; i++)  //进行第i次操作
+            {
+                info = incision();   //得到信息
+                processing_Stage3();     //进行处理
+            }
         }
        
     };
 }
-/*
- for(auto i = graph.begin(); i!= gragh.end(); i++)
- {
- if(i->Name!= "res" && i->IsFinalNode()) { std::cerr<<"Incomplete defination\n"; break;}   //有多于一个终极节点的情况
- else if(i->Name == "res" &&! i->IsFinalNode()) {std::cerr<<"False Defination\n"; break;}  //res有y后继节点的情况
- }
- 
- 
- */
+
 
 
 
