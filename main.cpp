@@ -10,20 +10,10 @@ using std::cout ;
 	4.30 Z 让主函数变得好看了 
 */ 
 int main() {
-	int N[4]={0} ;
- 	Set_Graph GRAPH ;
-// 	while(1){
- 		for(int i = 1; i <= 3; i++ ){
-			string s0 ;
-			getline(cin,s0) ;
-			std::stringstream ss0(s0) ;
-			ss0 >> N[i]; 
-			ss0.str("") ;
-			ss0.clear() ;
-			GRAPH.Construct(i,N[i]) ;
-	}
-		
-//	 }
+    Set_Graph work;
+    work.Stage1();
+    work.Stage2();
+    work.Stage3();
 
 	return 0;
 }
