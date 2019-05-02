@@ -23,12 +23,14 @@
 
 
 namespace  Computational_Graph{
+    
+   
     class Addition : public Operation<float>{//加号
         
     public:
         
-        Addition(BaseNode<float>* Node1, BaseNode<float> *Node2): Operation(Node1,Node2){}
-        Addition(const string& a, BaseNode<float>* Node1, BaseNode<float> *Node2) : Operation(a,Node1,Node2){}
+        Addition(SPointer Node1, SPointer Node2): Operation(Node1,Node2){}
+        Addition(const string& a, SPointer Node1, SPointer Node2) : Operation(a,Node1,Node2){}
         
         float Forward() override{
             if(flag==false)                           //上一次计算得到的结果不合法
@@ -38,12 +40,14 @@ namespace  Computational_Graph{
             }
             
             else {                                     //第一次访问这个节点
-                float a=input_nodes[0]->Forward();     //得到其中一个参数数值
+                SPointer temp1(input_nodes[0]);        //将Wpointer转化为Spointer
+                float a = temp1->Forward();     //得到其中一个参数数值
                 if(abs(a-Minus_Max)<eps){              //一个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
-                float b=input_nodes[1]->Forward();      //得到第二个参数
+                SPointer temp2(input_nodes[1]);        //将Wpointer转化为Spointer
+                float b=temp2->Forward();      //得到第二个参数
                 if(abs(b-Minus_Max)<eps){               //第二个参数不合法
                     flag=false;
                     return Minus_Max;
@@ -67,8 +71,8 @@ namespace  Computational_Graph{
         
     public:
         
-        Multiply(BaseNode<float>* Node1, BaseNode<float> *Node2): Operation(Node1,Node2){}
-        Multiply(const string a, BaseNode<float>* Node1, BaseNode<float> *Node2) : Operation(a,Node1,Node2){}
+        Multiply(SPointer Node1, SPointer Node2): Operation(Node1,Node2){}
+        Multiply(const string a, SPointer Node1, SPointer Node2) : Operation(a,Node1,Node2){}
         
         float Forward() override{
             if(flag==false)                         //上一次计算结果不合法
@@ -78,13 +82,15 @@ namespace  Computational_Graph{
             }
             
             else {                                   //第一次访问这个节点
-                float a=input_nodes[0]->Forward();   //得到第一个参数
+                SPointer temp1(input_nodes[0]);      //将Wpointer转化为Spointer
+                float a = temp1->Forward();   //得到第一个参数
                 if(abs(a-Minus_Max)<eps){            //第一个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
-                float b=input_nodes[1]->Forward();   //得到第二个参数
-                if(abs(b-Minus_Max)<eps){            //第二个参数不合法
+                SPointer temp2(input_nodes[1]);     //将Wpointer转化为Spointer
+                float b = temp2->Forward();         //得到第二个参数
+                if(abs(b-Minus_Max)<eps){           //第二个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
@@ -107,8 +113,8 @@ namespace  Computational_Graph{
         
     public:
         
-        Minus(BaseNode<float>* Node1, BaseNode<float>* Node2): Operation(Node1,Node2){}
-        Minus(const string a, BaseNode<float>* Node1, BaseNode<float> *Node2) : Operation(a,Node1,Node2){}
+        Minus(SPointer Node1, SPointer Node2): Operation(Node1,Node2){}
+        Minus(const string a, SPointer Node1, SPointer Node2) : Operation(a,Node1,Node2){}
         
         float Forward() override{
             if(flag==false)                          //上次计算结果不合法
@@ -118,12 +124,14 @@ namespace  Computational_Graph{
             }
             
             else {                                    //第一次访问这个节点
-                float a=input_nodes[0]->Forward();    //得到第一个参数
+                SPointer temp1(input_nodes[0]);         //将Wpointer转化为Spointer
+                float a = temp1->Forward();    //得到第一个参数
                 if(abs(a-Minus_Max)<eps){             //第一个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
-                float b=input_nodes[1]->Forward();     //得到第二个参数
+                SPointer temp2(input_nodes[1]);       //将Wpointer转化为Spointer
+                float b=temp2->Forward();            //得到第二个参数
                 if(abs(b-Minus_Max)<eps){              //第二个参数不合法
                     flag=false;
                     return Minus_Max;
@@ -149,8 +157,8 @@ namespace  Computational_Graph{
         
     public:
         
-        Division(BaseNode<float>* Node1, BaseNode<float> *Node2): Operation(Node1,Node2){}
-        Division(const string a, BaseNode<float>* Node1, BaseNode<float>* Node2) : Operation(a,Node1,Node2){}
+        Division(SPointer Node1, SPointer Node2): Operation(Node1,Node2){}
+        Division(const string a, SPointer Node1, SPointer Node2) : Operation(a,Node1,Node2){}
         
         float Forward() override{
             if(flag==false)                              //上一次访问结果不合法
@@ -160,7 +168,8 @@ namespace  Computational_Graph{
             }
             
             else {                                       //第一次访问这个节点
-                float b=input_nodes[1]->Forward();       //得到第一个参数
+                SPointer temp1(input_nodes[1]);          //将Wpointer转化为Spointer
+                float b = temp1->Forward();       //得到第一个参数
                 if(abs(b-Minus_Max)<eps){                //第一个参数不合法
                     flag=false;
                     return Minus_Max;
@@ -170,7 +179,8 @@ namespace  Computational_Graph{
                     std::cerr<<"ERROR: Division by zero"<<endl;
                     return Minus_Max;
                 }
-                float a=input_nodes[0]->Forward();        //得到第二个参数
+                SPointer temp2(input_nodes[0]);          //将Wpointer转化为Spointer
+                float a = temp2->Forward();              //得到第二个参数
                 if(abs(a-Minus_Max)<eps){                 //第二个参数b不合法
                     flag=false;
                     return Minus_Max;
@@ -195,8 +205,8 @@ namespace  Computational_Graph{
     //
     class Xiaoyu: public Operation<float>{//小于
     public:
-        Xiaoyu(BaseNode<float>* Node1, BaseNode<float> *Node2): Operation(Node1,Node2){}
-        Xiaoyu(const string a, BaseNode<float>* Node1, BaseNode<float>* Node2) : Operation(a,Node1,Node2){}
+        Xiaoyu(SPointer Node1, SPointer Node2): Operation(Node1,Node2){}
+        Xiaoyu(const string a, SPointer Node1, SPointer Node2) : Operation(a,Node1,Node2){}
         float Forward() override{
             if(flag==false)                             //上一次访问结果不合法
                 return Minus_Max;
@@ -205,12 +215,14 @@ namespace  Computational_Graph{
             }
             
             else {                                       //第一次访问这个节点
-                float a=input_nodes[0]->Forward();       //得到第一个参数
+                SPointer temp1(input_nodes[0]);          //将Wpointer转化为Spointer
+                float a = temp1->Forward();       //得到第一个参数
                 if(abs(a-Minus_Max)<eps){                //第一个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
-                float b=input_nodes[1]->Forward();        //得到第二个参数
+                SPointer temp2(input_nodes[1]);          //将Wpointer转化为Spointer
+                float b = temp2->Forward();        //得到第二个参数
                 if(abs(b-Minus_Max)<eps){                 //第二个参数不合法
                     flag=false;
                     return Minus_Max;
@@ -226,23 +238,25 @@ namespace  Computational_Graph{
     };
     class Xiaodeng: public Operation<float>{//小于等于
     public:
-        Xiaodeng(BaseNode<float>* Node1, BaseNode<float> *Node2): Operation(Node1,Node2){}
-        Xiaodeng(const string a, BaseNode<float>* Node1, BaseNode<float>* Node2) : Operation(a,Node1,Node2){}
+        Xiaodeng(SPointer Node1, SPointer Node2): Operation(Node1,Node2){}
+        Xiaodeng(const string a, SPointer Node1, SPointer Node2) : Operation(a,Node1,Node2){}
         float Forward() override{
-            if(flag==false)                              //上一次访问结果不合法
+            if(flag==false)                             //上一次访问结果不合法
                 return Minus_Max;
-            else if(abs(value-Minus_Max)>eps){            //上一次j访问结果合法
+            else if(abs(value-Minus_Max)>eps){          //上一次访问结果合法
                 return value;
             }
             
-            else {                                        //第一次访问这个节点
-                float a=input_nodes[0]->Forward();        //得到第一个参数
-                if(abs(a-Minus_Max)<eps){                 //第一个参数不合法
+            else {                                       //第一次访问这个节点
+                SPointer temp1(input_nodes[0]);          //将Wpointer转化为Spointer
+                float a = temp1->Forward();       //得到第一个参数
+                if(abs(a-Minus_Max)<eps){                //第一个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
-                float b=input_nodes[1]->Forward();         //第二个参数
-                if(abs(b-Minus_Max)<eps){                  //第二个参数不合法
+                SPointer temp2(input_nodes[1]);          //将Wpointer转化为Spointer
+                float b = temp2->Forward();        //得到第二个参数
+                if(abs(b-Minus_Max)<eps){                 //第二个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
@@ -257,23 +271,25 @@ namespace  Computational_Graph{
     };
     class Dayu: public Operation<float>{//大于
     public:
-        Dayu(BaseNode<float>* Node1, BaseNode<float> *Node2): Operation(Node1,Node2){}
-        Dayu(const string a, BaseNode<float>* Node1, BaseNode<float>* Node2) : Operation(a,Node1,Node2){}
+        Dayu(SPointer Node1, SPointer Node2): Operation(Node1,Node2){}
+        Dayu(const string a, SPointer Node1, SPointer Node2) : Operation(a,Node1,Node2){}
         float Forward() override{
-            if(flag==false)                          //上一次访问结果不合法
+            if(flag==false)                             //上一次访问结果不合法
                 return Minus_Max;
-            else if(abs(value-Minus_Max)>eps){       //上一次j访问结果合法
+            else if(abs(value-Minus_Max)>eps){          //上一次访问结果合法
                 return value;
             }
             
-            else {                                    //第一次访问这个节点
-                float a=input_nodes[0]->Forward();     //得到第一个参数
-                if(abs(a-Minus_Max)<eps){             //得到第1个参数不合法
+            else {                                       //第一次访问这个节点
+                SPointer temp1(input_nodes[0]);          //将Wpointer转化为Spointer
+                float a = temp1->Forward();       //得到第一个参数
+                if(abs(a-Minus_Max)<eps){                //第一个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
-                float b=input_nodes[1]->Forward();     //第二个参数
-                if(abs(b-Minus_Max)<eps){              //第二个参数不合法
+                SPointer temp2(input_nodes[1]);          //将Wpointer转化为Spointer
+                float b = temp2->Forward();        //得到第二个参数
+                if(abs(b-Minus_Max)<eps){                 //第二个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
@@ -288,23 +304,25 @@ namespace  Computational_Graph{
     };
     class Dadeng: public Operation<float>{//大于等于
     public:
-        Dadeng(BaseNode<float>* Node1, BaseNode<float> *Node2): Operation(Node1,Node2){}
-        Dadeng(const string a, BaseNode<float>* Node1, BaseNode<float>* Node2) : Operation(a,Node1,Node2){}
+        Dadeng(SPointer Node1, SPointer Node2): Operation(Node1,Node2){}
+        Dadeng(const string a, SPointer Node1, SPointer Node2) : Operation(a,Node1,Node2){}
         float Forward() override{
-            if(flag==false)                               //上一次访问结果不合法
+            if(flag==false)                             //上一次访问结果不合法
                 return Minus_Max;
-            else if(abs(value-Minus_Max)>eps){            //上一次j访问结果合法
+            else if(abs(value-Minus_Max)>eps){          //上一次访问结果合法
                 return value;
             }
             
-            else {                                         //第一次访问这个节点
-                float a=input_nodes[0]->Forward();         //得到第一个参数
-                if(abs(a-Minus_Max)<eps){                  //得到第一个参数不合法
+            else {                                       //第一次访问这个节点
+                SPointer temp1(input_nodes[0]);          //将Wpointer转化为Spointer
+                float a = temp1->Forward();       //得到第一个参数
+                if(abs(a-Minus_Max)<eps){                //第一个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
-                float b=input_nodes[1]->Forward();         //第二个参数
-                if(abs(b-Minus_Max)<eps){                  //第二个参数不合法
+                SPointer temp2(input_nodes[1]);          //将Wpointer转化为Spointer
+                float b = temp2->Forward();        //得到第二个参数
+                if(abs(b-Minus_Max)<eps){                 //第二个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
@@ -319,27 +337,29 @@ namespace  Computational_Graph{
     };
     class Dengyu: public Operation<float>{//等于号
     public:
-        Dengyu(BaseNode<float>* Node1, BaseNode<float> *Node2): Operation(Node1,Node2){}
-        Dengyu(const string a, BaseNode<float>* Node1, BaseNode<float>* Node2) : Operation(a,Node1,Node2){}
+        Dengyu(SPointer Node1, SPointer Node2): Operation(Node1,Node2){}
+        Dengyu(const string a, SPointer Node1, SPointer Node2) : Operation(a,Node1,Node2){}
         float Forward() override{
-            if(flag==false)                        //上一次访问结果不合法
+            if(flag==false)                             //上一次访问结果不合法
                 return Minus_Max;
-            else if(abs(value-Minus_Max)>eps){     //上一次j访问结果合法
+            else if(abs(value-Minus_Max)>eps){          //上一次访问结果合法
                 return value;
             }
             
-            else {                                 //第一次访问这个节点
-                float a=input_nodes[0]->Forward(); //得到第一个参数
-                if(abs(a-Minus_Max)<eps){          //得到第一个参数不合法
+            else {                                       //第一次访问这个节点
+                SPointer temp1(input_nodes[0]);          //将Wpointer转化为Spointer
+                float a = temp1->Forward();       //得到第一个参数
+                if(abs(a-Minus_Max)<eps){                //第一个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
-                float b=input_nodes[1]->Forward();  //第二个参数
-                if(abs(b-Minus_Max)<eps){           //第二个参数不合法
+                SPointer temp2(input_nodes[1]);          //将Wpointer转化为Spointer
+                float b = temp2->Forward();        //得到第二个参数
+                if(abs(b-Minus_Max)<eps){                 //第二个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
-                value=(abs(a-b)<eps? 1.0:0.0);
+                value=(a==b? 1.0:0.0);
                 return value;
             }
             
@@ -350,31 +370,30 @@ namespace  Computational_Graph{
     };
     class Budeng: public Operation<float>{//不等于号
     public:
-        Budeng(BaseNode<float>* Node1, BaseNode<float> *Node2): Operation(Node1,Node2){}
-        Budeng(const string a, BaseNode<float>* Node1, BaseNode<float>* Node2) : Operation(a,Node1,Node2){}
+        Budeng(SPointer Node1, SPointer Node2): Operation(Node1,Node2){}
+        Budeng(const string a, SPointer Node1, SPointer Node2) : Operation(a,Node1,Node2){}
         float Forward() override{
-            if(flag==false)                           //上一次访问结果不合法
+            if(flag==false)                             //上一次访问结果不合法
                 return Minus_Max;
-            else if(abs(value-Minus_Max)>eps){        //上一次j访问结果合法
+            else if(abs(value-Minus_Max)>eps){          //上一次访问结果合法
                 return value;
             }
             
-            else {                                    //第一次访问这个节点
-                float a=input_nodes[0]->Forward();    //得到第一个参数
-                if(abs(a-Minus_Max)<eps){         //得到第一个参数不合法
+            else {                                       //第一次访问这个节点
+                SPointer temp1(input_nodes[0]);          //将Wpointer转化为Spointer
+                float a = temp1->Forward();       //得到第一个参数
+                if(abs(a-Minus_Max)<eps){                //第一个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
-                else
-                {
-                   float b=input_nodes[1]->Forward(); //得到第2个参数不合法
-                   if(abs(b-Minus_Max)<eps){          //得到第2个参数
+                SPointer temp2(input_nodes[1]);          //将Wpointer转化为Spointer
+                float b = temp2->Forward();        //得到第二个参数
+                if(abs(b-Minus_Max)<eps){                 //第二个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
-                value=(abs(a-b)>=eps? 1.0:0.0);
+                value=(a!=b? 1.0:0.0);
                 return value;
-                }
             }
             
         }
@@ -385,8 +404,8 @@ namespace  Computational_Graph{
     
     class COND: public Operation<float>{
     public:
-        COND(BaseNode<float>* Node1, BaseNode<float> *Node2, BaseNode<float>* Node3): Operation(Node1,Node2,Node3){}
-        COND(const string a, BaseNode<float>* Node1, BaseNode<float>* Node2, BaseNode<float>* Node3) : Operation(a, Node1,Node2, Node3){}
+        COND(SPointer Node1, SPointer Node2, SPointer Node3): Operation(Node1,Node2,Node3){}
+        COND(const string a, SPointer Node1, SPointer Node2, SPointer Node3) : Operation(a, Node1,Node2, Node3){}
         float Forward() override{
             if(flag==false)                             //上一次访问结果不合法
                 return Minus_Max;
@@ -395,21 +414,23 @@ namespace  Computational_Graph{
             }
             
             else {                                      //第一次访问这个节点
-                bool flag_t;
-                float c=input_nodes[0]->Forward();      //得到第一个参数
+                bool flag_t = true;
+                SPointer temp1(input_nodes[0]);  //将Wpointer转化为Spointer
+                float c = temp1->Forward();      //得到第一个参数
                 if(abs(c-Minus_Max)<eps){           //得到第一个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
                 if(c > eps) flag_t=true;
                 else if(c <= eps ) flag_t=false;
-                
-                float a=input_nodes[1]->Forward();    //得到第2个参数
+                SPointer temp2(input_nodes[1]);  //将Wpointer转化为Spointer
+                float a = temp2->Forward();    //得到第2个参数
                 if(abs(a-Minus_Max)<eps){             //得到第2个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
-                float b=input_nodes[2]->Forward();     //得到第3个参数
+                SPointer temp3(input_nodes[2]);  //将Wpointer转化为Spointer
+                float b = temp3->Forward();     //得到第3个参数
                 //      cout << b ;
                 if(abs(b-Minus_Max)<eps){              //得到第2个参数不合法
                     flag=false;
