@@ -55,7 +55,7 @@ namespace Computational_Graph{
         virtual T Forward () override                                       //正向传播的零元运算的接口
         {
             if(value == Minus_Max) {
-                std::cerr << "ERROR: placeholder missing\n";
+                std::cout << "ERROR: Placeholder missing\n";
                 this->flag = 0 ;
             }
             return value;
