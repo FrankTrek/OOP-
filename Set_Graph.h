@@ -11,7 +11,6 @@
  *4.20 Z.I.PVC()实现
  *4.20 Z.processing Stage3 加入Reset
  *4.20 加入 最终节点res 的记录
- *4.20 Z.40行有一个心里没底的可能危险操作
  *4.23 修改Compute 使计算错误的点不输出
  */
 
@@ -132,10 +131,11 @@ namespace Computational_Graph{
       
         void Compute(const string& a)             //对于表达式进行计算
         {
+        
             float b = graph[map_for_name[a]].node->Forward();
             // cout.setf(std::ios_base::showpoint);
             Answer.push_back(b);
-            if(!(b-eps<=Minus_Max)) cout<<std::fixed<<std::setprecision(4)<<b<<std::endl;
+            if((b!=Minus_Max)) cout<<std::fixed<<std::setprecision(4)<<b<<std::endl;
         }
         
         
