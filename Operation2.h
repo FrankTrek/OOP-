@@ -20,12 +20,12 @@ namespace Computational_Graph{
         float Forward() override{
             if(flag==false)
                 return Minus_Max;
-            else if(abs(value-Minus_Max)>eps)           //上一次j访问结果合法
+            else if(fabs(value-Minus_Max)>eps)           //上一次j访问结果合法
                 return value;
             else {                                     //第一次访问这个节点
                 SPointer temp1(input_nodes[0]);       //将Wpointer转化为Spointer
                 float a=temp1->Forward();      //得到第一个参数
-                if(abs(a-Minus_Max)<eps){               //得到第一个参数不合法
+                if(fabs(a-Minus_Max)<eps){               //得到第一个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
@@ -46,12 +46,12 @@ namespace Computational_Graph{
         float Forward() override{
             if(flag==false)
                 return Minus_Max;
-            else if(abs(value-Minus_Max)>eps)            //上一次j访问结果合法
+            else if(fabs(value-Minus_Max)>eps)            //上一次j访问结果合法
                 return value;
             else {                                       //第一次访问这个节点
                 SPointer temp1(input_nodes[0]);  //将Wpointer转化为Spointer
                 float a=temp1->Forward();        //得到第一个参数
-                if(abs(a-Minus_Max)<eps){                //得到第一个参数不合法
+                if(fabs(a-Minus_Max)<eps){                //得到第一个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
@@ -78,12 +78,12 @@ namespace Computational_Graph{
         float Forward() override{
             if(flag==false)
                 return Minus_Max;
-            else if(abs(value-Minus_Max)>eps)          //上一次j访问结果合法
+            else if(fabs(value-Minus_Max)>eps)          //上一次j访问结果合法
                 return value;
             else {                                     //第一次访问这个节点
                 SPointer temp1(input_nodes[0]);        //将Wpointer转化为Spointer
                 float a=temp1->Forward();              //得到第一个参数
-                if(abs(a-Minus_Max)<eps){              //得到第一个参数不合法
+                if(fabs(a-Minus_Max)<eps){              //得到第一个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
@@ -110,19 +110,19 @@ namespace Computational_Graph{
         float Forward() override{
             if(flag==false)
                 return Minus_Max;
-            else if(abs(value-Minus_Max)>eps)          //上一次j访问结果合法
+            else if(fabs(value-Minus_Max)>eps)          //上一次j访问结果合法
                 return value;
             else {                                     //第一次访问这个节点
                 SPointer temp1(input_nodes[0]);  //将Wpointer转化为Spointer
                 float a=temp1->Forward();     //得到第一个参数
-                if(abs(a-Minus_Max)<eps){              //得到第一个参数不合法
+                if(fabs(a-Minus_Max)<eps){              //得到第一个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
                 else {
                     if(a<eps){
                         flag=false;
-                        std::cerr<<"Error: LOG operator's input must be positive"<<endl;
+                        std::cout<<"ERROR: LOG operator's input must be positive"<<endl;
                         return Minus_Max;
                     }
                     else{
@@ -149,12 +149,12 @@ namespace Computational_Graph{
         float Forward() override{
             if(flag==false)
                 return Minus_Max;
-            else if(abs(value-Minus_Max)>eps)       //上一次j访问结果合法
+            else if(fabs(value-Minus_Max)>eps)       //上一次j访问结果合法
                 return value;
             else {                                  //第一次访问这个节点
                 SPointer temp1(input_nodes[0]);  //将Wpointer转化为Spointer
                 float a = temp1->Forward();      //得到第一个参数
-                if(abs(a-Minus_Max)<eps){           //得到第一个参数不合法
+                if(fabs(a-Minus_Max)<eps){           //得到第一个参数不合法
                     flag=false;
                     return Minus_Max;
                 }
@@ -177,19 +177,19 @@ namespace Computational_Graph{
             if(flag==false){
                 return Minus_Max;
             }
-            else if(abs(value-Minus_Max)>eps)         //上一次j访问结果合法
+            else if(fabs(value-Minus_Max)>eps)         //上一次j访问结果合法
                 return value;
             else {                                    //第一次访问这个节点
                 SPointer temp1(input_nodes[0]);  //将Wpointer转化为Spointer
                 float a=temp1->Forward();    //得到第一个参数
-                if(abs(a-Minus_Max)<eps){             //得到第一个参数不合法
+                if(fabs(a-Minus_Max)<eps){             //得到第一个参数不合法
                     flag=false;
                     //cout<<"Print Operator: ";input_nodes[0]->Print();cout<<"= "<<a<<endl;
                     return Minus_Max;
                 }
                 else {
                     value=a;
-                    cout<<"Print Operator: ";temp1->Print();cout<<"= "<<std::fixed<<std::setprecision(4)<<a<<endl;
+                    cout<<"PRINT operator: ";temp1->Print();cout<<" = "<<std::fixed<<std::setprecision(4)<<a<<endl;
                     return value;
                 }
             }
