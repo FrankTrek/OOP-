@@ -236,8 +236,8 @@ namespace Computational_Graph{
         {
             string name = info[1];   //获得名字
             int n = atoi(info[2].data()); //获得第n次的值
-            SetAnswer(name, n-1);
-            Answer.push_back(Minus_Max);
+            SetAnswer(name, n-1);//用Answer的第n个元素赋值
+            Answer.push_back(Minus_Max);//压入MinusMax用来占行
         }
     }
     
