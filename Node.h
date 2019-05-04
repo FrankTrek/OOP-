@@ -69,14 +69,14 @@ namespace Computational_Graph{
             std::cerr << this->value << "|" << this->flag << endl ;
         }
         //
-        void Reset() override final{
+        void Reset() override final{//重置此节点至未计算状态
             this->flag = 1;
             this->value = Minus_Max ;
         }
         
 
-        void Reset_b() override final{
-            if(this->returntype() == "Constant" || this->returntype() == "Variable"){
+        void Reset_b() override final{//反向重置-重置此节点和它的所有直接间接前序节点至未计算状态
+            if(this->returntype() == "Constant" || this->returntype() == "Variable"){//
                 return ;
             }
             else
@@ -134,12 +134,12 @@ namespace Computational_Graph{
             return "Operation" ;
         }
         
-        void Reset() override final{
+        void Reset() override final{//重置这一操作符节点至未计算状态
             this->flag = 1;
             this->value = Minus_Max ;
         }
         
-        void Reset_b() override final{
+        void Reset_b() override final{//重置这一节点的所有前序（直接&间接）至未计算状态
             if(this->returntype() == "Constant" || this->returntype() == "Variable"){
                 return ;
             }
