@@ -56,11 +56,13 @@ namespace Computational_Graph
         bool flag;            //检验输入是否合法的标记
         
         NodeArray input_nodes;        //记录前继节点的数组
-        string name;                  //记录节点名称
+        string name;    //记录节点名称
+        int count = 0;  //记录该节点后
+        int actural = 0;
         
     public:
-        BaseNode() { flag = true; }
-        BaseNode(const string& a): name(a){flag = true;}
+        BaseNode() { flag = true;  }
+        BaseNode(const string& a): name(a){flag = true; }
         virtual ~BaseNode() {
             //cout<<name<<"  ended\n";
         }
@@ -74,6 +76,10 @@ namespace Computational_Graph
         virtual void Reset(){
             cout<<"func: Reset has not been defined yet\n";    }
         virtual void Reset(T& a) { cout<<"this funct has not been defined yet\n"; } //提供重新初始化的接口（含参数）
+        
+        virtual void set_gradi(const T& a){
+            cout<<"func: set_gradi has not been defined yet\n";
+        }
         virtual T Value() const =0;//显示value的接口
         
         void Set_flag(bool i){
