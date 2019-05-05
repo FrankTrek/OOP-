@@ -15,38 +15,38 @@
 #include "Node.h"
 namespace Computational_Graph{
     /*
-    vector<string> Set_Graph::Input(int stage){
-        string s ;
-        vector<string>Input1 ;
-        getline(std::cin,s) ;
-        std::stringstream ss(s) ;
-        string x ;
-        while(ss >> x){
-            if(stage == 2 && x == "=") continue ;
-            Input1.push_back(x) ;
-        }
-        ss.str("") ;
-        ss.clear() ;
-        return Input1 ;
-    }
-    void Set_Graph::Construct(int stage,int line_N){
-        for(int i = 1; i<= line_N ; i++ ){
-            this->Input_info(Input(stage)) ;
-            if(stage == 1){
-                this->Initalize_PVC() ;
-            }
-            else if(stage == 2){
-                
-                this->Initalize_Op() ;
-            }
-            else if(stage == 3){
-                this->processing_Stage3() ;
-            }
-            else{
-                cout <<"。显然这是不可能的" ;
-            }
-        }
-    }
+     vector<string> Set_Graph::Input(int stage){
+     string s ;
+     vector<string>Input1 ;
+     getline(std::cin,s) ;
+     std::stringstream ss(s) ;
+     string x ;
+     while(ss >> x){
+     if(stage == 2 && x == "=") continue ;
+     Input1.push_back(x) ;
+     }
+     ss.str("") ;
+     ss.clear() ;
+     return Input1 ;
+     }
+     void Set_Graph::Construct(int stage,int line_N){
+     for(int i = 1; i<= line_N ; i++ ){
+     this->Input_info(Input(stage)) ;
+     if(stage == 1){
+     this->Initalize_PVC() ;
+     }
+     else if(stage == 2){
+     
+     this->Initalize_Op() ;
+     }
+     else if(stage == 3){
+     this->processing_Stage3() ;
+     }
+     else{
+     cout <<"。显然这是不可能的" ;
+     }
+     }
+     }
      */
     
     void Set_Graph::Initalize_PVC(){
@@ -90,11 +90,11 @@ namespace Computational_Graph{
         }
         else
         {
-           
+            
             graph[num].Nodename = name;
             graph[num].Mode = Varible;
             graph[num].node = std::make_shared<Variable>(number,name);   //创建节点
-             map_for_name[name]=num;                        //建立num与name的对应
+            map_for_name[name]=num;                        //建立num与name的对应
             num++;                                           //第num个节点建立完毕，num++
         }
     }
@@ -118,13 +118,13 @@ namespace Computational_Graph{
     
     void Set_Graph::Initalize_Op()          //第二阶段的操作
     {//add by Cai on 4.21
-    	if(map_for_name.find(info[0]) != map_for_name.end()){
-    		int temp = map_for_name[info[0]] ;
-			if(graph[temp].node->returntype() != "Operation"){
-				std::cerr<<"Already Defined as PVC\n " ;
-				return ;
-			} 
-		}
+        if(map_for_name.find(info[0]) != map_for_name.end()){
+            int temp = map_for_name[info[0]] ;
+            if(graph[temp].node->returntype() != "Operation"){
+                std::cerr<<"Already Defined as PVC\n " ;
+                return ;
+            }
+        }
         if(info[2]=="+")                 //为加法;
         {
             //ADD(info[0], info[1], info[3]);
@@ -244,12 +244,39 @@ namespace Computational_Graph{
             string name = info[1];   //获得名字
             int n = atoi(info[2].data()); //获得第n次的
             if(n > Answer.size()){
-            	cout << "Invalid SETANSWER\n" ;
-            	Answer.push_back(Minus_Max) ;
-            	return ;
-			} 
+                cout << "Invalid SETANSWER\n" ;
+                Answer.push_back(Minus_Max) ;
+                return ;
+            }
             SetAnswer(name, n-1);//用Answer的第n个元素赋值
             Answer.push_back(Minus_Max);//压入MinusMax用来占行
+        }
+        else if(info[0]=="DERIVE")
+        {
+            auto ttmp=graph[map_for_name[info[1]]];
+            ttmp.node->Reset_b() ;
+            if(info.size()<=2)          //对于简单节点的计算情况
+            {
+                
+                Compute(info[1]);
+                
+            }
+            else {                            //考虑需要Ph参数赋值的情况
+                int times = atoi(info[2].data());     //读取操作次数
+                for(int i = 1; i<= times; i++)
+                {
+                    int pos = 2+(i-1)*2 + 1;       //此时读取的位置
+                    string name = info[pos];         //得到Ph的名字
+                    float value = atof(info[pos+1].data());  //对ph赋的值
+                    auto tttmp=graph[map_for_name[name]];   //得到GNode
+                    if(tttmp.Mode!=Placehold) std::cerr<<"Can not Initalize a non-PlaceHolder Object\n";
+                    else tttmp.node->Initalize(value);
+                }
+                Compute(info[1]);
+                ttmp.node->Backward(1);
+                
+                
+            }
         }
     }
     

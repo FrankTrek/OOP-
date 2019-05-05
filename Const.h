@@ -1,4 +1,4 @@
-
+//
 //  Const.h
 //  OOP Computation Graph
 //
@@ -33,6 +33,10 @@ namespace Computational_Graph{
         string returntype() override{
             return "Constant" ;
         }
+        void Backward(float gradient) override
+        {
+            gradi = 0;
+        }
         ~Constant(){} ;
     };
     
@@ -53,6 +57,10 @@ namespace Computational_Graph{
         }
         //setanswer依靠于输出，待补充
         ~Variable(){} ;
+        void Backward(float gradient) override
+        {
+            gradi = 0;
+        }
         
     };
     
@@ -68,6 +76,10 @@ namespace Computational_Graph{
         }//创建一个名字name
         string returntype() override{
             return "Placeholder" ;
+        }
+        void Backward(float gradient) override
+        {
+            gradi += gradient;
         }
         ~Placeholder(){} ;
         

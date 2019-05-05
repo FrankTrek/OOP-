@@ -47,6 +47,7 @@ namespace Computational_Graph{
         Node(const T& a, const string& b):BaseNode<T>(b), value(a) {}
         Node(const string& b):BaseNode<T>(b){
             value = Minus_Max ;
+            gradi = 0;
         } ;
         virtual void Initalize(T& data) override
         {
@@ -76,7 +77,7 @@ namespace Computational_Graph{
             this->gradi = 0;
         }
         
-
+        
         void Reset_b() override final{//反向重置-重置此节点和它的所有直接间接前序节点至未计算状态
             if(this->returntype() == "Constant" || this->returntype() == "Variable"){//
                 return ;
@@ -116,14 +117,16 @@ namespace Computational_Graph{
             Set_input_nodes(node1);
             type = Unary;
             value = Minus_Max;
+            gradi = 0;
         }
         Operation (std::shared_ptr<BaseNode<T> > node1,std::shared_ptr<BaseNode<T> > node2) //2元运算符
         {
-           
+            
             Set_input_nodes(node1);
             Set_input_nodes(node2);
             type = Binary;
             value = Minus_Max;
+            gradi = 0;
         }
         //这里补充三元运算符
         Operation (std::shared_ptr<BaseNode<T> > node1, std::shared_ptr<BaseNode<T> > node2, std::shared_ptr<BaseNode<T> > node3)// 三元运算符
@@ -133,6 +136,7 @@ namespace Computational_Graph{
             Set_input_nodes(node3);
             type = Trinary;
             value = Minus_Max;
+            gradi = 0;
         }
         //结束
         
@@ -169,6 +173,7 @@ namespace Computational_Graph{
             Set_input_nodes(node1);
             type = Unary;
             value = Minus_Max;
+            gradi = 0;
         }
         Operation (const string& a,std::shared_ptr<BaseNode<T> > node1,std::shared_ptr<BaseNode<T> > node2):BaseNode<T>(a) //2元运算符
         {
@@ -177,6 +182,7 @@ namespace Computational_Graph{
             Set_input_nodes(node2);//这里需要改动
             type = Binary;
             value = Minus_Max;
+            gradi = 0;
         }
         
         Operation (const string& a,std::shared_ptr<BaseNode<T> > node1,std::shared_ptr<BaseNode<T> > node2,std::shared_ptr<BaseNode<T> > node3):BaseNode<T>(a) //2元运算符
@@ -187,6 +193,7 @@ namespace Computational_Graph{
             Set_input_nodes(node3);
             type = Trinary;
             value = Minus_Max;
+            gradi = 0;
         }
         virtual T Value () const override                                       //返回节点数值
         {
