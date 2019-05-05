@@ -118,6 +118,13 @@ namespace Computational_Graph{
     
     void Set_Graph::Initalize_Op()          //第二阶段的操作
     {//add by Cai on 4.21
+    	if(map_for_name.find(info[0]) != map_for_name.end()){
+    		int temp = map_for_name[info[0]] ;
+			if(graph[temp].node->returntype() != "Operation"){
+				std::cerr<<"Already Defined as PVC\n " ;
+				return ;
+			} 
+		}
         if(info[2]=="+")                 //为加法;
         {
             //ADD(info[0], info[1], info[3]);
@@ -235,7 +242,12 @@ namespace Computational_Graph{
         else if(info[0]=="SETANSWER")
         {
             string name = info[1];   //获得名字
-            int n = atoi(info[2].data()); //获得第n次的值
+            int n = atoi(info[2].data()); //获得第n次的
+            if(n > Answer.size()){
+            	cout << "Invalid SETANSWER\n" ;
+            	Answer.push_back(Minus_Max) ;
+            	return ;
+			} 
             SetAnswer(name, n-1);//用Answer的第n个元素赋值
             Answer.push_back(Minus_Max);//压入MinusMax用来占行
         }
