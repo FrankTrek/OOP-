@@ -71,7 +71,9 @@ namespace Computational_Graph{
         //
         void Reset() override final{//重置此节点至未计算状态
             this->flag = 1;
+            this->actural = 0;
             this->value = Minus_Max ;
+            this->gradi = 0;
         }
         
 
@@ -89,7 +91,11 @@ namespace Computational_Graph{
             }
         }
         
-        
+        //add by Cai 5.4
+        void set_gradi (const T& val) override
+        {
+            gradi += val; //
+        }
         ~Node(){}
         
     };
@@ -189,6 +195,11 @@ namespace Computational_Graph{
         //
         void debug_print(){
             std::cerr << this->value << "|" << this->flag << endl ;
+        }
+        
+        void set_gradi  (const T& val)override
+        {
+            gradi +=val;
         }
         
         //
