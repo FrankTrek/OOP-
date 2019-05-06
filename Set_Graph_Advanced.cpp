@@ -62,7 +62,7 @@ namespace Computational_Graph{
             SetAnswer(name, n-1);//用Answer的第n个元素赋值
             Answer.push_back(Minus_Max);//压入MinusMax用来占行
         }
-        else if(info[0]=="DIFFERENTIAL")
+        else if(info[0]=="DERIVE")
         {
             auto ttmp=graph[map_for_name[info[1]]];
             ttmp.node->Reset_b() ;
@@ -82,16 +82,39 @@ namespace Computational_Graph{
                     else tttmp.node->Initalize(value);
                 }
                 
+                
             }
-            float b = ttmp.node->Forward();
-            if(fabs(b-Minus_Max)>=eps)
-            {
-                ttmp.node->set_gradi(1.0);
-                ttmp.node->Backward(1);//求微分
-                //cout一群东西
-            }
-            Answer.push_back(b);
             
+            if(fabs(ttmp.node->Forward()-Minus_Max)>eps)//计算一遍图，激活网络
+            {
+                ttmp.node->Backward(1); //计算导数
+                
+                
+                //以下为输出程序
+                bool chk = false ;      //是否输出
+                cout << "d" << info[1] << " " << "=";
+                for(auto &it : graph){
+                    if(it.second.Mode==Placehold){
+                        cout<<" ";
+                        float a = it.second.node -> get_gradi();
+                        if(fabs(a)>eps){
+                            //
+                            if(!chk)
+                                cout<<"Sigma";
+                            cout<<" ";
+                            cout<<std::fixed<<std::setprecision(4)<<a;
+                            cout<<" d";
+                            it.second.node->Print();
+                            chk = true;
+                        
+                        }
+                    }
+                }
+                if(!chk) cout << " constant" << endl;   //说明res与所有placeholder节点无关
+                else cout << endl;
+                Answer.push_back(Minus_Max);
+                
+            }
         }
     }
     
@@ -285,7 +308,6 @@ namespace Computational_Graph{
             expression.push(name);
         }
         
-        
-        
     }
+    
 }
