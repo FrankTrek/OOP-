@@ -1,9 +1,6 @@
 //
 //  Set_Graph_Advanced.cpp
-//  真正最后的大作业
-//
-//  Created by 蔡 on 2019/5/5.
-//  Copyright © 2019年 蔡. All rights reserved.
+
 //
 
 #include "Set_Graph_Advanced.h"
