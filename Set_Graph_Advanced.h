@@ -68,8 +68,7 @@ namespace Computational_Graph{
             else return false;
         }
         void  ESTABLISH();
-        
-        // Cai : 这里不是虚函数，直接替换原来的
+
         void Stage2()
         {
             
