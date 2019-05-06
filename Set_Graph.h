@@ -27,6 +27,7 @@
 namespace Computational_Graph{
     using std::cin;
     class Set_Graph{
+    protected:
         typedef Graph_Node<float> GNode;
         std::map<string , int > map_for_name;
         std::map<int, GNode> graph;          //图
