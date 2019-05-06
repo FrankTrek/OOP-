@@ -88,7 +88,7 @@ namespace Computational_Graph{
         {
             
             info = incision();   //得到信息
-             k = 0;
+            k = 0;
             while(k<info.size())
             {
                 if(!Is_Token(k))
@@ -155,6 +155,11 @@ namespace Computational_Graph{
                 processing_Stage3();     //进行处理
             }
         }
+        
+        
+        
+        
+        
         
     };
 }
