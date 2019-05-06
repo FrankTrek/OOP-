@@ -1,5 +1,13 @@
 //
 //  Set_Graph_Advanced.cpp
+//  OOP Computation Graph
+//
+//  Created by 王一诺 on 2019/5/6.
+//  Copyright © 2019 王一诺. All rights reserved.
+//
+
+//
+//  Set_Graph_Advanced.cpp
 //  真正最后的大作业
 //
 //  Created by 蔡 on 2019/5/5.
@@ -16,7 +24,7 @@ namespace Computational_Graph{
             ttmp.node->Reset_b() ;
             if(info.size()<=2)          //对于简单节点的计算情况
             {
-            
+                
                 Compute(info[1]);
                 
             }
@@ -79,7 +87,7 @@ namespace Computational_Graph{
             if(fabs(b-Minus_Max)>=eps)
             {
                 ttmp.node->set_gradi(1.0);
-                ttmp.node->Backward();//求微分
+                ttmp.node->Backward(1);//求微分
                 //cout一群东西
             }
             Answer.push_back(b);
@@ -98,11 +106,11 @@ namespace Computational_Graph{
             expression.pop();
             string name2 = expression.top();
             expression.pop();
-            string name = name1 + " " + "+" + " " + name2;
+            string name = name2 + " " + "+" + " " + name1;
             //ADD(info[0], info[1], info[3]);
             string Final = "res";
-            if(token.empty()) Jianli_2<Addition>(Final, name1, name2);
-            else Jianli_2<Addition>(name, name1, name2);
+            if(token.empty()&&k==info.size()) Jianli_2<Addition>(Final, name2, name1);
+            else Jianli_2<Addition>(name, name2, name1);
             expression.push(name);
         }
         else if(temp=="*")                 //为乘法
@@ -112,11 +120,11 @@ namespace Computational_Graph{
             expression.pop();
             string name2 = expression.top();
             expression.pop();
-            string name = name1 + " " + "*" + " " + name2;
+            string name = name2 + " " + "*" + " " + name1;
             string Final = "res";
-            if(token.empty()) Jianli_2<Multiply>(Final, name1, name2);
-            else Jianli_2<Multiply>(name, name1, name2);
-             expression.push(name);
+            if(token.empty()&&k==info.size()) Jianli_2<Multiply>(Final, name2, name1);
+            else Jianli_2<Multiply>(name, name2, name1);
+            expression.push(name);
         }
         else if(temp=="-")            //为减法
         {
@@ -125,10 +133,10 @@ namespace Computational_Graph{
             expression.pop();
             string name2 = expression.top();
             expression.pop();
-            string name = name1 + " " + "-" + " " + name2;
+            string name = name2 + " " + "-" + " " + name1;
             string Final = "res";
-            if(token.empty())  Jianli_2<Minus>(Final, name1, name2);
-            else Jianli_2<Minus>(name, name1, name2);
+            if(token.empty()&&k==info.size())  Jianli_2<Minus>(Final, name2, name1);
+            else Jianli_2<Minus>(name, name2, name1);
             expression.push(name);
         }
         else if(temp=="/")
@@ -138,11 +146,11 @@ namespace Computational_Graph{
             expression.pop();
             string name2 = expression.top();
             expression.pop();
-            string name = name1 + " " + "/" + " " + name2;
+            string name = name2 + " " + "/" + " " + name1;
             string Final = "res";
-            if(token.empty())  Jianli_2<Division>(Final, name1, name2);
-            else Jianli_2<Division>(name, name1, name2);
-             expression.push(name);
+            if(token.empty()&&k==info.size())  Jianli_2<Division>(Final, name2, name1);
+            else Jianli_2<Division>(name, name2, name1);
+            expression.push(name);
         }
         else if(temp=="<")
         {
@@ -150,11 +158,11 @@ namespace Computational_Graph{
             expression.pop();
             string name2 = expression.top();
             expression.pop();
-            string name = name1 + " " + "<" + " " + name2;
+            string name = name2 + " " + "<" + " " + name1;
             string Final = "res";
-            if(token.empty()) Jianli_2<Xiaoyu>(Final, name1, name2);
-            else Jianli_2<Xiaoyu>(name, name1, name2);
-             expression.push(name);
+            if(token.empty()&&k==info.size()) Jianli_2<Xiaoyu>(Final, name2, name1);
+            else Jianli_2<Xiaoyu>(name, name2, name1);
+            expression.push(name);
         }
         else if(temp=="<=")
         {
@@ -162,11 +170,11 @@ namespace Computational_Graph{
             expression.pop();
             string name2 = expression.top();
             expression.pop();
-            string name = name1 + " " + "<=" + " " + name2;
+            string name = name2 + " " + "<=" + " " + name1;
             string Final = "res";
-            if(token.empty())  Jianli_2<Xiaodeng>(Final, name1, name2);
-            else Jianli_2<Xiaodeng>(name, name1, name2);
-             expression.push(name);
+            if(token.empty()&&k==info.size())  Jianli_2<Xiaodeng>(Final, name2, name1);
+            else Jianli_2<Xiaodeng>(name, name2, name1);
+            expression.push(name);
         }
         else if(temp==">")
         {
@@ -174,11 +182,11 @@ namespace Computational_Graph{
             expression.pop();
             string name2 = expression.top();
             expression.pop();
-            string name = name1 + " " + ">=" + " " + name2;
+            string name = name2 + " " + ">=" + " " + name1;
             string Final = "res";
-            if(token.empty()) Jianli_2<Dayu>(Final, name1, name2);
-            else Jianli_2<Dayu>(name, name1, name2);
-             expression.push(name);
+            if(token.empty()&&k==info.size()) Jianli_2<Dayu>(Final, name2, name1);
+            else Jianli_2<Dayu>(name, name2, name1);
+            expression.push(name);
         }
         else if(temp==">=")
         {
@@ -186,11 +194,11 @@ namespace Computational_Graph{
             expression.pop();
             string name2 = expression.top();
             expression.pop();
-            string name = name1 + " " + ">=" + " " + name2;
+            string name = name2 + " " + ">=" + " " + name1;
             string Final = "res";
-            if(token.empty()) Jianli_2<Dadeng>(Final, name1, name2);
-            else Jianli_2<Dadeng>(name, name1, name2);
-             expression.push(name);
+            if(token.empty()&&k==info.size()) Jianli_2<Dadeng>(Final, name2, name1);
+            else Jianli_2<Dadeng>(name, name2, name1);
+            expression.push(name);
         }
         else if(temp=="==")
         {
@@ -198,10 +206,10 @@ namespace Computational_Graph{
             expression.pop();
             string name2 = expression.top();
             expression.pop();
-            string name = name1 + " " + "==" + " " + name2;
+            string name = name2 + " " + "==" + " " + name1;
             string Final = "res";
-            if(token.empty())  Jianli_2<Dengyu>(Final, name1, name2);
-            else Jianli_2<Dengyu>(name, name1, name2);
+            if(token.empty()&&k==info.size())  Jianli_2<Dengyu>(Final, name2, name1);
+            else Jianli_2<Dengyu>(name, name2, name1);
             expression.push(name);
         }
         else if(temp=="!=")
@@ -210,23 +218,23 @@ namespace Computational_Graph{
             expression.pop();
             string name2 = expression.top();
             expression.pop();
-            string name = name1 + " " + "!=" + " " + name2;
+            string name = name2 + " " + "!=" + " " + name1;
             string Final = "res";
-            if(token.empty())  Jianli_2<Budeng>(Final, name1, name2);
-            else Jianli_2<Budeng>(name, name1, name2);
-           expression.push(name);
+            if(token.empty()&&k==info.size())  Jianli_2<Budeng>(Final, name2, name1);
+            else Jianli_2<Budeng>(name, name2, name1);
+            expression.push(name);
         }
         else if(temp=="SIN")
         {
             string name1 = expression.top();
             expression.pop();
             string f = "SIN";
-           
+            
             string name = f + " " + name1;
             string Final = "res";
-            if(token.empty())  Jianli_1<SIN>(Final, name1);
+            if(token.empty()&&k==info.size())  Jianli_1<SIN>(Final, name1);
             else Jianli_1<SIN>(name, name1);
-             expression.push(name);
+            expression.push(name);
         }
         else if(temp=="LOG")
         {
@@ -236,9 +244,9 @@ namespace Computational_Graph{
             
             string name = f + " " + name1;
             string Final = "res";
-            if(token.empty()) Jianli_1<LOG>(Final, name1);
+            if(token.empty()&&k==info.size()) Jianli_1<LOG>(Final, name1);
             else Jianli_1<LOG>(name, name1);
-             expression.push(name);
+            expression.push(name);
         }
         else if(temp=="TANH")
         {
@@ -248,9 +256,9 @@ namespace Computational_Graph{
             
             string name = f + " " + name1;
             string Final = "res";
-            if(token.empty()) Jianli_1<TANH>(Final, name1);
+            if(token.empty()&&k==info.size()) Jianli_1<TANH>(Final, name1);
             else Jianli_1<TANH>(name, name1);
-             expression.push(name);
+            expression.push(name);
         }
         else if(temp=="EXP")
         {
@@ -260,9 +268,9 @@ namespace Computational_Graph{
             
             string name = f + " " + name1;
             string Final = "res";
-            if(token.empty()) Jianli_1<EXP>(Final, name1);
+            if(token.empty()&&k==info.size()) Jianli_1<EXP>(Final, name1);
             else Jianli_1<EXP>(name, name1);
-             expression.push(name);
+            expression.push(name);
         }
         else if(temp=="SIGMOID")
         {
@@ -272,11 +280,11 @@ namespace Computational_Graph{
             
             string name = f + " " + name1;
             string Final = "res";
-            if(token.empty()) Jianli_1<SINGMOID>(Final, name1);
+            if(token.empty()&&k==info.size()) Jianli_1<SINGMOID>(Final, name1);
             else Jianli_1<SINGMOID>(name, name1);
             expression.push(name);
         }
-       
+        
         
         
     }
