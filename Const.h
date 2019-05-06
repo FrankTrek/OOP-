@@ -1,10 +1,4 @@
-//
-//  Const.h
-//  OOP Computation Graph
-//
-//  Created by 王一诺 on 2019/4/13.
-//  Copyright ? 2019 王一诺. All rights reserved.
-//
+
 //OOP Computational_graph
 
 //更新日志 lastest date 4.8

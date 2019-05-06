@@ -1,17 +1,10 @@
-//
-//  Set_Graph.h
-//  OOP Computation Graph
-//
-//  Created by 王一诺 on 2019/4/12.
-//  Copyright ? 2019 王一诺. All rights reserved.
-//
+
 
 /*
  *4.13补充极小量eps
- *4.20 Z.I.PVC()实现
- *4.20 Z.processing Stage3 加入Reset
+ *4.20 I.PVC()实现
+ *4.20 processing Stage3 加入Reset
  *4.20 加入 最终节点res 的记录
- *4.20 Z.40行有一个心里没底的可能危险操作
  *4.23 修改Compute 使计算错误的点不输出
  */
 
@@ -27,7 +20,6 @@
 namespace Computational_Graph{
     using std::cin;
     class Set_Graph{
-    protected:
         typedef Graph_Node<float> GNode;
         std::map<string , int > map_for_name;
         std::map<int, GNode> graph;          //图

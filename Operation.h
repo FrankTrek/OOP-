@@ -1,19 +1,4 @@
 
-
-//  Operation.h
-//  OOP Computation Graph
-//
-//  Created by 王一诺 on 2019/4/13.
-//  Copyright ? 2019 王一诺. All rights reserved.
-//
-
-//
-//  Operation.h
-//  真正的大作业
-//
-//  Created by 蔡 on 2019/4/8.
-//  Copyright ? 2019年 蔡. All rights reserved.
-//
 //4.12 将operation类的构造函数由传引用改为传指针
 //4.13 补充了所有二元函数以及COND函数
 #ifndef Operation_h
@@ -232,7 +217,7 @@ namespace  Computational_Graph{
                     flag=false;
                     return Minus_Max;
                 }
-                value=(a<b? 1.0:0.0);
+                value=(a-b<eps? 1.0:0.0);
                 return value;
             }
             
@@ -265,7 +250,7 @@ namespace  Computational_Graph{
                     flag=false;
                     return Minus_Max;
                 }
-                value=(a<=b? 1.0:0.0);
+                value=(a-b<=eps? 1.0:0.0);
                 return value;
             }
             
@@ -298,7 +283,7 @@ namespace  Computational_Graph{
                     flag=false;
                     return Minus_Max;
                 }
-                value=(a>b? 1.0:0.0);
+                value=(a-b>eps? 1.0:0.0);
                 return value;
             }
             
@@ -331,7 +316,7 @@ namespace  Computational_Graph{
                     flag=false;
                     return Minus_Max;
                 }
-                value=(a>=b? 1.0:0.0);
+                value=(a-b>=eps? 1.0:0.0);
                 return value;
             }
             
@@ -364,7 +349,7 @@ namespace  Computational_Graph{
                     flag=false;
                     return Minus_Max;
                 }
-                value=(a==b? 1.0:0.0);
+                value=(fabs(a-b)<eps? 1.0:0.0);
                 return value;
             }
             
@@ -397,7 +382,7 @@ namespace  Computational_Graph{
                     flag=false;
                     return Minus_Max;
                 }
-                value=(a!=b? 1.0:0.0);
+                value=(fabs(a-b)>eps? 1.0:0.0);
                 return value;
             }
             

@@ -1,10 +1,4 @@
-//
-//  BaseNode.h
-//  OOP Computation Graph
-//
-//  Created by 王一诺 on 2019/4/4.
-//  Copyright ? 2019 王一诺. All rights reserved.
-//
+
 //更新日志 lastest date 4.7
 /*
  *4.7 补充了initalise的接口注释并在BaseNode功能中指出
@@ -13,7 +7,7 @@
  *4.8 补充了节点名称，并更新了构造函数
  *4.8 补充了重置函数的接口
  *4.8 补充了提供节点数值的接口，为const类型纯虚函数
- *4.8 Z.设置了setflag接口
+ *4.8 设置了setflag接口
  *4.12 增加了检查是否出现有向回路的方法
  *4.12 将Struct中的指针改为shared_ptr
  *4.13 补充极小量eps
@@ -77,13 +71,8 @@ namespace Computational_Graph
             cout<<"func: Reset has not been defined yet\n";    }
         virtual void Reset(T& a) { cout<<"this funct has not been defined yet\n"; } //提供重新初始化的接口（含参数）
         
-        virtual void set_gradi(const T& a){ //修改导数的借口
+        virtual void set_gradi(const T& a){
             cout<<"func: set_gradi has not been defined yet\n";
-        }
-        
-        virtual T get_gradi (){
-            cout<<"func: get_gradi has not been defined yet\n";
-            return 0;
         }
         virtual T Value() const =0;//显示value的接口
         
@@ -110,7 +99,7 @@ namespace Computational_Graph
         
         virtual T Forward () = 0;                                  //正向传播的运算的接口
         
-        virtual void Backward(T)     //后向传播的接口
+        virtual void Backward()     //后向传播的接口
         {
             cout<<"Func Backward()  has not yet been defined\n";
         }

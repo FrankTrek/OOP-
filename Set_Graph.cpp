@@ -1,12 +1,6 @@
-//
-//  Set_Graph.cpp
-//  OOP Computation Graph
-//
-//  Created by 王一诺 on 2019/4/13.
-//  Copyright ? 2019 王一诺. All rights reserved.
-//
+
 /*
- *4.20 Z.实现Initalize PVC()
+ *4.20 实现Initalize PVC()
  */
 
 #include <stdio.h>

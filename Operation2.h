@@ -1,10 +1,3 @@
-//
-//  Operation2.h
-//  ÕæÕýµÄ´ó×÷Òµ
-//
-//  Created by ²Ì on 2019/4/15.
-//  Copyright ? 2019Äê ²Ì. All rights reserved.
-//
 
 #ifndef Operation2_h
 #define Operation2_h
