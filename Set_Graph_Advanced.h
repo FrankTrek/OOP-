@@ -1,18 +1,4 @@
-//
-//  Set_Graph_Advanced.h
-//  OOP Computation Graph
-//
-//  Created by 王一诺 on 2019/5/6.
-//  Copyright © 2019 王一诺. All rights reserved.
-//
 
-//
-//  Set_Graph_Advanced.h
-//  真正最后的大作业
-//
-//  Created by 蔡 on 2019/5/5.
-//  Copyright © 2019年 蔡. All rights reserved.
-//
 
 #ifndef Set_Graph_Advanced_h
 #define Set_Graph_Advanced_h
