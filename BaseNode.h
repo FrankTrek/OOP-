@@ -77,8 +77,13 @@ namespace Computational_Graph
             cout<<"func: Reset has not been defined yet\n";    }
         virtual void Reset(T& a) { cout<<"this funct has not been defined yet\n"; } //提供重新初始化的接口（含参数）
         
-        virtual void set_gradi(const T& a){
+        virtual void set_gradi(const T& a){ //修改导数的借口
             cout<<"func: set_gradi has not been defined yet\n";
+        }
+        
+        virtual T get_gradi (){
+            cout<<"func: get_gradi has not been defined yet\n";
+            return 0;
         }
         virtual T Value() const =0;//显示value的接口
         
@@ -105,7 +110,7 @@ namespace Computational_Graph
         
         virtual T Forward () = 0;                                  //正向传播的运算的接口
         
-        virtual void Backward()     //后向传播的接口
+        virtual void Backward(T)     //后向传播的接口
         {
             cout<<"Func Backward()  has not yet been defined\n";
         }
