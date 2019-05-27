@@ -49,6 +49,13 @@ public:
     friend Tensor sigmoid(const Tensor& a);
     friend Tensor tanh(const Tensor& a);
     friend Tensor exp(const Tensor& a);
+    //以上为重载的数学函数
+    //以下为对张量的操作
+    Tensor transposition();   //转置
+    std::vector<int> shape(); //返回形状
+    void show_shapes();       //输出形状
+    void Print();             //打印矩阵
+    Tensor reshape(const std::vector<int>& a);         //改变形状
     ~Tensor() {}
 };
 

@@ -398,3 +398,97 @@ Tensor tanh(const Tensor& a)
     }
     return temp;
 }
+Tensor Tensor::transposition()
+{
+    if(dim==0)
+    {
+        return *this;
+    }
+    else if(dim==1)
+    {
+        Tensor temp(*this);
+        temp.dim = 2;
+        temp.shapes.push_back(1);
+        temp.index.push_back(1);
+        return temp;
+    }
+    else if(dim==2)
+    {
+        Tensor temp(*this);
+        int tmp = temp.index[0];
+        temp.index[0] = temp.index[1];
+        temp.index[1] = tmp;
+        tmp = temp.shapes[0];
+        temp.shapes[0] = temp.shapes[1];
+        temp.shapes[1] = tmp;
+        return temp;
+    }
+    else
+    {
+        std::cerr<<"Error InValid Transposition Operation for Tensor whose dim higher than 2\n";
+        return *this;
+    }
+}
+std::vector<int> Tensor::shape()
+{
+    return shapes;
+}
+void Tensor::show_shapes()
+{
+    for(int i = 0; i<shapes.size();i++)
+    {
+        std::cout<<shapes[i]<<" ";
+    }
+    std::cout<<std::endl;
+}
+void Tensor::Print()
+{
+    if(dim==0)
+    {
+        std::cout<<values[0]<<std::endl;
+    }
+    else if(dim==1)
+    {
+        for(int i = 0; i<values.size();i++)
+        {
+            std::cout<<values[i]<<" ";
+        }
+        std::cout<<std::endl;
+    }
+    else if(dim==2)
+    {
+        for(int i = 1;i<=shapes[0];i++)
+        {
+            for(int j = 1; j<=shapes[1]; j++)
+            {
+                int mark = (i-1)*index[0]+(j-1)*index[1];
+                std::cout<<values[mark]<<" ";
+            }
+            std::cout<<std::endl;
+        }
+    }
+    else
+    {
+        std::cerr<<"Print vector, scale, matrix Only\n";
+    }
+}
+Tensor Tensor::reshape(const std::vector<int> &a)
+{
+    int total = 1;
+    for(int i = 0; i<a.size(); i++)
+    {
+        total *= a[i];
+    }
+    if(total!=values.size())
+    {
+        std::cerr<<"Size unmatch for Operation Reshape\n";
+        return *this;
+    }
+    else
+    {
+        Tensor temp(a,1);
+        temp.values = values;
+        return temp;
+    }
+    
+}
