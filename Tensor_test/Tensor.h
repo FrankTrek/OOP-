@@ -55,7 +55,7 @@ public:
     std::vector<int> shape(); //返回形状
     void show_shapes();       //输出形状
     void Print();             //打印矩阵
-    Tensor reshape(const std::vector<int>& a);         //改变形状
+    Tensor reshape(const std::vector<int>& a) const;         //改变形状
     ~Tensor() {}
 };
 
