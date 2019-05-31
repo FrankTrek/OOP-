@@ -99,7 +99,7 @@ Tensor::Tensor (const std::vector<std::vector<int> >& a)
     {
         for(int j = 0; j<n; j++)
         {
-            int place = (i-1)*index[0]+(j-1)*index[1];
+            int place = i*index[0]+j*index[1];
             values[place] = a[i][j];
         }
     }
@@ -309,7 +309,7 @@ Tensor Tensor::operator*(const Tensor &a)
     }
     Tensor temp(sizes,1);
     int times = shapes[dim-1];
-    for(int i = 1; i<=temp.values.size(); i++)
+    for(int i = 0; i<temp.values.size(); i++)
     {
         std::vector<int> add_for_ans = temp.num_to_address(i);
         for(int j = 1;j<=times;j++)
@@ -331,9 +331,9 @@ Tensor Tensor::operator*(const Tensor &a)
             temp.values[i] += this->operator()(place1)*a.show_values(place2);
             
         }
-            
+        
     }
-  
+    
     
     return temp;
 }
@@ -413,7 +413,7 @@ Tensor Tensor::transposition()
         return temp;
     }
     else if(dim==2)
-    {
+    {/*
         Tensor temp(*this);
         int tmp = temp.index[0];
         temp.index[0] = temp.index[1];
@@ -421,6 +421,19 @@ Tensor Tensor::transposition()
         tmp = temp.shapes[0];
         temp.shapes[0] = temp.shapes[1];
         temp.shapes[1] = tmp;
+        return temp;
+      */
+        Tensor temp(*this);
+        temp.dim=2;
+        
+        std::swap(temp.shapes[0],temp.shapes[1]);
+        temp.index[0]=temp.shapes[1];
+        for(int i=0;i<temp.shapes[0];i++) {
+            int row = i* temp.index[0];
+            for(int j=0;j<temp.shapes[1];j++) {
+                temp.values[row+j]=values[j*index[0]+i];
+            }
+        }
         return temp;
     }
     else
@@ -492,3 +505,4 @@ Tensor Tensor::reshape(const std::vector<int> &a)
     }
     
 }
+
