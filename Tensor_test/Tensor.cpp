@@ -295,8 +295,18 @@ Tensor Tensor::operator*(const Tensor &a)
     }
     if(shapes[dim-1]!=a.shapes[0])
     {
-        std::cerr<<"Error Unmatch Size for Mutiply\n";
-        return Tensor();
+        if(shapes[dim-1]==1) {
+            std::vector<int >vc;
+            vc.push_back(1);
+            for(int i=0;i<a.shapes.size();i++) {
+                vc.push_back(a.shapes[i]);
+            }
+            return operator *(a.reshape(vc));
+        }
+        else {
+            std::cerr<<"Error Unmatch Size for Mutiply\n";
+            return Tensor();
+        }
     }
     std::vector<int> sizes;
     for(int i = 0; i<dim-1; i++)
@@ -485,7 +495,7 @@ void Tensor::Print()
         std::cerr<<"Print vector, scale, matrix Only\n";
     }
 }
-Tensor Tensor::reshape(const std::vector<int> &a)
+Tensor Tensor::reshape(const std::vector<int> &a) const
 {
     int total = 1;
     for(int i = 0; i<a.size(); i++)
