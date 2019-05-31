@@ -4,7 +4,7 @@
 #include "Node.h"
 #include<iostream>
 
-//  �ӷ�
+//  加法
 class PlusOperator : public Node
 {
 private:
@@ -13,7 +13,7 @@ public:
 	float Solve(std::string&ErrorSignal);
 };
 
-//  ����
+//  减法
 class MinusOperator : public Node
 {
 private:
@@ -22,7 +22,7 @@ public:
 	float Solve(std::string&ErrorSignal);
 };
 
-//  �˷�
+//  乘法
 class MultipleOperator : public Node
 {
 private:
@@ -31,7 +31,7 @@ public:
 	float Solve(std::string&ErrorSignal);
 };
 
-//  ����
+//  除法
 class DivisionOperator : public Node
 {
 private:
@@ -138,4 +138,23 @@ public:
 	EqualOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
 	float Solve(std::string& ErrorSignal);
 };
+
+//————————————————————
+//——————以下是第二阶段修改中添加的部分 
+
+class AssertOperator :public Node {
+private:
+public:
+	AssertOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
+	float Solve(std::string& ErrorSignal);
+};
+
+class BindOperator :public Node {
+private:
+public:
+	BindOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
+	float Solve(std::string& ErrorSignal);
+};
+
+
 #endif
