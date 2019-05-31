@@ -8,7 +8,7 @@ PlusOperator::PlusOperator(const std::string& InitName, const std::vector<Node*>
 }
 float PlusOperator::Solve(std::string&ErrorSignal)
 {
-	if (ErrorSignal.size() != 0)	return 0;						//	Èô¸Ã½áµã¼ÆËã¹ý³ÌÖÐ³öÏÖ´íÎóÐÅÏ¢£¬ÔòÖÕÖ¹¼ÆËã¹ý³Ì; ÏÂÍ¬
+	if (ErrorSignal.size() != 0)	return 0;						//	è‹¥è¯¥ç»“ç‚¹è®¡ç®—è¿‡ç¨‹ä¸­å‡ºçŽ°é”™è¯¯ä¿¡æ¯ï¼Œåˆ™ç»ˆæ­¢è®¡ç®—è¿‡ç¨‹; ä¸‹åŒ
 	float Tempa = Pre[0]->Calc(this->GetTime(), ErrorSignal);
 	if (ErrorSignal.size() != 0)	return 0;
 	float Tempb = Pre[1]->Calc(this->GetTime(), ErrorSignal);
@@ -55,7 +55,7 @@ float DivisionOperator::Solve(std::string&ErrorSignal)
 	if (ErrorSignal.size() != 0)	return 0;
 	float Tempb = Pre[1]->Calc(this->GetTime(), ErrorSignal);
 	if (ErrorSignal.size() != 0)	return 0;
-	if (std::fabs(Tempb) < Epsi)			//	¿¼ÂÇ¸¡µãÔËËãµÄÎó²î
+	if (std::fabs(Tempb) < Epsi)			//	è€ƒè™‘æµ®ç‚¹è¿ç®—çš„è¯¯å·®
 	{
 		ErrorSignal = "Division by zero";
 		return 0;
@@ -111,7 +111,7 @@ float LogOperator::Solve(std::string& ErrorSignal)
 	if (ErrorSignal.size() != 0)  return 0;
 	float Temp = Pre[0]->Calc(this->GetTime(), ErrorSignal);
 	if (ErrorSignal.size() != 0)  return 0;
-	if (Temp <= 0 || std::fabs(Temp) < Epsi)	//	¿¼ÂÇ¸¡µãÔËËãµÄÎó²î
+	if (Temp <= 0 || std::fabs(Temp) < Epsi)	//	è€ƒè™‘æµ®ç‚¹è¿ç®—çš„è¯¯å·®
 	{
 		ErrorSignal = "LOG operator's input must be positive";
 		return 0;
@@ -156,9 +156,9 @@ float CondOperator::Solve(std::string& ErrorSignal)
 	if (ErrorSignal.size() != 0)  return 0;
 	float tmp = Pre[0]->Calc(this->GetTime(), ErrorSignal);
 	if (ErrorSignal.size() != 0)  return 0;
-	float tmpa = Pre[1]->Calc(this->GetTime(), ErrorSignal);		//	CONDÊµÏÖ£ºÏÈ¼ÆËãºóÁ½¸ö½áµãµÄÖµÔÙÌõ¼þÅÐ¶Ï£¬±£Ö¤¶þÕß¾ù¿ÉÇóÖµ
+	float tmpa = Pre[1]->Calc(this->GetTime(), ErrorSignal);		//	CONDå®žçŽ°ï¼šå…ˆè®¡ç®—åŽä¸¤ä¸ªç»“ç‚¹çš„å€¼å†æ¡ä»¶åˆ¤æ–­ï¼Œä¿è¯äºŒè€…å‡å¯æ±‚å€¼
 	if (ErrorSignal.size() != 0)  return 0;
-	float tmpb = Pre[2]->Calc(this->GetTime(), ErrorSignal);		//	Í¬ÉÏ
+	float tmpb = Pre[2]->Calc(this->GetTime(), ErrorSignal);		//	åŒä¸Š
 	if (ErrorSignal.size() != 0)  return 0;
 	if (tmp > 0) {
 		return tmpa;
@@ -236,4 +236,40 @@ float EqualOperator::Solve(std::string & ErrorSignal)
 	float Tempb = Pre[1]->Calc(this->GetTime(), ErrorSignal);
 	if (ErrorSignal.size() != 0)  return 0;
 	return Tempa == Tempb;
+}
+
+//â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”
+//ç¬¬äºŒé˜¶æ®µæ›´æ–° 
+
+AssertOperator::AssertOperator(const std::string& InitName, const std::vector<Node*>& InitPre) : Node(InitName, 0, 0)
+{
+	Pre = InitPre;
+}
+float AssertOperator::Solve(std::string& ErrorSignal)
+{
+	if (ErrorSignal.size() != 0)  return 0;
+	float Temp = Pre[0]->Calc(this->GetTime(), ErrorSignal);
+	if (ErrorSignal.size() != 0)  return 0;
+	if (Temp <= Epsi)	//	è€ƒè™‘æµ®ç‚¹è¿ç®—çš„è¯¯å·®
+	{
+		ErrorSignal = "Assertion failed";
+		return 0;
+	}
+	return 0;
+}
+
+
+
+BindOperator::BindOperator(const std::string& InitName, const std::vector<Node*>& InitPre) : Node(InitName, 0, 0)
+{
+	Pre = InitPre;
+}
+float BindOperator::Solve(std::string&ErrorSignal)
+{
+	if (ErrorSignal.size() != 0)return 0;
+	float Tempa = Pre[0]->Calc(this->GetTime(), ErrorSignal);
+	if (ErrorSignal.size() != 0)return 0;
+	float Tempb = Pre[1]->Calc(this->GetTime(), ErrorSignal);
+	if (ErrorSignal.size() != 0)return 0;
+	return Tempa;
 }
