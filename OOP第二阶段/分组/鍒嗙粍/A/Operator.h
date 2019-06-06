@@ -4,7 +4,7 @@
 #include "Node.h"
 #include<iostream>
 
-//  åŠ æ³•
+//  ¼Ó·¨
 class PlusOperator : public Node
 {
 private:
@@ -13,7 +13,7 @@ public:
 	float Solve(std::string&ErrorSignal);
 };
 
-//  å‡æ³•
+//  ¼õ·¨
 class MinusOperator : public Node
 {
 private:
@@ -22,7 +22,7 @@ public:
 	float Solve(std::string&ErrorSignal);
 };
 
-//  ä¹˜æ³•
+//  ³Ë·¨
 class MultipleOperator : public Node
 {
 private:
@@ -31,7 +31,7 @@ public:
 	float Solve(std::string&ErrorSignal);
 };
 
-//  é™¤æ³•
+//  ³ı·¨
 class DivisionOperator : public Node
 {
 private:
@@ -139,8 +139,8 @@ public:
 	float Solve(std::string& ErrorSignal);
 };
 
-//â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”
-//â€”â€”â€”â€”â€”â€”ä»¥ä¸‹æ˜¯ç¬¬äºŒé˜¶æ®µä¿®æ”¹ä¸­æ·»åŠ çš„éƒ¨åˆ† 
+//¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª
+//¡ª¡ª¡ª¡ª¡ª¡ªÒÔÏÂÊÇµÚ¶ş½×¶ÎĞŞ¸ÄÖĞÌí¼ÓµÄ²¿·Ö 
 
 class AssertOperator :public Node {
 private:
@@ -158,3 +158,4 @@ public:
 
 
 #endif
+
