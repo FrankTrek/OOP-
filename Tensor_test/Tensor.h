@@ -13,6 +13,7 @@
 #include <iostream>
 #include <cmath>
 
+
 class Tensor{
     
     int dim;
@@ -52,11 +53,19 @@ public:
     //以上为重载的数学函数
     //以下为对张量的操作
     Tensor transposition();   //转置
-    std::vector<int> shape(); //返回形状
-    void show_shapes();       //输出形状
+    std::vector<int> shape() const; //返回形状
+    std::vector<int> indexs() const; //返回索引
+    void show_shapes() ;       //输出形状
+    int dimention() const;
+    
     void Print();             //打印矩阵
     Tensor reshape(const std::vector<int>& a) const;         //改变形状
+    //
+    void revalue (const std::vector<float>& val);
+    //
     ~Tensor() {}
 };
+Tensor stack(const std::vector<Tensor>& list, int dim);
+
 
 #endif /* Tensor_h */
