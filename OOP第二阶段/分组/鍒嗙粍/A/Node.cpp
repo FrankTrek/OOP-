@@ -18,10 +18,12 @@ Node::Node(const std::string& InitName, const float& InitValue, const int& InitT
 
 float Node::Calc(const int& CurTime, std::string&ErrorSignal)
 {
+    SetGradi(0);
 	if (Time == CurTime)					//	若结点对应的时间等于当前时间，可以直接返回Value;
 	{
 		return Value;
 	}
+    
 	Time = CurTime;
 	Value = this->Solve(ErrorSignal);		//	否则，重新计算
 	return Value;
@@ -46,6 +48,14 @@ std::string Node::GetName()
 float Node::GetValue()
 {
 	return Value;
+}
+float Node::GetGradi()
+{
+    return gradi;
+}
+void Node::SetGradi(float a)
+{
+    gradi= a;
 }
 
 Node::~Node() {}

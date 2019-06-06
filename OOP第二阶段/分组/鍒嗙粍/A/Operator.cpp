@@ -8,7 +8,8 @@ PlusOperator::PlusOperator(const std::string& InitName, const std::vector<Node*>
 }
 float PlusOperator::Solve(std::string&ErrorSignal)
 {
-	if (ErrorSignal.size() != 0)	return 0;						//	Èô¸Ã½áµã¼ÆËã¹ý³ÌÖÐ³öÏÖ´íÎóÐÅÏ¢£¬ÔòÖÕÖ¹¼ÆËã¹ý³Ì; ÏÂÍ¬
+    
+	if (ErrorSignal.size() != 0)	return 0;						//	Â»Ã™âˆâˆšÎ©Â·Âµâ€žÂºâˆ†Ã€â€žÏ€Ëâ‰¥ÃƒÃ·â€“â‰¥Ë†Å“Ã·Â¥ÃŒÅ’Ã›â€“â‰ˆÅ“Â¢Â£Â¨â€˜ÃšÃ·â€™Ã·Ï€Âºâˆ†Ã€â€žÏ€Ëâ‰¥Ãƒ; Å“Â¬Ã•Â¨
 	float Tempa = Pre[0]->Calc(this->GetTime(), ErrorSignal);
 	if (ErrorSignal.size() != 0)	return 0;
 	float Tempb = Pre[1]->Calc(this->GetTime(), ErrorSignal);
@@ -22,6 +23,7 @@ MinusOperator::MinusOperator(const std::string& InitName, const std::vector<Node
 }
 float MinusOperator::Solve(std::string& ErrorSignal)
 {
+    
 	if (ErrorSignal.size() != 0)return 0;
 	float Tempa = Pre[0]->Calc(this->GetTime(), ErrorSignal);
 	if (ErrorSignal.size() != 0)return 0;
@@ -36,6 +38,7 @@ MultipleOperator::MultipleOperator(const std::string& InitName, const std::vecto
 }
 float MultipleOperator::Solve(std::string&ErrorSignal)
 {
+    
 	if (ErrorSignal.size() != 0)return 0;
 	float Tempa = Pre[0]->Calc(this->GetTime(), ErrorSignal);
 	if (ErrorSignal.size() != 0)return 0;
@@ -50,12 +53,13 @@ DivisionOperator::DivisionOperator(const std::string& InitName, const std::vecto
 }
 float DivisionOperator::Solve(std::string&ErrorSignal)
 {
+    
 	if (ErrorSignal.size() != 0)	return 0;
 	float Tempa = Pre[0]->Calc(this->GetTime(), ErrorSignal);
 	if (ErrorSignal.size() != 0)	return 0;
 	float Tempb = Pre[1]->Calc(this->GetTime(), ErrorSignal);
 	if (ErrorSignal.size() != 0)	return 0;
-	if (std::fabs(Tempb) < Epsi)			//	¿¼ÂÇ¸¡µãÔËËãµÄÎó²î
+	if (std::fabs(Tempb) < Epsi)			//	Ã¸ÂºÂ¬Â«âˆÂ°Âµâ€žâ€˜Ã€Ã€â€žÂµÆ’Å’Ã›â‰¤Ã“
 	{
 		ErrorSignal = "Division by zero";
 		return 0;
@@ -70,6 +74,7 @@ PrintOperator::PrintOperator(const std::string& InitName, const std::vector<Node
 }
 float PrintOperator::Solve(std::string& ErrorSignal)
 {
+    
 	if (ErrorSignal.size() != 0)  return 0;
 	float Tempa = Pre[0]->Calc(this->GetTime(), ErrorSignal);
 	if (ErrorSignal.size() != 0)	 return 0;
@@ -84,6 +89,7 @@ SinOperator::SinOperator(const std::string& InitName, const std::vector<Node*>& 
 }
 float SinOperator::Solve(std::string& ErrorSignal)
 {
+    
 	if (ErrorSignal.size() != 0)  return 0;
 	float Temp = Pre[0]->Calc(this->GetTime(), ErrorSignal);
 	if (ErrorSignal.size() != 0)  return 0;
@@ -96,6 +102,7 @@ ExpOperator::ExpOperator(const std::string& InitName, const std::vector<Node*>& 
 }
 float ExpOperator::Solve(std::string& ErrorSignal)
 {
+    SetGradi(0);
 	if (ErrorSignal.size() != 0)  return 0;
 	float Temp = Pre[0]->Calc(this->GetTime(), ErrorSignal);
 	if (ErrorSignal.size() != 0)  return 0;
@@ -108,10 +115,11 @@ LogOperator::LogOperator(const std::string & InitName, const std::vector<Node*>&
 }
 float LogOperator::Solve(std::string& ErrorSignal)
 {
+    
 	if (ErrorSignal.size() != 0)  return 0;
 	float Temp = Pre[0]->Calc(this->GetTime(), ErrorSignal);
 	if (ErrorSignal.size() != 0)  return 0;
-	if (Temp <= 0 || std::fabs(Temp) < Epsi)	//	¿¼ÂÇ¸¡µãÔËËãµÄÎó²î
+	if (Temp <= 0 || std::fabs(Temp) < Epsi)	//	Ã¸ÂºÂ¬Â«âˆÂ°Âµâ€žâ€˜Ã€Ã€â€žÂµÆ’Å’Ã›â‰¤Ã“
 	{
 		ErrorSignal = "LOG operator's input must be positive";
 		return 0;
@@ -125,6 +133,7 @@ TanhOperator::TanhOperator(const std::string& InitName, const std::vector<Node*>
 }
 float TanhOperator::Solve(std::string& ErrorSignal)
 {
+    
 	if (ErrorSignal.size() != 0)  return 0;
 	float Temp = Pre[0]->Calc(this->GetTime(), ErrorSignal);
 	if (ErrorSignal.size() != 0)  return 0;
@@ -139,6 +148,7 @@ SigmoidOperator::SigmoidOperator(const std::string& InitName, const std::vector<
 }
 float SigmoidOperator::Solve(std::string& ErrorSignal)
 {
+    
 	if (ErrorSignal.size() != 0)  return 0;
 	float Temp = Pre[0]->Calc(this->GetTime(), ErrorSignal);
 	if (ErrorSignal.size() != 0)  return 0;
@@ -153,12 +163,13 @@ CondOperator::CondOperator(const std::string& InitName, const std::vector<Node*>
 }
 float CondOperator::Solve(std::string& ErrorSignal)
 {
+    
 	if (ErrorSignal.size() != 0)  return 0;
 	float tmp = Pre[0]->Calc(this->GetTime(), ErrorSignal);
 	if (ErrorSignal.size() != 0)  return 0;
-	float tmpa = Pre[1]->Calc(this->GetTime(), ErrorSignal);		//	CONDÊµÏÖ£ºÏÈ¼ÆËãºóÁ½¸ö½áµãµÄÖµÔÙÌõ¼þÅÐ¶Ï£¬±£Ö¤¶þÕß¾ù¿ÉÇóÖµ
+	float tmpa = Pre[1]->Calc(this->GetTime(), ErrorSignal);		//	CONDÂ ÂµÅ“Ã·Â£âˆ«Å“Â»Âºâˆ†Ã€â€žâˆ«Ã›Â¡Î©âˆË†Î©Â·Âµâ€žÂµÆ’Ã·Âµâ€˜Å¸ÃƒÄ±ÂºË›â‰ˆâ€“âˆ‚Å“Â£Â¨Â±Â£Ã·Â§âˆ‚Ë›â€™ï¬‚Ã¦Ë˜Ã¸â€¦Â«Ã›Ã·Âµ
 	if (ErrorSignal.size() != 0)  return 0;
-	float tmpb = Pre[2]->Calc(this->GetTime(), ErrorSignal);		//	Í¬ÉÏ
+	float tmpb = Pre[2]->Calc(this->GetTime(), ErrorSignal);		//	Ã•Â¨â€¦Å“
 	if (ErrorSignal.size() != 0)  return 0;
 	if (tmp > 0) {
 		return tmpa;
@@ -173,6 +184,7 @@ GreaterOperator::GreaterOperator(const std::string & InitName, const std::vector
 	Pre = InitPre;
 }
 float GreaterOperator::Solve(std::string& ErrorSignal) {
+    
 	if (ErrorSignal.size() != 0)  return 0;
 	float Tempa = Pre[0]->Calc(this->GetTime(), ErrorSignal);
 	if (ErrorSignal.size() != 0)  return 0;
@@ -238,38 +250,169 @@ float EqualOperator::Solve(std::string & ErrorSignal)
 	return Tempa == Tempb;
 }
 
-//¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª
-//µÚ¶þ½×¶Î¸üÐÂ 
+//ç¬¬äºŒé˜¶æ®µæ›´æ–°
 
 AssertOperator::AssertOperator(const std::string& InitName, const std::vector<Node*>& InitPre) : Node(InitName, 0, 0)
 {
-	Pre = InitPre;
+    Pre = InitPre;
 }
 float AssertOperator::Solve(std::string& ErrorSignal)
 {
-	if (ErrorSignal.size() != 0)  return 0;
-	float Temp = Pre[0]->Calc(this->GetTime(), ErrorSignal);
-	if (ErrorSignal.size() != 0)  return 0;
-	if (Temp <= Epsi)	//	¿¼ÂÇ¸¡µãÔËËãµÄÎó²î
-	{
-		ErrorSignal = "Assertion failed";
-		return 0;
-	}
-	return 0;
+    if (ErrorSignal.size() != 0)  return 0;
+    float Temp = Pre[0]->Calc(this->GetTime(), ErrorSignal);
+    if (ErrorSignal.size() != 0)  return 0;
+    if (Temp <= Epsi)    //    è€ƒè™‘æµ®ç‚¹è¿ç®—çš„è¯¯å·®
+    {
+        ErrorSignal = "Assertion failed";
+        return 0;
+    }
+    return 0;
 }
 
 
 
 BindOperator::BindOperator(const std::string& InitName, const std::vector<Node*>& InitPre) : Node(InitName, 0, 0)
 {
-	Pre = InitPre;
+    Pre = InitPre;
 }
 float BindOperator::Solve(std::string&ErrorSignal)
 {
-	if (ErrorSignal.size() != 0)return 0;
-	float Tempa = Pre[0]->Calc(this->GetTime(), ErrorSignal);
-	if (ErrorSignal.size() != 0)return 0;
-	float Tempb = Pre[1]->Calc(this->GetTime(), ErrorSignal);
-	if (ErrorSignal.size() != 0)return 0;
-	return Tempa;
+    if (ErrorSignal.size() != 0)return 0;
+    float Tempa = Pre[0]->Calc(this->GetTime(), ErrorSignal);
+    if (ErrorSignal.size() != 0)return 0;
+    float Tempb = Pre[1]->Calc(this->GetTime(), ErrorSignal);
+    if (ErrorSignal.size() != 0)return 0;
+    return Tempa;
 }
+
+
+GradOperator::GradOperator(const std::string & InitName, const std::vector<Node*>& InitPre) : Node(InitName,0,0)
+{
+    Pre = InitPre;
+}
+float GradOperator::Solve(std::string & ErrorSignal)
+{
+    if (ErrorSignal.size() != 0)  return 0;
+    Pre[0]->Calc(this->GetTime(), ErrorSignal);
+    if (ErrorSignal.size() != 0)  return 0;
+    Pre[0]->Backward(1,ErrorSignal);
+    return 0;
+}
+
+AtOperator::AtOperator(const std::string & InitName, const std::vector<Node*>& InitPre) : Node(InitName,0,0)
+{
+    Pre = InitPre;
+}
+float AtOperator::Solve(std::string &ErrorSignal)
+{
+    if (ErrorSignal.size() != 0)  return 0;
+    Pre[0]->Calc(this->GetTime(), ErrorSignal);
+    if (ErrorSignal.size() != 0)  return 0;
+    return Pre[1]->GetGradi();
+}
+
+void PlusOperator::Backward(float gradient,std::string&ErrorSignal)
+{
+    SetGradi(GetGradi()+gradient);
+    Pre[0]->Backward(gradient,ErrorSignal);
+    if (ErrorSignal.size() != 0) return;
+    Pre[1]->Backward(gradient,ErrorSignal);
+    
+}
+void MinusOperator::Backward(float gradient,std::string&ErrorSignal)
+{
+    SetGradi(GetGradi()+gradient);
+    Pre[0]->Backward(gradient,ErrorSignal);
+    if (ErrorSignal.size() != 0) return;
+    Pre[1]->Backward(-gradient,ErrorSignal);
+    
+}
+void MultipleOperator::Backward(float gradient,std::string&ErrorSignal)
+{
+    SetGradi(GetGradi()+gradient);
+    Pre[0]->Backward(gradient*Pre[1]->GetValue(),ErrorSignal);
+    if (ErrorSignal.size() != 0) return;
+    Pre[1]->Backward(gradient*Pre[0]->GetValue(),ErrorSignal);
+    
+}
+void DivisionOperator::Backward(float gradient, std::string &ErrorSignal)
+{
+    SetGradi(GetGradi()+gradient);
+    Pre[0]->Backward(gradient/Pre[1]->GetValue(),ErrorSignal);
+    if (ErrorSignal.size() != 0) return;
+    Pre[1]->Backward(-gradient*Pre[0]->GetValue()/(Pre[1]->GetValue()*Pre[1]->GetValue()),ErrorSignal);
+    
+}
+void SinOperator::Backward(float gradient, std::string &ErrorSignal)
+{
+    SetGradi(GetGradi()+gradient);
+    Pre[0]->Backward(cos(GetValue()), ErrorSignal);
+}
+void LogOperator::Backward(float gradient, std::string &ErrorSignal)
+{
+    SetGradi(GetGradi()+gradient);
+    Pre[0]->Backward(gradient/(GetValue()), ErrorSignal);
+}
+void TanhOperator::Backward(float gradient, std::string &ErrorSignal)
+{
+    float value = GetValue();
+    SetGradi(GetGradi()+gradient);
+    Pre[0]->Backward(gradient*(1-value*value), ErrorSignal);
+}
+void SigmoidOperator::Backward(float gradient, std::string &ErrorSignal)
+{
+    float a = GetValue();
+    SetGradi(GetGradi()+gradient);
+    Pre[0]->Backward(gradient*(exp(-a))/((1+exp(-a))*(1+exp(-a))), ErrorSignal);
+}
+void ExpOperator::Backward(float gradient, std::string &ErrorSignal)
+{
+    SetGradi(GetGradi()+gradient);
+    Pre[0]->Backward(exp(GetValue()), ErrorSignal);
+}
+void LessOperator:: Backward(float, std::string &ErrorSignal)
+{
+    ErrorSignal= "Not defined Grad for LessOperator yet!";
+}
+void GreaterOperator:: Backward(float, std::string &ErrorSignal)
+{
+    ErrorSignal= "Not defined Grad for GreaterOperator yet!";
+}
+void CondOperator:: Backward(float , std::string & ErrorSignal)
+{
+    ErrorSignal= "Not defined Grad for CondOperator yet!";
+}
+void GreaterEqualOperator:: Backward(float , std::string &ErrorSignal)
+{
+    ErrorSignal= "Not defined Grad for GreaterEqualOperator yet!";
+}
+void LessEqualOperator:: Backward(float , std::string &ErrorSignal)
+{
+    ErrorSignal= "Not defined Grad for LessEqualOperator yet!";
+}
+void EqualOperator:: Backward(float, std::string &ErrorSignal)
+{
+    ErrorSignal= "Not defined Grad for EqualOperator yet!";
+}
+void GradOperator:: Backward(float, std::string &ErrorSignal)
+{
+    ErrorSignal= "Not defined Grad for GradOperator yet!";
+}
+void AtOperator:: Backward(float, std::string &ErrorSignal)
+{
+    ErrorSignal= "Not defined Grad for AtOperator yet!";
+}
+void PrintOperator:: Backward(float, std::string &ErrorSignal)
+{
+    ErrorSignal= "Not defined Grad for PrintOperator yet!";
+}
+
+void AssertOperator:: Backward(float, std::string &ErrorSignal)
+{
+    ErrorSignal= "Not defined Grad for AssertOperator yet!";
+}
+void BindOperator:: Backward(float, std::string &ErrorSignal)
+{
+    ErrorSignal= "Not defined Grad for BindOperator yet!";
+}
+

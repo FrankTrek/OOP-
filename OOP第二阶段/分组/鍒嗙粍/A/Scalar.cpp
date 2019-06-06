@@ -4,6 +4,7 @@ Variable::Variable(const std::string& InitName, const float& InitValue) : Node(I
 
 float Variable::Solve(std::string&ErrorSignal)
 {
+    
 	return GetValue();
 }
 
@@ -20,5 +21,23 @@ Constant::Constant(const std::string& InitName, const float& InitValue) : Node(I
 
 float Constant::Solve(std::string&ErrorSignal)
 {
+    
 	return GetValue();
+}
+
+
+void Placeholder::Backward(float gradient, std::string & ErrorSignal)
+{
+    SetGradi(GetGradi()+gradient);
+    
+}
+void Constant::Backward(float gradient, std::string & ErrorSignal)
+{
+    SetGradi(GetGradi()+gradient);
+    
+}
+void Variable::Backward(float gradient, std::string & ErrorSignal)
+{
+    SetGradi(GetGradi()+gradient);
+    
 }

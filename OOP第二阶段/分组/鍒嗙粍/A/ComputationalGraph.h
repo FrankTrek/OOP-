@@ -2,8 +2,6 @@
 #define COMPUTATIONALGRAPH_H
 
 #include "Node.h"
-#include "Scalar.h"
-#include "Operator.h"
 #include <map>
 #include <utility>
 #include <sstream>
@@ -17,7 +15,6 @@ private:
 	std::string ErrorSignal;				//ErrorSignal: 记录错误信息
 	int TimeTag;							//TimeTag: 记录结点更新与计算的时间
 	std::vector<Node*>NodeAddress;			//NodeAddress：记录所有出现过的结点的指针，用于析构
-	
 public:
 	ComputationalGraph();
 	void ErrorPrint(std::ostream& OutStream);	//	输出对应的错误信息

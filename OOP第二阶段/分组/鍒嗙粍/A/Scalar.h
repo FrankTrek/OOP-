@@ -10,6 +10,7 @@ private:
 public:
 	Variable(const std::string& InitName, const float& InitValue);
 	float Solve(std::string& ErrorSignal);
+    void Backward (float , std::string &);
 };
 
 //	占位符
@@ -19,6 +20,7 @@ private:
 public:
 	Placeholder(const std::string& InitName);
 	float Solve(std::string& ErrorSignal);
+    void Backward (float , std::string &);
 };
 
 //	常量
@@ -28,5 +30,6 @@ private:
 public:
 	Constant(const std::string& InitName, const float& InitValue);
 	float Solve(std::string& ErrorSignal);
+    void Backward (float , std::string &);
 };
 #endif

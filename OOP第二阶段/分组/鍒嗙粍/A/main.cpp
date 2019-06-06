@@ -4,11 +4,12 @@
 #include <iostream>
 #include <sstream>
 #include <map>
+#include "Tensor.h"
 
 
-int n, m;
-float x;
-std::string x1, x2, x3, x4, x5;
+//int n, m;
+//float x;
+//std::string x1, x2, x3, x4, x5;
 
 void Error()
 {
@@ -17,13 +18,30 @@ void Error()
 
 int main()
 {
+    
     ComputationalGraph CG;
     CG.workstage1();
     CG.workstage2();
     CG.workstage3();
     
     
-	//	Â â€°Â»ÃÎ©Â·Âµâ€Â Ã™â€“â€˜Â£Â®âˆ«Ã•Â ËÃ·ÂµÂ£Â©
+    /*
+    std::vector<std::vector<int>>  a = {{1,2,3},{7,7,4}};
+    std::vector<int>   b = {1,3,4};
+    
+    Tensor test(a);
+    Tensor test2(b);
+    test.Print();
+    test = test-test2;
+    test.Print();
+    //test=test.reshape({3,4});
+    
+    //test.Print();
+    //test = test.transposition();
+    //test.Print();
+    //(test2*test).Print();
+     */
+	//	ÊäÈë½áµãÊôĞÔ£¨ºÍÊıÖµ£©
     /*
 	std::cin >> n;
 	while (n--)
@@ -55,14 +73,14 @@ int main()
 		}
 	}
 
-	//	Â â€°Â»ÃÂºâˆ†Ã€â€â‰¤Å¸â—ŠËœ
+	//	ÊäÈë¼ÆËã²Ù×÷
 	std::cin >> n;
 	while (n--)
 	{
 		std::cin >> x1 >> x2;
 		std::cin >> x2;
 
-		switch (x2[0])								//	âˆË˜Ã¦â€º = âˆ«Ã›Âµâ„â€œÂªâˆË†stringÂµÆ’Æ’â„Â»â€ºÎ©Â¯â€“â€“Âºâˆ†Ã€â€
+		switch (x2[0])								//	¸ù¾İ = ºóµÚÒ»¸östringµÄÄÚÈİ½øĞĞ¼ÆËã
 		{
 		case('S'):	//SIN SIGMOID
 		{
@@ -128,7 +146,7 @@ int main()
 		}
 		default:
 		{
-			std::cin >> x3 >> x4;					//	Â»Ã™Âµâ„â€œÂªâˆË†stringâ‰¤ÂªÂ¬Ë™â—Šâ€â€¦Å“Â Ë†Â«ÃˆÃ¸Ë†Â£Â¨Ã€ÂµâˆšËœÎ©Â¯â€“â€“Ã€Æ’â€˜Ãšâ€˜Ã€Ã€â€âˆ«Ã•Â±Â»Î©Å“â€˜Ã€Ã€â€
+			std::cin >> x3 >> x4;					//	ÈôµÚÒ»¸östring²»Âú×ãÉÏÊöÇé¿ö£¬ËµÃ÷½øĞĞËÄÔòÔËËãºÍ±È½ÏÔËËã
 			if (CG.Find(x2) != NULL && CG.Find(x4) != NULL)
 			{
 				std::vector<Node*>vc;
@@ -191,42 +209,42 @@ int main()
 		}
 	}
 
-	//	Â â€°Â»Ãâ‰¤Å¸â—ŠËœ
+	//	ÊäÈë²Ù×÷
 	std::cin >> n;
 	while (n--)
 	{
-		std::getline(std::cin, x1);					//	Å“Â»âˆ‚Â¡Â»Â°â€œÂªâ€“â€“
-		while (x1.size() <= 4)						//	â€™Ãâˆ‚â€˜ÂµÂºÃ·Â¬â€œÂªâ€“â€“â—ŠÃ·âˆ‘ËšÂ Ëâ‰¤Âªâ‰¥Â¨Ï€Ë4ÂµÆ’Å’Ã›â‰¤Å¸â—ŠËœÂ£Â®Ã·Ëœâ€œâ„¢Â Â«â€™Ãâˆ‚â€˜Â â€°Â»ÃÃ¸â€™â€“â€“ÂµÆ’Â«ÃˆÃ¸Ë†Â£Â©
+		std::getline(std::cin, x1);					//	ÏÈ¶ÁÈ¡Ò»ĞĞ
+		while (x1.size() <= 4)						//	Õë¶Ôµ¼ÖÂÒ»ĞĞ×Ö·ûÊı²»³¬¹ı4µÄÎó²Ù×÷£¨Ö÷ÒªÊÇÕë¶ÔÊäÈë¿ÕĞĞµÄÇé¿ö£©
 		{
-			std::getline(std::cin, x1);				//	Ã·Ã¿â€“Â¬Â â€°Â»Ã
+			std::getline(std::cin, x1);				//	ÖØĞÂÊäÈë
 		}
-		std::stringstream fin(x1);					//	â€âˆšx1â‰¥Ä±Â ÂºÂªÃ˜â—ŠÃ·âˆ‘ËšÂ¥Ã†Â¡Ëœfin
-		fin >> x1;									//	finâˆÂ¥Ã¸â€™âˆÃ’ÂªÃ†âˆ‘Ã·Â£Â¨Âµâ„â€œÂªâ‰¤Ã¸âˆ‘Ã·â€âˆšÂ¿Â¥â‰¥Ä±Â ÂºÂªÃ˜x1
+		std::stringstream fin(x1);					//	ÓÃx1³õÊ¼»¯×Ö·û´®Á÷fin
+		fin >> x1;									//	fin°´¿Õ¸ñ»®·Ö£¬µÚÒ»²¿·ÖÓÃÀ´³õÊ¼»¯x1
 		switch (x1[0])
 		{
 			case('E'):
 			{
 				fin >> x1;
 				std::vector< std::pair<std::string, float> >vc;
-				if (!fin.eof())							//	Â»Ã™finÅ’Â¥âˆ‚Â¡ÂµÎ©Æ’Â©Å’â‰¤Â£Â¨Ã€ÂµâˆšËœEVALâ‰¤Å¸â—ŠËœâˆÂ¯â‰¥Ë†Â¡Ã€Â¥Ëâˆâ‰¥Ã·ÂµÂ±â€°Â¡Ã¸ÂµÆ’âˆË†Â Ë;
+				if (!fin.eof())							//	ÈôfinÎ´¶Áµ½Ä©Î²£¬ËµÃ÷EVAL²Ù×÷¸ø³öÁË´ı¸³Öµ±äÁ¿µÄ¸öÊı;
 				{
 					fin >> m;
 				}
 				else
 				{
-					m = 0;								//	âˆ‘Ã’â€˜ÃšÂ£Â¨EVALâ‰¤Å¸â—ŠËœÅ’Â¥âˆÂ¯â‰¥Ë†Â¥Ëâˆâ‰¥Ã·ÂµÂ±â€°Â¡Ã¸âˆË†Â ËÂ£Â¨Ã€ÂµâˆšËœâˆšÂªâ€â€“â€œÂ¿Â¿ÂµÂµÆ’Î©Â·Âµâ€
+					m = 0;								//	·ñÔò£¬EVAL²Ù×÷Î´¸ø³ö´ı¸³Öµ±äÁ¿¸öÊı£¬ËµÃ÷Ã»ÓĞÒÀÀµµÄ½áµã
 				}
 				while (m--)
 				{
 					fin >> x2 >> x;
-					vc.push_back(make_pair(x2, x));		//	â€œÂ¿Â¥Å’Î©Â´â€œÂ¿Â¿ÂµÎ©Â·Âµâ€âˆ«Ã•âˆ†â€°Ã·ÂµÂºâ€Â»ÃÂ¥ÃŠÂ¥Â¢Â«âˆâ€“ÃšÎ©Â·Âµâ€ÂµÆ’vcÃ·â€“
+					vc.push_back(make_pair(x2, x));		//	ÒÀ´Î½«ÒÀÀµ½áµãºÍÆäÖµ¼ÓÈë´æ´¢Ç°Ğò½áµãµÄvcÖĞ
 				}
 				float tmpans = CG.Calc(x1, vc, std::cout);
 				break;
 			}
 			case('S'):	//SETCONSTANT SETANSWER
 			{
-				CG.EmptyCall();							//	SETâ‰¤Å¸â—ŠËœâ€™ÂºÅ’Âª
+				CG.EmptyCall();							//	SET²Ù×÷Õ¼Î»
 				int timetag = CG.GetTime();
 				if (x1[3] == 'C')	//SETCONSTANT
 				{

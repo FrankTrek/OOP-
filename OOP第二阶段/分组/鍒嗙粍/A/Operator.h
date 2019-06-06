@@ -4,50 +4,55 @@
 #include "Node.h"
 #include<iostream>
 
-//  ¼Ó·¨
+//  Âºâ€âˆ‘Â®
 class PlusOperator : public Node
 {
 private:
 public:
-	PlusOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
-	float Solve(std::string&ErrorSignal);
+    PlusOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
+    float Solve(std::string&ErrorSignal);
+    void Backward(float ,std::string&ErrorSignal);
 };
 
-//  ¼õ·¨
+//  ÂºÄ±âˆ‘Â®
 class MinusOperator : public Node
 {
 private:
 public:
-	MinusOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
-	float Solve(std::string&ErrorSignal);
+    MinusOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
+    float Solve(std::string&ErrorSignal);
+    void Backward(float ,std::string&ErrorSignal);
 };
 
-//  ³Ë·¨
+//  â‰¥Ã€âˆ‘Â®
 class MultipleOperator : public Node
 {
 private:
 public:
-	MultipleOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
-	float Solve(std::string&ErrorSignal);
+    MultipleOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
+    float Solve(std::string&ErrorSignal);
+    void Backward(float ,std::string&ErrorSignal);
 };
 
-//  ³ı·¨
+//  â‰¥Ëâˆ‘Â®
 class DivisionOperator : public Node
 {
 private:
 public:
-	DivisionOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
-	float Solve(std::string&ErrorSignal);
+    DivisionOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
+    float Solve(std::string&ErrorSignal);
+    void Backward(float ,std::string&ErrorSignal);
 };
 
 // PRINT
 class PrintOperator :public Node
 {
 private:
-	std::ostream* OutStream;
+    std::ostream* OutStream;
 public:
-	PrintOperator(const std::string& InitName, const std::vector<Node*>& InitPre, std::ostream& InitOut);
-	float Solve(std::string&ErrorSignal);
+    PrintOperator(const std::string& InitName, const std::vector<Node*>& InitPre, std::ostream& InitOut);
+    float Solve(std::string&ErrorSignal);
+    void Backward(float ,std::string&ErrorSignal);
 };
 
 //  SIN
@@ -55,107 +60,135 @@ class SinOperator :public Node
 {
 private:
 public:
-	SinOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
-	float Solve(std::string& ErrorSignal);
+    SinOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
+    float Solve(std::string& ErrorSignal);
+    void Backward(float ,std::string&ErrorSignal);
 };
 
 //  EXP
 class ExpOperator :public Node {
 private:
 public:
-	ExpOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
-	float Solve(std::string& ErrorSignal);
+    ExpOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
+    float Solve(std::string& ErrorSignal);
+    void Backward(float ,std::string&ErrorSignal);
 };
 
 //  LOG
 class LogOperator :public Node {
 private:
 public:
-	LogOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
-	float Solve(std::string& ErrorSignal);
+    LogOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
+    float Solve(std::string& ErrorSignal);
+    void Backward(float ,std::string&ErrorSignal);
 };
 
 //  TANH
 class TanhOperator :public Node {
 private:
 public:
-	TanhOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
-	float Solve(std::string& ErrorSignal);
+    TanhOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
+    float Solve(std::string& ErrorSignal);
+    void Backward(float ,std::string&ErrorSignal);
 };
 
 //  SIGMOID
 class SigmoidOperator :public Node {
 private:
 public:
-	SigmoidOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
-	float Solve(std::string& ErrorSignal);
+    SigmoidOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
+    float Solve(std::string& ErrorSignal);
+    void Backward(float ,std::string&ErrorSignal);
 };
 
 //  COND
 class CondOperator :public Node {
 private:
 public:
-	CondOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
-	float Solve(std::string& ErrorSignal);
+    CondOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
+    float Solve(std::string& ErrorSignal);
+    void Backward(float ,std::string&ErrorSignal);
 };
 
 //  >
 class GreaterOperator :public Node {
 private:
 public:
-	GreaterOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
-	float Solve(std::string& ErrorSignal);
+    GreaterOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
+    float Solve(std::string& ErrorSignal);
+    void Backward(float ,std::string&ErrorSignal);
 };
 
 //  >=
 class GreaterEqualOperator :public Node {
 private:
 public:
-	GreaterEqualOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
-	float Solve(std::string& ErrorSignal);
+    GreaterEqualOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
+    float Solve(std::string& ErrorSignal);
+    void Backward(float ,std::string&ErrorSignal);
 };
 
 //  <
 class LessOperator :public Node {
 private:
 public:
-	LessOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
-	float Solve(std::string& ErrorSignal);
+    LessOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
+    float Solve(std::string& ErrorSignal);
+    void Backward(float ,std::string&ErrorSignal);
 };
 
 //  <=
 class LessEqualOperator :public Node {
 private:
 public:
-	LessEqualOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
-	float Solve(std::string& ErrorSignal);
+    LessEqualOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
+    float Solve(std::string& ErrorSignal);
+    void Backward(float ,std::string&ErrorSignal);
 };
 
 //  ==
 class EqualOperator :public Node {
 private:
 public:
-	EqualOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
-	float Solve(std::string& ErrorSignal);
+    EqualOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
+    float Solve(std::string& ErrorSignal);
+    void Backward(float ,std::string&ErrorSignal);
 };
-
-//¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª
-//¡ª¡ª¡ª¡ª¡ª¡ªÒÔÏÂÊÇµÚ¶ş½×¶ÎĞŞ¸ÄÖĞÌí¼ÓµÄ²¿·Ö 
+//â€”â€”â€”â€”â€”â€”ä»¥ä¸‹æ˜¯ç¬¬äºŒé˜¶æ®µä¿®æ”¹ä¸­æ·»åŠ çš„éƒ¨åˆ†
 
 class AssertOperator :public Node {
 private:
 public:
-	AssertOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
-	float Solve(std::string& ErrorSignal);
+    AssertOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
+    float Solve(std::string& ErrorSignal);
+    void Backward(float ,std::string&ErrorSignal);
 };
 
 class BindOperator :public Node {
 private:
 public:
-	BindOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
-	float Solve(std::string& ErrorSignal);
+    BindOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
+    float Solve(std::string& ErrorSignal);
+    void Backward(float ,std::string&ErrorSignal);
 };
 
+// Add by Cai on 6.6
+class GradOperator :public Node {
+private:
+public:
+    GradOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
+    float Solve(std::string& ErrorSignal);
+    void Backward(float ,std::string&ErrorSignal);
+};
+//Grad
+
+class AtOperator: public Node{
+private:
+public:
+    AtOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
+    float Solve(std::string& ErrorSignal);
+    void Backward(float ,std::string&ErrorSignal);
+};
 
 #endif
 
