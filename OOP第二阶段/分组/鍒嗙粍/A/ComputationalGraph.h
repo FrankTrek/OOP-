@@ -2,29 +2,33 @@
 #define COMPUTATIONALGRAPH_H
 
 #include "Node.h"
+#include "Scalar.h"
+#include "Operator.h"
 #include <map>
 #include <utility>
+#include <sstream>
 #include <iostream>
 
 class ComputationalGraph
 {
 private:
-	std::map<std::string, Node*>NodeMap;	//NodeMap: ç»“ç‚¹ååˆ°æŒ‡å‘ç»“ç‚¹çš„æŒ‡é’ˆçš„æ˜ å°„
-	std::vector<float>PreAnswer;			//PreAnswer: ä¿å­˜å‰åºæ“ä½œçš„ç­”æ¡ˆ
-	std::string ErrorSignal;				//ErrorSignal: è®°å½•é”™è¯¯ä¿¡æ¯
-	int TimeTag;							//TimeTag: è®°å½•ç»“ç‚¹æ›´æ–°ä¸è®¡ç®—çš„æ—¶é—´
-	std::vector<Node*>NodeAddress;			//NodeAddressï¼šè®°å½•æ‰€æœ‰å‡ºç°è¿‡çš„ç»“ç‚¹çš„æŒ‡é’ˆï¼Œç”¨äºææ„
+	std::map<std::string, Node*>NodeMap;	//NodeMap: ½áµãÃûµ½Ö¸Ïò½áµãµÄÖ¸ÕëµÄÓ³Éä
+	std::vector<float>PreAnswer;			//PreAnswer: ±£´æÇ°Ğò²Ù×÷µÄ´ğ°¸
+	std::string ErrorSignal;				//ErrorSignal: ¼ÇÂ¼´íÎóĞÅÏ¢
+	int TimeTag;							//TimeTag: ¼ÇÂ¼½áµã¸üĞÂÓë¼ÆËãµÄÊ±¼ä
+	std::vector<Node*>NodeAddress;			//NodeAddress£º¼ÇÂ¼ËùÓĞ³öÏÖ¹ıµÄ½áµãµÄÖ¸Õë£¬ÓÃÓÚÎö¹¹
+	
 public:
 	ComputationalGraph();
-	void ErrorPrint(std::ostream& OutStream);	//	è¾“å‡ºå¯¹åº”çš„é”™è¯¯ä¿¡æ¯
-	Node *Find(const std::string& NodeName);	//	æ ¹æ®ç»“ç‚¹åå¯»æ‰¾ç›¸åº”ç»“ç‚¹
-	int GetTime();								//	è·å¾—å½“å‰è®¡ç®—å›¾çš„æ—¶é—´æ ‡è®°
-	float GetPreviousAnswer(const int& Index);	//	è·å¾—ç¬¬ Index ä¸ªæ“ä½œçš„ç­”æ¡ˆ
-	float Calc(const std::string& NodeName, const std::vector<std::pair<std::string, float> >& InitNode, std::ostream& OutStream);	//  è®¡ç®—å›¾ä¸­çš„ç»“ç‚¹å€¼å¹¶è¾“å‡ºï¼ˆæˆ–è¾“å‡ºé”™è¯¯ä¿¡æ¯ï¼‰
-	void AddNode(Node* NewNode);				//	å‘è®¡ç®—å›¾ä¸­å¢æ·»æ–°ç»“ç‚¹
-	void EmptyCall();							//	è®°å½• SETCONSTANT å’Œ SETANSWER æ“ä½œ
-	
-	//Add by Cai on 5.22
+	void ErrorPrint(std::ostream& OutStream);	//	Êä³ö¶ÔÓ¦µÄ´íÎóĞÅÏ¢
+	Node *Find(const std::string& NodeName);	//	¸ù¾İ½áµãÃûÑ°ÕÒÏàÓ¦½áµã
+	int GetTime();								//	»ñµÃµ±Ç°¼ÆËãÍ¼µÄÊ±¼ä±ê¼Ç
+	float GetPreviousAnswer(const int& Index);	//	»ñµÃµÚ Index ¸ö²Ù×÷µÄ´ğ°¸
+	float Calc(const std::string& NodeName, const std::vector<std::pair<std::string, float> >& InitNode, std::ostream& OutStream);	//  ¼ÆËãÍ¼ÖĞµÄ½áµãÖµ²¢Êä³ö£¨»òÊä³ö´íÎóĞÅÏ¢£©
+	void AddNode(Node* NewNode);				//	Ïò¼ÆËãÍ¼ÖĞÔöÌíĞÂ½áµã
+	void EmptyCall();							//	¼ÇÂ¼ SETCONSTANT ºÍ SETANSWER ²Ù×÷
+    
+    //Add by Cai on 5.22
     
     std::vector<std::string> info;
     
@@ -44,8 +48,7 @@ public:
     void workstage3();
     
     //End Add
-	
-	
+    
 	~ComputationalGraph();
 };
 #endif
