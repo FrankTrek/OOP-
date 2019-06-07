@@ -4,6 +4,7 @@
 #include <string>
 #include <utility>
 #include <sstream>
+#include <iostream>
 ComputationalGraph::ComputationalGraph()
 {
     NodeMap.clear();
@@ -52,7 +53,7 @@ float ComputationalGraph::Calc(const std::string& NodeName, const std::vector< s
     {
         NodeMap[it.first]->SetValue(it.second, TimeTag);
     }
-    //Manager.Assign_Values(TimeTag);             //更新varible的值
+    Manager.Assign_Values(TimeTag);             //更新varible的值
     ErrorSignal.clear();
     float tmpans = NodeMap[NodeName]->Calc(TimeTag, ErrorSignal);
     if (ErrorSignal.size() != 0)
@@ -191,7 +192,13 @@ void ComputationalGraph::workstage2() {
             vs.push_back(Find(info[3]));
             AddNode(new AtOperator(info[0],vs));
         }
-        
+        else if(info[1]=="ASSIGN")
+        {
+            std::vector<Node*> vs;
+            vs.push_back(Find(info[2]));
+            vs.push_back(Find(info[3]));
+            AddNode(new AssignOperator(info[0],vs,&Manager));
+        }
         else if(info[1]=="SIN")
         {
             std::vector<Node*> vs;
@@ -280,6 +287,59 @@ void ComputationalGraph::workstage3() {
             int timetag=GetTime();
             Find(info[1])->SetValue(std::stof(info[2]), timetag);
             Manager.Set_Value(info[1], std::stof(info[2]));
+        }
+        //以下为新增的session_manager的功能
+        else if(info[0]== " APPLY ")  //session的输入定义如下
+        {
+            if(info.size()==3)     // APPLY NEW SESSION 添加一个当前session的复制品
+            {
+                EmptyCall();
+                Manager.Add_Session();
+            }
+            else if(info[4]=="FILE")  // APPLY NEW SESSION THROUGH FILE NAMED XXX 由文件输入新的session
+            {
+                EmptyCall();
+                std::string name = info[6];
+                Manager.File_in_New(name);
+            }
+            
+        }
+        else if(info[0]=="SWITCH")   //切换session：SWITCH TO SESSION xxx
+        {
+            EmptyCall();
+            int i = atoi(info[3].data());
+            Manager.Switch(i);
+        }
+        else if(info[0]=="FILE")   //输入输出session：FILE IN xxx/FILE OUT xxx
+        {
+           if(info[1]=="IN")
+           {
+               EmptyCall();
+               Manager.File_in(info[2]);
+           }
+           else
+           {
+                EmptyCall();
+                Manager.File_out(info[2]);
+           }
+        }
+        else if(info[0]=="DELETE") //DELETE SESSION 删除目前的session
+        {
+            if(Manager.Show_Session_Num()==0)
+            {
+                EmptyCall();
+                std::cerr<<"NO SESSIONS NOW\n";
+            }
+            else
+            {
+                EmptyCall();
+                Manager.Delete_Session();
+            }
+        }
+        else if(info[0]=="SHOW") //SHOW SESSION 显示目前的session值
+        {
+            EmptyCall();
+            Manager.Show_Values();
         }
         
     }

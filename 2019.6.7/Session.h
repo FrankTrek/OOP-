@@ -52,6 +52,14 @@ private:
     {
         ;
     }
+    void Show_Values()
+    {
+        std::cout<<"VARIBLE"<<"             "<<"VALUES\n";
+        for(auto i : Varible_Value)
+        {
+            std::cout<<i.first<<"             "<<i.second<<std::endl;
+        }
+    }
     ~Session() {}
 };
 
@@ -69,6 +77,10 @@ public:
         sessions.push_back(new Session());
         session_on = sessions[0];
         mark = 0;
+    }
+    int Show_Session_Num()
+    {
+        return sessions.size();
     }
     void Add_Session()
     {
@@ -121,6 +133,10 @@ public:
     {
         delete session_on;
         sessions.erase(std::begin(sessions)+mark);
+    }
+    void Show_Values()
+    {
+        session_on->Show_Values();
     }
     ~Session_Manager()
     {

@@ -11,7 +11,7 @@
 class ComputationalGraph
 {
 private:
-    
+    friend class AssignOperator;
     std::map<std::string, Node*>NodeMap;    //NodeMap: 结点名到指向结点的指针的映射
     std::vector<float>PreAnswer;            //PreAnswer: 保存前序操作的答案
     std::string ErrorSignal;                //ErrorSignal: 记录错误信息
