@@ -1,7 +1,14 @@
 #include "Newton.h"
-int main(){
-	int n ;
-	std::cin >> n ;
-	Newton a(n) ;
-	std::cout<<a.Cal() ;
+#include "Operator.h"
+#include "NewtonWrapper.h"
+#include "Scalar.h"
+#include "Node.h"
+
+int main() {
+	int nn;
+	std::cin >> nn;
+	NewtonWrapper a(nn);
+	a.NewtonMathod();
+	return 0;
+
 }
