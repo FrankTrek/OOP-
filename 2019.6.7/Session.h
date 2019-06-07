@@ -23,6 +23,8 @@
 #include <map>
 #include <vector>
 #include <iostream>
+#include <fstream>
+#include <cstdlib>
 
 class Session{
 private:
@@ -46,11 +48,35 @@ private:
     }
     void File_in(const std::string& File_name)     //未完成
     {
-        ;
+        std::fstream fin;
+        fin.open(File_name);
+        if(!fin.is_open())
+        {
+            std::cerr<<"Unable to open the File named"<<File_name<<std::endl;
+            exit(EXIT_FAILURE);
+        }
+        while(!fin.eof())
+        {
+            std::string name;
+            fin>>name;
+            fin>>Varible_Value[name];
+        }
+        fin.close();
     }
     void File_out(const std::string& File_name)     //未完成
     {
-        ;
+        std::fstream fout;
+        fout.open(File_name);
+        if(!fout.is_open())
+        {
+            std::cerr<<"Unable to open the File named"<<File_name<<std::endl;
+            exit(EXIT_FAILURE);
+        }
+        fout<<"VARIBLE"<<"             "<<"VALUES\n";
+        for(auto i : Varible_Value)
+        {
+            fout<<i.first<<"             "<<i.second<<std::endl;
+        }
     }
     void Show_Values()
     {
