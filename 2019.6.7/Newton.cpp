@@ -1,6 +1,8 @@
 #include "Newton.h"
 
-Newton::Newton(int nn):n(nn){} ;
+Newton::Newton(int nn) :n(nn){
+	Timetag = 0;
+} ;
 
 void Newton::Construct_Stage1(){
 	Nodes1.push_back(new Constant("0|Nodes1",1.0f));
@@ -47,7 +49,34 @@ void Newton::Construct_Stage4(){
 	res = Nodes3[n] ;
 }
 
-float Newton::Cal(){
+void Newton::Method()
+{
+	float x0;
+	std::cin >> x0;
+	for (int i = 1; i <= 5; i++) {
+		float temp;
+		Timetag++;//TimeTag的更新
+		x->SetValue(x0, Timetag);//为变量赋值
+
+		float result = res->Calc(Timetag, ErrorSignal);//计算fxo
+		if (ErrorSignal.size()) {
+			std::cout << ErrorSignal << "\n";//如果建图有问题（在计算中显现）
+			//感觉这里其实不会出现Error的情况，但仍然使用ErrorSignal进行了处理
+			return;
+		}
+		res->Backward(1, ErrorSignal);
+		x->GetGradi();
+		temp = x0 - res->GetValue() / x->GetGradi();
+		std::cout << temp << " ";
+		x0 = temp;
+		ErrorSignal.clear();
+
+	}
+
+}
+
+
+float Newton::debug_Cal(){
 	Construct_Stage1() ;
 	Construct_Stage2() ;
 	Construct_Stage3() ;
@@ -62,11 +91,13 @@ float Newton::Cal(){
 	
 }
 
+Newton::~Newton() {
+	x = nullptr;
+	res = nullptr;
+}
 /*
 void Newton::NewtonMethond(){
 	float Init ;
 	std::cin>>Init ;
 */	
-
-
 
