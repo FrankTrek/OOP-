@@ -4,7 +4,8 @@
 #include <iostream>
 #include <sstream>
 #include <map>
-#include "Tensor.h"
+#include "Session.h"
+
 
 
 //int n, m;
@@ -13,7 +14,7 @@
 
 void Error()
 {
-	std::cout << "ERROR: Unaccepted Input" << std::endl;
+    std::cout << "ERROR: Unaccepted Input" << std::endl;
 }
 
 int main()
@@ -26,248 +27,245 @@ int main()
     
     
     /*
-    std::vector<std::vector<int>>  a = {{1,2,3},{7,7,4}};
-    std::vector<int>   b = {1,3,4};
-    
-    Tensor test(a);
-    Tensor test2(b);
-    test.Print();
-    test = test-test2;
-    test.Print();
-    //test=test.reshape({3,4});
-    
-    //test.Print();
-    //test = test.transposition();
-    //test.Print();
-    //(test2*test).Print();
+     std::vector<std::vector<int>>  a = {{1,2,3},{7,7,4}};
+     std::vector<int>   b = {1,3,4};
+     
+     Tensor test(a);
+     Tensor test2(b);
+     test.Print();
+     test = test-test2;
+     test.Print();
+     //test=test.reshape({3,4});
+     
+     //test.Print();
+     //test = test.transposition();
+     //test.Print();
+     //(test2*test).Print();
      */
-	//	ÊäÈë½áµãÊôĞÔ£¨ºÍÊıÖµ£©
+    //    è¾“å…¥ç»“ç‚¹å±æ€§ï¼ˆå’Œæ•°å€¼ï¼‰
     /*
-	std::cin >> n;
-	while (n--)
-	{
-		std::cin >> x1 >> x2;
-		switch (x2[0])
-		{
-		case('P'):
-		{
-			CG.AddNode(new Placeholder(x1));
-			break;
-		}
-		case('C'):
-		{
-			std::cin >> x;
-			CG.AddNode(new Constant(x1, x));
-			break;
-		}
-		case('V'):
-		{
-			std::cin >> x;
-			CG.AddNode(new Variable(x1, x));
-			break;
-		}
-		default:
-		{
-			Error();
-		}
-		}
-	}
-
-	//	ÊäÈë¼ÆËã²Ù×÷
-	std::cin >> n;
-	while (n--)
-	{
-		std::cin >> x1 >> x2;
-		std::cin >> x2;
-
-		switch (x2[0])								//	¸ù¾İ = ºóµÚÒ»¸östringµÄÄÚÈİ½øĞĞ¼ÆËã
-		{
-		case('S'):	//SIN SIGMOID
-		{
-			std::cin >> x3;
-			std::vector<Node*>vc;
-			vc.push_back(CG.Find(x3));
-			if (x2[2] == 'N')
-				CG.AddNode(new SinOperator(x1, vc));
-			else if (x2[2] == 'G')
-				CG.AddNode(new SigmoidOperator(x1, vc));
-			else
-				Error();
-			break;
-		}
-		case('C'):	//COND
-		{
-			std::cin >> x3 >> x4 >> x5;
-			std::vector<Node*>vc;
-			vc.push_back(CG.Find(x3));
-			vc.push_back(CG.Find(x4));
-			vc.push_back(CG.Find(x5));
-			CG.AddNode(new CondOperator(x1, vc));
-			break;
-		}
-		case('T'):	//TANH
-		{
-			std::cin >> x3;
-			std::vector<Node*>vc;
-			vc.push_back(CG.Find(x3));
-			CG.AddNode(new TanhOperator(x1, vc));
-			break;
-		}
-		case('E'):	//EXP
-		{
-			std::cin >> x3;
-			std::vector<Node*>vc;
-			vc.push_back(CG.Find(x3));
-			CG.AddNode(new ExpOperator(x1, vc));
-			break;
-		}
-		case('L'):	//LOG
-		{
-			std::cin >> x3;
-			std::vector<Node*>vc;
-			vc.push_back(CG.Find(x3));
-			CG.AddNode(new LogOperator(x1, vc));
-			break;
-		}
-		case('P'):	//PRINT
-		{
-			std::cin >> x3;
-			if (CG.Find(x3) != NULL)
-			{
-				std::vector<Node*>vc;
-				vc.push_back(CG.Find(x3));
-				CG.AddNode(new PrintOperator(x1, vc, std::cout));
-			}
-			else
-			{
-				Error();
-			}
-			break;
-		}
-		default:
-		{
-			std::cin >> x3 >> x4;					//	ÈôµÚÒ»¸östring²»Âú×ãÉÏÊöÇé¿ö£¬ËµÃ÷½øĞĞËÄÔòÔËËãºÍ±È½ÏÔËËã
-			if (CG.Find(x2) != NULL && CG.Find(x4) != NULL)
-			{
-				std::vector<Node*>vc;
-				vc.push_back(CG.Find(x2));
-				vc.push_back(CG.Find(x4));
-				switch (x3[0])
-				{
-				case('+'):
-				{
-					CG.AddNode(new PlusOperator(x1, vc));
-					break;
-				}
-				case('-'):
-				{
-					CG.AddNode(new MinusOperator(x1, vc));
-					break;
-				}
-				case('*'):
-				{
-					CG.AddNode(new MultipleOperator(x1, vc));
-					break;
-				}
-				case('/'):
-				{
-					CG.AddNode(new DivisionOperator(x1, vc));
-					break;
-				}
-				case('<'):	//< <=
-				{
-					if (x3.size() == 1)
-						CG.AddNode(new LessOperator(x1, vc));
-					else
-						CG.AddNode(new LessEqualOperator(x1, vc));
-					break;
-				}
-				case('>'):	//> >=
-				{
-					if (x3.size() == 1)
-						CG.AddNode(new GreaterOperator(x1, vc));
-					else
-						CG.AddNode(new GreaterEqualOperator(x1, vc));
-					break;
-				}
-				case('='):	//==
-				{
-					CG.AddNode(new EqualOperator(x1, vc));
-					break;
-				}
-				default:
-				{
-					Error();
-				}
-				}
-			}
-			else
-			{
-				Error();
-			}
-		}
-		}
-	}
-
-	//	ÊäÈë²Ù×÷
-	std::cin >> n;
-	while (n--)
-	{
-		std::getline(std::cin, x1);					//	ÏÈ¶ÁÈ¡Ò»ĞĞ
-		while (x1.size() <= 4)						//	Õë¶Ôµ¼ÖÂÒ»ĞĞ×Ö·ûÊı²»³¬¹ı4µÄÎó²Ù×÷£¨Ö÷ÒªÊÇÕë¶ÔÊäÈë¿ÕĞĞµÄÇé¿ö£©
-		{
-			std::getline(std::cin, x1);				//	ÖØĞÂÊäÈë
-		}
-		std::stringstream fin(x1);					//	ÓÃx1³õÊ¼»¯×Ö·û´®Á÷fin
-		fin >> x1;									//	fin°´¿Õ¸ñ»®·Ö£¬µÚÒ»²¿·ÖÓÃÀ´³õÊ¼»¯x1
-		switch (x1[0])
-		{
-			case('E'):
-			{
-				fin >> x1;
-				std::vector< std::pair<std::string, float> >vc;
-				if (!fin.eof())							//	ÈôfinÎ´¶Áµ½Ä©Î²£¬ËµÃ÷EVAL²Ù×÷¸ø³öÁË´ı¸³Öµ±äÁ¿µÄ¸öÊı;
-				{
-					fin >> m;
-				}
-				else
-				{
-					m = 0;								//	·ñÔò£¬EVAL²Ù×÷Î´¸ø³ö´ı¸³Öµ±äÁ¿¸öÊı£¬ËµÃ÷Ã»ÓĞÒÀÀµµÄ½áµã
-				}
-				while (m--)
-				{
-					fin >> x2 >> x;
-					vc.push_back(make_pair(x2, x));		//	ÒÀ´Î½«ÒÀÀµ½áµãºÍÆäÖµ¼ÓÈë´æ´¢Ç°Ğò½áµãµÄvcÖĞ
-				}
-				float tmpans = CG.Calc(x1, vc, std::cout);
-				break;
-			}
-			case('S'):	//SETCONSTANT SETANSWER
-			{
-				CG.EmptyCall();							//	SET²Ù×÷Õ¼Î»
-				int timetag = CG.GetTime();
-				if (x1[3] == 'C')	//SETCONSTANT
-				{
-					fin >> x2 >> x;
-					if (CG.Find(x2) != NULL) {
-						CG.Find(x2)->SetValue(x, timetag);
-					}
-				}
-				else  //SETANSWER
-				{
-					int xx;
-					fin >> x2 >> xx;
-					float tmpvalue = CG.GetPreviousAnswer(xx);
-					CG.Find(x2)->SetValue(tmpvalue, timetag);
-				}
-				break;
-			}
-			default:
-			{
-				Error();
-			}
-		}
-	}
+     std::cin >> n;
+     while (n--)
+     {
+     std::cin >> x1 >> x2;
+     switch (x2[0])
+     {
+     case('P'):
+     {
+     CG.AddNode(new Placeholder(x1));
+     break;
+     }
+     case('C'):
+     {
+     std::cin >> x;
+     CG.AddNode(new Constant(x1, x));
+     break;
+     }
+     case('V'):
+     {
+     std::cin >> x;
+     CG.AddNode(new Variable(x1, x));
+     break;
+     }
+     default:
+     {
+     Error();
+     }
+     }
+     }
+     //    è¾“å…¥è®¡ç®—æ“ä½œ
+     std::cin >> n;
+     while (n--)
+     {
+     std::cin >> x1 >> x2;
+     std::cin >> x2;
+     switch (x2[0])                                //    æ ¹æ® = åç¬¬ä¸€ä¸ªstringçš„å†…å®¹è¿›è¡Œè®¡ç®—
+     {
+     case('S'):    //SIN SIGMOID
+     {
+     std::cin >> x3;
+     std::vector<Node*>vc;
+     vc.push_back(CG.Find(x3));
+     if (x2[2] == 'N')
+     CG.AddNode(new SinOperator(x1, vc));
+     else if (x2[2] == 'G')
+     CG.AddNode(new SigmoidOperator(x1, vc));
+     else
+     Error();
+     break;
+     }
+     case('C'):    //COND
+     {
+     std::cin >> x3 >> x4 >> x5;
+     std::vector<Node*>vc;
+     vc.push_back(CG.Find(x3));
+     vc.push_back(CG.Find(x4));
+     vc.push_back(CG.Find(x5));
+     CG.AddNode(new CondOperator(x1, vc));
+     break;
+     }
+     case('T'):    //TANH
+     {
+     std::cin >> x3;
+     std::vector<Node*>vc;
+     vc.push_back(CG.Find(x3));
+     CG.AddNode(new TanhOperator(x1, vc));
+     break;
+     }
+     case('E'):    //EXP
+     {
+     std::cin >> x3;
+     std::vector<Node*>vc;
+     vc.push_back(CG.Find(x3));
+     CG.AddNode(new ExpOperator(x1, vc));
+     break;
+     }
+     case('L'):    //LOG
+     {
+     std::cin >> x3;
+     std::vector<Node*>vc;
+     vc.push_back(CG.Find(x3));
+     CG.AddNode(new LogOperator(x1, vc));
+     break;
+     }
+     case('P'):    //PRINT
+     {
+     std::cin >> x3;
+     if (CG.Find(x3) != NULL)
+     {
+     std::vector<Node*>vc;
+     vc.push_back(CG.Find(x3));
+     CG.AddNode(new PrintOperator(x1, vc, std::cout));
+     }
+     else
+     {
+     Error();
+     }
+     break;
+     }
+     default:
+     {
+     std::cin >> x3 >> x4;                    //    è‹¥ç¬¬ä¸€ä¸ªstringä¸æ»¡è¶³ä¸Šè¿°æƒ…å†µï¼Œè¯´æ˜è¿›è¡Œå››åˆ™è¿ç®—å’Œæ¯”è¾ƒè¿ç®—
+     if (CG.Find(x2) != NULL && CG.Find(x4) != NULL)
+     {
+     std::vector<Node*>vc;
+     vc.push_back(CG.Find(x2));
+     vc.push_back(CG.Find(x4));
+     switch (x3[0])
+     {
+     case('+'):
+     {
+     CG.AddNode(new PlusOperator(x1, vc));
+     break;
+     }
+     case('-'):
+     {
+     CG.AddNode(new MinusOperator(x1, vc));
+     break;
+     }
+     case('*'):
+     {
+     CG.AddNode(new MultipleOperator(x1, vc));
+     break;
+     }
+     case('/'):
+     {
+     CG.AddNode(new DivisionOperator(x1, vc));
+     break;
+     }
+     case('<'):    //< <=
+     {
+     if (x3.size() == 1)
+     CG.AddNode(new LessOperator(x1, vc));
+     else
+     CG.AddNode(new LessEqualOperator(x1, vc));
+     break;
+     }
+     case('>'):    //> >=
+     {
+     if (x3.size() == 1)
+     CG.AddNode(new GreaterOperator(x1, vc));
+     else
+     CG.AddNode(new GreaterEqualOperator(x1, vc));
+     break;
+     }
+     case('='):    //==
+     {
+     CG.AddNode(new EqualOperator(x1, vc));
+     break;
+     }
+     default:
+     {
+     Error();
+     }
+     }
+     }
+     else
+     {
+     Error();
+     }
+     }
+     }
+     }
+     //    è¾“å…¥æ“ä½œ
+     std::cin >> n;
+     while (n--)
+     {
+     std::getline(std::cin, x1);                    //    å…ˆè¯»å–ä¸€è¡Œ
+     while (x1.size() <= 4)                        //    é’ˆå¯¹å¯¼è‡´ä¸€è¡Œå­—ç¬¦æ•°ä¸è¶…è¿‡4çš„è¯¯æ“ä½œï¼ˆä¸»è¦æ˜¯é’ˆå¯¹è¾“å…¥ç©ºè¡Œçš„æƒ…å†µï¼‰
+     {
+     std::getline(std::cin, x1);                //    é‡æ–°è¾“å…¥
+     }
+     std::stringstream fin(x1);                    //    ç”¨x1åˆå§‹åŒ–å­—ç¬¦ä¸²æµfin
+     fin >> x1;                                    //    finæŒ‰ç©ºæ ¼åˆ’åˆ†ï¼Œç¬¬ä¸€éƒ¨åˆ†ç”¨æ¥åˆå§‹åŒ–x1
+     switch (x1[0])
+     {
+     case('E'):
+     {
+     fin >> x1;
+     std::vector< std::pair<std::string, float> >vc;
+     if (!fin.eof())                            //    è‹¥finæœªè¯»åˆ°æœ«å°¾ï¼Œè¯´æ˜EVALæ“ä½œç»™å‡ºäº†å¾…èµ‹å€¼å˜é‡çš„ä¸ªæ•°;
+     {
+     fin >> m;
+     }
+     else
+     {
+     m = 0;                                //    å¦åˆ™ï¼ŒEVALæ“ä½œæœªç»™å‡ºå¾…èµ‹å€¼å˜é‡ä¸ªæ•°ï¼Œè¯´æ˜æ²¡æœ‰ä¾èµ–çš„ç»“ç‚¹
+     }
+     while (m--)
+     {
+     fin >> x2 >> x;
+     vc.push_back(make_pair(x2, x));        //    ä¾æ¬¡å°†ä¾èµ–ç»“ç‚¹å’Œå…¶å€¼åŠ å…¥å­˜å‚¨å‰åºç»“ç‚¹çš„vcä¸­
+     }
+     float tmpans = CG.Calc(x1, vc, std::cout);
+     break;
+     }
+     case('S'):    //SETCONSTANT SETANSWER
+     {
+     CG.EmptyCall();                            //    SETæ“ä½œå ä½
+     int timetag = CG.GetTime();
+     if (x1[3] == 'C')    //SETCONSTANT
+     {
+     fin >> x2 >> x;
+     if (CG.Find(x2) != NULL) {
+     CG.Find(x2)->SetValue(x, timetag);
+     }
+     }
+     else  //SETANSWER
+     {
+     int xx;
+     fin >> x2 >> xx;
+     float tmpvalue = CG.GetPreviousAnswer(xx);
+     CG.Find(x2)->SetValue(tmpvalue, timetag);
+     }
+     break;
+     }
+     default:
+     {
+     Error();
+     }
+     }
+     }
      */
-	return 0;
+    return 0;
 }

@@ -1,5 +1,4 @@
 #include "ComputationalGraph.h"
-#include "Scalar.h"
 #include "Operator.h"
 #include <iomanip>
 #include <string>
@@ -13,7 +12,7 @@ ComputationalGraph::ComputationalGraph()
     TimeTag = 0;
 }
 
-//    ªÒµ√µ±«∞º∆À„Õºµƒ ±º‰±Íº«
+//    ªÒµ√µ±«∞º∆À„Õºµƒ ±º‰±Íº«
 int ComputationalGraph::GetTime()
 {
     return TimeTag;
@@ -39,26 +38,27 @@ void ComputationalGraph::AddNode(Node* NewNode)
     NodeAddress.push_back(NewNode);
 }
 
-//     ‰≥ˆ∂‘”¶µƒ¥ÌŒÛ–≈œ¢
+//     ‰≥ˆ∂‘”¶µƒ¥ÌŒÛ–≈œ¢
 void ComputationalGraph::ErrorPrint(std::ostream& OutStream)
 {
     OutStream << "ERROR: " << ErrorSignal << std::endl;
 }
 
-//  º∆À„Ω·µ„÷µ≤¢ ‰≥ˆ£®ªÚ ‰≥ˆ¥ÌŒÛ–≈œ¢£©
+//  º∆À„Ω·µ„÷µ≤¢ ‰≥ˆ£®ªÚ ‰≥ˆ¥ÌŒÛ–≈œ¢£©
 float ComputationalGraph::Calc(const std::string& NodeName, const std::vector< std::pair<std::string, float> >& InitNode, std::ostream& OutStream)
 {
-    TimeTag++;                            //    ∏¸–¬ ±º‰±Íº«
+    TimeTag++;                            //    ∏¸–¬ ±º‰±Íº«
     for (auto it : InitNode)
     {
         NodeMap[it.first]->SetValue(it.second, TimeTag);
     }
+    //Manager.Assign_Values(TimeTag);             //更新varible的值
     ErrorSignal.clear();
     float tmpans = NodeMap[NodeName]->Calc(TimeTag, ErrorSignal);
     if (ErrorSignal.size() != 0)
     {
-        PreAnswer.push_back(0);            //    µ±ƒ≥∏ˆ≤Ÿ◊˜ πErrorSignal∑«ø’£¨Œﬁ¥∞∏£¨”√0’ºŒª;
-        this->ErrorPrint(OutStream);    //    ≤¢ ‰≥ˆ¥ÌŒÛ–≈œ¢;
+        PreAnswer.push_back(0);            //    µ±ƒ≥∏ˆ≤Ÿ◊˜ πErrorSignal∑«ø’£¨Œﬁ¥∞∏£¨”√0’ºŒª;
+        this->ErrorPrint(OutStream);    //    ≤¢ ‰≥ˆ¥ÌŒÛ–≈œ¢;
         return 0;                        //    ∑µªÿ
     }
     PreAnswer.push_back(tmpans);
@@ -70,7 +70,7 @@ float ComputationalGraph::Calc(const std::string& NodeName, const std::vector< s
 //    º«¬º SETCONSTANT ∫Õ SETANSWER ≤Ÿ◊˜
 void ComputationalGraph::EmptyCall()
 {
-    PreAnswer.push_back(0);                //    µ±ƒ≥∏ˆ≤Ÿ◊˜Œ™SET≤Ÿ◊˜ ±£¨Œﬁ ‰≥ˆ£®¥∞∏£©£¨”√0’ºŒª
+    PreAnswer.push_back(0);                //    µ±ƒ≥∏ˆ≤Ÿ◊˜Œ™SET≤Ÿ◊˜ ±£¨Œﬁ ‰≥ˆ£®¥∞∏£©£¨”√0’ºŒª
     TimeTag++;
 }
 
@@ -96,7 +96,9 @@ void ComputationalGraph::workstage1() {
             AddNode(new Constant(info[0],std::stof(info[2])));
         }
         else if (info[1]=="V") {
-            AddNode(new Variable(info[0],std::stof(info[2])));
+            auto i = new Variable(info[0],std::stof(info[2]));
+            Manager.Add_Varible(i);
+            AddNode(i);
         }
         else {
             std::cout << "ERROR: Unaccepted Input" << std::endl;
@@ -189,7 +191,7 @@ void ComputationalGraph::workstage2() {
             vs.push_back(Find(info[3]));
             AddNode(new AtOperator(info[0],vs));
         }
-          
+        
         else if(info[1]=="SIN")
         {
             std::vector<Node*> vs;
@@ -262,6 +264,7 @@ void ComputationalGraph::workstage3() {
             for(int i=0;i<m;i+=2) {
                 vc.push_back(std::make_pair(info[3+i], std::stof(info[4+i])));
             }
+            
             Calc(info[1], vc, std::cout);
             
         }
@@ -269,12 +272,14 @@ void ComputationalGraph::workstage3() {
             EmptyCall();
             int timetag=GetTime();
             Find(info[1])->SetValue(PreAnswer[std::stoi(info[2])-1], timetag);
+            Manager.Set_Value(info[1], PreAnswer[std::stoi(info[2])-1]);   //更新此时的
             
         }
         else if (info[0]=="SETCONSTANT") {
             EmptyCall();
             int timetag=GetTime();
             Find(info[1])->SetValue(std::stof(info[2]), timetag);
+            Manager.Set_Value(info[1], std::stof(info[2]));
         }
         
     }
@@ -295,3 +300,24 @@ ComputationalGraph::~ComputationalGraph()
     NodeAddress.clear();
     PreAnswer.clear();
 }
+
+
+AssignOperator::AssignOperator(const std::string & InitName, const std::vector<Node*>& InitPre, Session_Manager* Manager1) : Node(InitName,0,0), Manager(Manager1)
+{
+    Pre = InitPre;
+}
+float AssignOperator::Solve(std::string &ErrorSignal)
+{
+    if (ErrorSignal.size() != 0)  return 0;
+    Pre[1]->Calc(this->GetTime(), ErrorSignal);
+    if (ErrorSignal.size() != 0)  return 0;
+    float Value_receive = Pre[1]->GetValue();
+    Manager->Set_Value(Pre[0]->GetName(), Value_receive);
+    return Pre[0]->Calc(this->GetTime(), ErrorSignal);
+}
+
+void AssignOperator::Backward(float, std::string &ErrorSignal)
+{
+     ErrorSignal= "Not defined Grad for LessEqualOperator yet!";
+}
+
