@@ -25,8 +25,8 @@ public:
     Tensor (const std::initializer_list<int>& a);
     Tensor (const std::vector<int>& a, int b);
     Tensor (float a);
-    Tensor (const std::vector<int>& a);
-    Tensor (const std::vector<std::vector<int> >& a);
+    Tensor (const std::vector<float>& a);
+    Tensor (const std::vector<std::vector<float> >& a);
     Tensor (const Tensor& a);
     Tensor (Tensor&& a);
     //以上为构造函数
@@ -66,6 +66,6 @@ public:
     ~Tensor() {}
 };
 Tensor stack(const std::vector<Tensor>& list, int dim);
-
+Tensor concat(const std::vector<Tensor>& list, int dim);
 
 #endif /* Tensor_h */
