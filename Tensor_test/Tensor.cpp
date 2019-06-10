@@ -65,7 +65,7 @@ Tensor::Tensor (float a)
     shapes.push_back(1);
     values.push_back(a);
 }
-Tensor::Tensor (const std::vector<int>& a)
+Tensor::Tensor (const std::vector<float >& a)
 {
     dim = 1;
     index.push_back(1);
@@ -75,7 +75,7 @@ Tensor::Tensor (const std::vector<int>& a)
         values.push_back(a[i]);
     }
 }
-Tensor::Tensor (const std::vector<std::vector<int> >& a)
+Tensor::Tensor (const std::vector<std::vector<float> >& a)
 {
     dim = 2;
     int m = static_cast<int> (a.size() );
@@ -227,7 +227,7 @@ Tensor Tensor:: operator + (const Tensor& a)
                     return Tensor();
                 }
             }
-            std::cout<<"broadcast!\n";
+            std::cout<<"default broadcast!\n";
             std::vector<Tensor> list;
             for(int i=0;i<bigshape[0];i++) {
                 list.push_back(small);
@@ -242,7 +242,7 @@ Tensor Tensor:: operator + (const Tensor& a)
     {
         if(shapes[i]!=a.shapes[i])
         {
-            if(chk == true)
+            if(chk == true&& (shapes[i]==1||a.shapes[i]==1))
             {
                 chk = false;
                 select = i;
@@ -255,7 +255,23 @@ Tensor Tensor:: operator + (const Tensor& a)
     }
     //
     if(!chk) {
-        return Tensor(0);
+        std::cout<<"broadcast!"<<std::endl;
+        Tensor big;Tensor small;
+        if(shapes[select]==1)
+        {
+            big = a;
+            small = *this;
+        }
+        else {
+            big = *this;
+            small = a;
+        }
+            std::vector<Tensor> list;
+            for(int i = 0; i< big.shapes[select];i++)
+                list.push_back(small);
+        
+            return big+concat(list, select);
+        
     }
     //
     Tensor temp(*this);
@@ -293,7 +309,7 @@ Tensor Tensor:: operator - (const Tensor& a)
                     return Tensor();
                 }
             }
-            std::cout<<"broadcast!\n";
+            std::cout<<"default broadcast!\n";
             std::vector<Tensor> list;
             for(int i=0;i<bigshape[0];i++) {
                 list.push_back(small);
@@ -302,14 +318,44 @@ Tensor Tensor:: operator - (const Tensor& a)
             return big-small;
         }
     }
+    bool chk=true;
+    int select = 0;
     for(int i = 0 ; i<dim; i++)
     {
         if(shapes[i]!=a.shapes[i])
         {
-            std::cerr<<"Error: Unmatch Size for Addition\n";
-            return Tensor();
+            if(chk == true&& (shapes[i]==1||a.shapes[i]==1))
+            {
+                chk = false;
+                select = i;
+            }
+            else {
+                std::cerr<<"Error: Unmatch Size for Addition\n";
+                return Tensor();
+            }
         }
     }
+    //
+    if(!chk) {
+        std::cout<<"broadcast!"<<std::endl;
+        Tensor big;Tensor small;
+        if(shapes[select]==1)
+        {
+            big = a;
+            small = *this;
+        }
+        else {
+            big = *this;
+            small = a;
+        }
+        std::vector<Tensor> list;
+        for(int i = 0; i< big.shapes[select];i++)
+            list.push_back(small);
+        
+        return big-concat(list, select);
+        
+    }
+    //
     Tensor temp(*this);
     for(int i = 0; i<values.size();i++)
     {
@@ -612,11 +658,11 @@ Tensor stack(const std::vector<Tensor> &list, int dim)
     std::vector<int> element = list[0].shape();
     if(dim>element.size()){
         
-        std::cout<<"The dimention is too large" <<std::endl;
+        std::cerr<<"The dimention is too large" <<std::endl;
     }
     for(int i=1;i<num;i++) {
         if(list[i].shape()!=element) {
-            std::cout<<"The tensor's sizes do not equal with each other"<<std::endl;
+            std::cerr<<"The tensor's sizes do not equal with each other"<<std::endl;
             return Tensor(0);
         }
     }
@@ -647,3 +693,43 @@ Tensor stack(const std::vector<Tensor> &list, int dim)
     
 }
 
+Tensor concat(const std::vector<Tensor>& list, int dim)
+{
+    if(list[0].dimention()==0){
+        std::vector<float > newvalue;
+        for(int i =0;i< list.size();i++)
+        {
+            newvalue.push_back(list[i].show_values());
+        }
+        return Tensor(newvalue);
+    }
+    else if (list[0].dimention()<=dim)
+    {
+        std::cerr<<"The dimention is too large"<<std::endl;
+        return 0;
+    }
+    else {
+        std::vector<int > newshape = list[0].shape();
+        int newlength=0;
+        for(int i = 0; i<list.size();i++) {
+            newlength+=list[i].shape()[dim];
+        }
+        newshape[dim]=newlength;
+        Tensor newtensor (newshape, 1);
+        std::vector<float> newvalues;
+        int size = newtensor.shape()[0]*newtensor.indexs()[0];
+        for(int i = 0; i<size;i++) {
+            
+            std::vector<int > temp = newtensor.num_to_address(i);
+            int j;
+            for(j = 0; j< list.size();j++) {
+                if(temp[dim]<=list[j].shape()[dim])
+                    break;
+                temp[dim]-=list[j].shape()[dim];
+            }
+            newvalues.push_back(list[j].show_values(temp));
+        }
+        newtensor.revalue(newvalues);
+        return newtensor;
+    }
+}
