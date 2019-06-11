@@ -25,7 +25,7 @@ float ComputationalGraph<T>::Calc(const std::string& NodeName, const std::vector
     }
     Manager.Assign_Values(TimeTag);             //更新varible的值
     ErrorSignal.clear();
-    float tmpans = NodeMap[NodeName]->Calc(TimeTag, ErrorSignal);
+    T tmpans = NodeMap[NodeName]->Calc(TimeTag, ErrorSignal);
     if (ErrorSignal.size() != 0)
     {
         PreAnswer.push_back(0);            //    µ±ƒ≥∏ˆ≤Ÿ◊˜ πErrorSignal∑«ø’£¨Œﬁ¥∞∏£¨”√0’ºŒª;
@@ -65,13 +65,13 @@ void ComputationalGraph<float>::workstage1() {
     while (times--) {
         incision();
         if(info[1]=="P") {
-            AddNode(new Placeholder(info[0]));
+            AddNode(new Placeholder<float>(info[0]));
         }
         else if (info[1]=="C") {
-            AddNode(new Constant(info[0],std::stof(info[2])));
+            AddNode(new Constant<float>(info[0],std::stof(info[2])));
         }
         else if (info[1]=="V") {
-            auto i = new Variable(info[0],std::stof(info[2]));
+            auto i = new Variable<float>(info[0],std::stof(info[2]));
             Manager.Add_Varible(i);
             AddNode(i);
         }
@@ -93,21 +93,21 @@ void ComputationalGraph<float>::workstage2() {
             std::vector<Node<float>*> vs;
             vs.push_back(Find(info[1]));
             vs.push_back(Find(info[3]));
-            AddNode(new PlusOperator(info[0],vs));
+            AddNode(new PlusOperator<float>(info[0],vs));
         }
         else if(info[2]=="-")                 //为乘法
         {
             std::vector<Node<float>*> vs;
             vs.push_back(Find(info[1]));
             vs.push_back(Find(info[3]));
-            AddNode(new MinusOperator(info[0],vs));
+            AddNode(new MinusOperator<float>(info[0],vs));
         }
         else if(info[2]=="*")            //为减法
         {
             std::vector<Node<float>*> vs;
             vs.push_back(Find(info[1]));
             vs.push_back(Find(info[3]));
-            AddNode(new MultipleOperator(info[0],vs));
+            AddNode(new MultipleOperator<float>(info[0],vs));
         }
         else if(info[2]=="/")
         {
@@ -177,37 +177,37 @@ void ComputationalGraph<float>::workstage2() {
         {
             std::vector<Node<float>*> vs;
             vs.push_back(Find(info[2]));
-            AddNode(new SinOperator(info[0],vs));
+            AddNode(new SinOperator<float>(info[0],vs));
         }
         else if(info[1]=="LOG")
         {
             std::vector<Node<float>*> vs;
             vs.push_back(Find(info[2]));
-            AddNode(new LogOperator(info[0],vs));
+            AddNode(new LogOperator<float>(info[0],vs));
         }
         else if(info[1]=="TANH")
         {
             std::vector<Node<float>*> vs;
             vs.push_back(Find(info[2]));
-            AddNode(new TanhOperator(info[0],vs));
+            AddNode(new TanhOperator<float>(info[0],vs));
         }
         else if(info[1]=="EXP")
         {
             std::vector<Node<float>*> vs;
             vs.push_back(Find(info[2]));
-            AddNode(new ExpOperator(info[0],vs));
+            AddNode(new ExpOperator<float>(info[0],vs));
         }
         else if(info[1]=="SIGMOID")
         {
             std::vector<Node<float>*> vs;
             vs.push_back(Find(info[2]));
-            AddNode(new SigmoidOperator(info[0],vs));
+            AddNode(new SigmoidOperator<float>(info[0],vs));
         }
         else if(info[1]=="PRINT" || info[1] == "Print")
         {
             std::vector<Node<float>*> vs;
             vs.push_back(Find(info[2]));
-            AddNode(new PrintOperator(info[0],vs,std::cout));
+            AddNode(new PrintOperator<float>(info[0],vs,std::cout));
         }
         else if (info[1]=="ASSERT")
         {
