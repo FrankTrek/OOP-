@@ -1,4 +1,11 @@
 //
+//  Tensor_1.cpp
+//  计算图_第二阶段
+//
+//  Created by 王一诺 on 2019/6/11.
+//  Copyright © 2019 王一诺. All rights reserved.
+//
+//
 //  Tensor.cpp
 //  Tensor_Test
 //
@@ -248,8 +255,8 @@ Tensor Tensor:: operator + (const Tensor& a)
                 select = i;
             }
             else {
-            std::cerr<<"Error: Unmatch Size for Addition\n";
-            return Tensor();
+                std::cerr<<"Error: Unmatch Size for Addition\n";
+                return Tensor();
             }
         }
     }
@@ -266,11 +273,11 @@ Tensor Tensor:: operator + (const Tensor& a)
             big = *this;
             small = a;
         }
-            std::vector<Tensor> list;
-            for(int i = 0; i< big.shapes[select];i++)
-                list.push_back(small);
+        std::vector<Tensor> list;
+        for(int i = 0; i< big.shapes[select];i++)
+            list.push_back(small);
         
-            return big+concat(list, select);
+        return big+concat(list, select);
         
     }
     //
@@ -401,17 +408,21 @@ std::vector<int> Tensor::num_to_address(int n)
 
 Tensor Tensor::operator*(const Tensor &a)
 {
-    if(dim==0)
+    if(dim==0||values.size()==1)
     {
         Tensor temp(a);
         float para = values[0];
         return temp * para;
     }
-    if(a.dim==0)
+    if(a.dim==0||a.values.size()==1)
     {
         Tensor temp(*this);
         float para = a.values[0];
         return temp * para;
+    }
+    if(a.dim==1)
+    {
+        return *this * a.reshape({1,a.shape()[0]});
     }
     if(shapes[dim-1]!=a.shapes[0])
     {
@@ -528,6 +539,15 @@ Tensor tanh(const Tensor& a)
     }
     return temp;
 }
+void Tensor::slim(int i)
+{
+    if(dim>=1&&shapes[i]==1)
+    {
+        std::vector<int> a = shapes;
+        a.erase(a.begin()+i);
+        *this = reshape(a);
+    }
+}
 Tensor Tensor::transposition()
 {
     if(dim==0)
@@ -544,14 +564,14 @@ Tensor Tensor::transposition()
     }
     else if(dim==2)
     {/*
-        Tensor temp(*this);
-        int tmp = temp.index[0];
-        temp.index[0] = temp.index[1];
-        temp.index[1] = tmp;
-        tmp = temp.shapes[0];
-        temp.shapes[0] = temp.shapes[1];
-        temp.shapes[1] = tmp;
-        return temp;
+      Tensor temp(*this);
+      int tmp = temp.index[0];
+      temp.index[0] = temp.index[1];
+      temp.index[1] = tmp;
+      tmp = temp.shapes[0];
+      temp.shapes[0] = temp.shapes[1];
+      temp.shapes[1] = tmp;
+      return temp;
       */
         Tensor temp(*this);
         temp.dim=2;

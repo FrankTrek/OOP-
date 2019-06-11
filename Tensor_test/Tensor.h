@@ -1,5 +1,13 @@
 //
 //  Tensor.h
+//  计算图_第二阶段
+//
+//  Created by 王一诺 on 2019/6/11.
+//  Copyright © 2019 王一诺. All rights reserved.
+//
+
+//
+//  Tensor.h
 //  Tensor_Test
 //
 //  Created by 王一诺 on 2019/5/26.
@@ -50,8 +58,22 @@ public:
     friend Tensor sigmoid(const Tensor& a);
     friend Tensor tanh(const Tensor& a);
     friend Tensor exp(const Tensor& a);
+    friend float Distance(const Tensor& a, const Tensor& b);   //损失函数
     //以上为重载的数学函数
+    //以下为各种函数的导数
+    friend Tensor I_Matrix(int size1, int size2);
+    bool Match(std::vector<int>& a,std::vector<int>& b);
+    friend Tensor Derive_Mutiply_left(const Tensor& result, const Tensor& left, const Tensor& right);
+    friend Tensor Derive_Mutiply_right(const Tensor& result, const Tensor& left, const Tensor& right);
+    friend Tensor Derive_sin(const Tensor& result, const Tensor& input);
+    friend Tensor Derive_log(const Tensor& result, const Tensor& input);
+    friend Tensor Derive_sigmoid(const Tensor& result, const Tensor& input);
+    friend Tensor Derive_tanh(const Tensor& result, const Tensor& input);
+    friend Tensor Derive_exp(const Tensor& result, const Tensor& input);
+    friend Tensor Derive_Distance(const Tensor& input1, const Tensor& input2);
+    //以上为各种函数的导数
     //以下为对张量的操作
+    void slim(int i );
     Tensor transposition();   //转置
     std::vector<int> shape() const; //返回形状
     std::vector<int> indexs() const; //返回索引
@@ -67,5 +89,24 @@ public:
 };
 Tensor stack(const std::vector<Tensor>& list, int dim);
 Tensor concat(const std::vector<Tensor>& list, int dim);
+
+Tensor I_Matrix(int size1, int size2);
+Tensor sin(const Tensor& a);
+Tensor log(const Tensor& a);
+Tensor sigmoid(const Tensor& a);
+Tensor tanh(const Tensor& a);
+Tensor exp(const Tensor& a);
+float Distance(const Tensor& a, const Tensor& b);   //损失函数
+Tensor operator *(float a, const Tensor& t);
+
+//求导
+Tensor Derive_Mutiply_left(const Tensor& result, const Tensor& left, const Tensor& right);
+Tensor Derive_Mutiply_right(const Tensor& result, const Tensor& left, const Tensor& right);
+Tensor Derive_sin(const Tensor& result, const Tensor& input);
+Tensor Derive_log(const Tensor& result, const Tensor& input);
+Tensor Derive_sigmoid(const Tensor& result, const Tensor& input);
+Tensor Derive_tanh(const Tensor& result, const Tensor& input);
+Tensor Derive_exp(const Tensor& result, const Tensor& input);
+Tensor Derive_Distance(const Tensor& input1, const Tensor& input2);
 
 #endif /* Tensor_h */
