@@ -3,38 +3,67 @@
 
 #include "Node.h"
 #include<iostream>
+#include<cmath>
+#include"Tensor.h"
 
-//  º”∑®
-class PlusOperator : public Node<float>
+// 加法
+template <typename T>
+class PlusOperator : public Node<T>
 {
 private:
 public:
-    PlusOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
-    float Solve(std::string&ErrorSignal);
-    void Backward(float ,std::string&ErrorSignal);
+    PlusOperator(const std::string& InitName, const std::vector<Node<T>*>& InitPre):Node<T>(InitName,0,0){this->Pre = InitPre;}
+    T Solve(std::string&ErrorSignal){
+        if (ErrorSignal.size() != 0)    return 0;                        //    有报错信息则终止运算并返回
+        T Tempa = this->Pre[0]->Calc(this->GetTime(), ErrorSignal);
+        if (ErrorSignal.size() != 0)    return 0;
+        T Tempb = this->Pre[1]->Calc(this->GetTime(), ErrorSignal);
+        if (ErrorSignal.size() != 0)    return 0;
+        return Tempa + Tempb;
+    }
+    void Backward(T ,std::string&ErrorSignal);
 };
 
-//  ºı∑®
-class MinusOperator : public Node<float>
+//  减法
+template <typename T>
+class MinusOperator : public Node<T>
 {
 private:
 public:
-    MinusOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
-    float Solve(std::string&ErrorSignal);
-    void Backward(float ,std::string&ErrorSignal);
+    MinusOperator(const std::string& InitName, const std::vector<Node<T>*>& InitPre):Node<T>(InitName,0,0){this->Pre = InitPre;}
+    T Solve(std::string&ErrorSignal){
+        if (ErrorSignal.size() != 0)    return 0;                        //    有报错信息则终止运算并返回
+        T Tempa = this->Pre[0]->Calc(this->GetTime(), ErrorSignal);
+        if (ErrorSignal.size() != 0)    return 0;
+        T Tempb = this->Pre[1]->Calc(this->GetTime(), ErrorSignal);
+        if (ErrorSignal.size() != 0)    return 0;
+        return Tempa - Tempb;
+    }
+    void Backward(T ,std::string&ErrorSignal);
 };
 
-//  ≥À∑®
-class MultipleOperator : public Node<float>
+// 乘法
+template <typename T>
+class MultipleOperator : public Node<T>
 {
 private:
 public:
-    MultipleOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
-    float Solve(std::string&ErrorSignal);
-    void Backward(float ,std::string&ErrorSignal);
+    MultipleOperator(const std::string& InitName, const std::vector<Node<T>*>& InitPre):Node<T>(InitName,0,0){this->Pre = InitPre;}
+    T Solve(std::string&ErrorSignal){
+        if (ErrorSignal.size() != 0)    return 0;                        //    有报错信息则终止运算并返回
+        T Tempa = this->Pre[0]->Calc(this->GetTime(), ErrorSignal);
+        if (ErrorSignal.size() != 0)    return 0;
+        T Tempb = this->Pre[1]->Calc(this->GetTime(), ErrorSignal);
+        if (ErrorSignal.size() != 0)    return 0;
+        return Tempa * Tempb;
+    }
+    void Backward(T ,std::string&ErrorSignal);
 };
 
-//  ≥˝∑®
+
+
+// 除法(没有模版化)
+
 class DivisionOperator : public Node<float>
 {
 private:
@@ -44,60 +73,105 @@ public:
     void Backward(float ,std::string&ErrorSignal);
 };
 
-// PRINT
-class PrintOperator :public Node<float>
+// PRINT(半模版化)（solve 采用特化，Backward 采用模版化）
+template <typename T>
+class PrintOperator :public Node<T>
 {
 private:
     std::ostream* OutStream;
 public:
-    PrintOperator(const std::string& InitName, const std::vector<Node*>& InitPre, std::ostream& InitOut);
-    float Solve(std::string&ErrorSignal);
-    void Backward(float ,std::string&ErrorSignal);
+    PrintOperator(const std::string& InitName, const std::vector<Node<T>*>& InitPre, std::ostream& InitOut):Node<T>(InitName, 0, 0)
+    {
+        this->Pre = InitPre;
+        OutStream = &InitOut;
+    }
+    T Solve(std::string&ErrorSignal)
+    {
+        return 0;
+    }
+
+    void Backward(T, std::string &ErrorSignal)
+    {
+        ErrorSignal= "Not defined Grad for PrintOperator yet!";
+    }
+    
 };
 
 //  SIN
-class SinOperator :public Node<float>
+template <typename T>
+class SinOperator :public Node<T>
 {
 private:
 public:
-    SinOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
-    float Solve(std::string& ErrorSignal);
-    void Backward(float ,std::string&ErrorSignal);
+    SinOperator(const std::string& InitName, const std::vector<Node<T>*>& InitPre):Node<T>(InitName,0,0) {this->Pre= InitPre;}
+    T Solve(std::string& ErrorSignal){
+        if (ErrorSignal.size() != 0)  return 0;
+        T Temp = this->Pre[0]->Calc(this->GetTime(), ErrorSignal);
+        if (ErrorSignal.size() != 0)  return 0;
+        return  std::sin(Temp);
+    }
+    void Backward(T ,std::string&ErrorSignal);
 };
 
 //  EXP
-class ExpOperator :public Node<float> {
+template <typename T>
+class ExpOperator :public Node<T>
+{
 private:
 public:
-    ExpOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
-    float Solve(std::string& ErrorSignal);
-    void Backward(float ,std::string&ErrorSignal);
+    ExpOperator(const std::string& InitName, const std::vector<Node<T>*>& InitPre):Node<T>(InitName,0,0) {this->Pre= InitPre;}
+    T Solve(std::string& ErrorSignal){
+        if (ErrorSignal.size() != 0)  return 0;
+        T Temp = this->Pre[0]->Calc(this->GetTime(), ErrorSignal);
+        if (ErrorSignal.size() != 0)  return 0;
+        return  std::exp(Temp);
+    }
+    void Backward(T ,std::string&ErrorSignal);
 };
 
+
 //  LOG
-class LogOperator :public Node<float> {
+
+template <typename T>
+class LogOperator :public Node<T>
+{
 private:
 public:
-    LogOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
-    float Solve(std::string& ErrorSignal);
-    void Backward(float ,std::string&ErrorSignal);
+    LogOperator(const std::string& InitName, const std::vector<Node<T>*>& InitPre):Node<T>(InitName,0,0) {this->Pre= InitPre;}
+    T Solve(std::string& ErrorSignal){
+        return 0;
+    }
+    void Backward(T ,std::string&ErrorSignal);
 };
 
 //  TANH
-class TanhOperator :public Node <float>{
+template <typename T>
+class TanhOperator :public Node <T>{
 private:
 public:
-    TanhOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
-    float Solve(std::string& ErrorSignal);
+    TanhOperator(const std::string& InitName, const std::vector<Node<T>*>& InitPre):Node<T>(InitName, 0,0) {this-> Pre = InitPre;}
+    T Solve(std::string& ErrorSignal){
+        if (ErrorSignal.size() != 0)  return 0;
+        T Temp = this->Pre[0]->Calc(this->GetTime(), ErrorSignal);
+        if (ErrorSignal.size() != 0)  return 0;
+        return  std::tanh(Temp);
+    }
     void Backward(float ,std::string&ErrorSignal);
 };
 
 //  SIGMOID
-class SigmoidOperator :public Node<float> {
+
+template <typename T>
+class SigmoidOperator :public Node<T> {
 private:
 public:
-    SigmoidOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
-    float Solve(std::string& ErrorSignal);
+    SigmoidOperator(const std::string& InitName, const std::vector<Node<T>*>& InitPre):Node<T>(InitName,0,0){this->Pre = InitPre;}
+    T Solve(std::string& ErrorSignal){
+        if (ErrorSignal.size() != 0)  return 0;
+        T Temp = this->Pre[0]->Calc(this->GetTime(), ErrorSignal);
+        if (ErrorSignal.size() != 0)  return 0;
+        return sigmoid<T>(Temp);
+    }
     void Backward(float ,std::string&ErrorSignal);
 };
 
