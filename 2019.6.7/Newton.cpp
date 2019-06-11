@@ -5,15 +5,15 @@ Newton::Newton(int nn) :n(nn){
 } ;
 
 void Newton::Construct_Stage1(){
-    Nodes1.push_back(new Constant("0|Nodes1",1.0f));
-    Nodes1.push_back(new Placeholder("x")) ;
+    Nodes1.push_back(new Constant<float>("0|Nodes1",1.0f));
+    Nodes1.push_back(new Placeholder<float>("x")) ;
     x = Nodes1[1] ;
     if(n <= 1) return ;
     for(int i = 2; i <= n ; i++){
         std::vector<Node<float>*>temp ;
         temp.push_back(Nodes1[1]) ;
         temp.push_back(Nodes1[i-1]) ;
-        Nodes1.push_back(new MultipleOperator(std::to_string(i)+"Nodes1",temp)) ;
+        Nodes1.push_back(new MultipleOperator<float>(std::to_string(i)+"Nodes1",temp)) ;
     }
 }
 
@@ -21,7 +21,7 @@ void Newton::Construct_Stage2(){
     for(int i = 0 ; i <= n ; i++ ){
         float temp ;
         std::cin >> temp ;
-        Parameter.push_back(new Constant(std::to_string(n-i)+"Parameter",temp)) ;
+        Parameter.push_back(new Constant<float>(std::to_string(n-i)+"Parameter",temp)) ;
     }
 }
 
@@ -30,7 +30,7 @@ void Newton::Construct_Stage3(){
         std::vector<Node<float>*>temp ;
         temp.push_back(Parameter[n-i]) ;
         temp.push_back(Nodes1[i]) ;
-        Nodes2.push_back(new MultipleOperator(std::to_string(i)+"Nodes2",temp)) ;
+        Nodes2.push_back(new MultipleOperator<float>(std::to_string(i)+"Nodes2",temp)) ;
     }
     
 }
@@ -44,7 +44,7 @@ void Newton::Construct_Stage4(){
         std::vector<Node<float>*>temp ;
         temp.push_back(Nodes2[i]) ;
         temp.push_back(Nodes3[i-1]) ;
-        Nodes3.push_back(new PlusOperator(std::to_string(i)+"Nodes3",temp)) ;
+        Nodes3.push_back(new PlusOperator<float>(std::to_string(i)+"Nodes3",temp)) ;
     }
     res = Nodes3[n] ;
 }
