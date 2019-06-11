@@ -20,7 +20,11 @@
 #include <initializer_list>
 #include <iostream>
 #include <cmath>
-
+template <typename T>
+T sigmoid (const T& a)
+{
+    return 1/ (1+std::exp(-a));
+}
 
 class Tensor{
     
@@ -55,7 +59,7 @@ public:
     //以下为重载数学函数
     friend Tensor sin(const Tensor& a);
     friend Tensor log(const Tensor& a);
-    friend Tensor sigmoid(const Tensor& a);
+    friend Tensor sigmoid<Tensor>(const Tensor& a);
     friend Tensor tanh(const Tensor& a);
     friend Tensor exp(const Tensor& a);
     friend float Distance(const Tensor& a, const Tensor& b);   //损失函数
