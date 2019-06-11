@@ -3,33 +3,44 @@
 
 #include "Node.h"
 
-//	����
-class Variable : public Node<float>
+//	±‰¡ø
+
+template <typename T>
+class Variable: public Node<T>
 {
 private:
 public:
-	Variable(const std::string& InitName, const float& InitValue);
-	float Solve(std::string& ErrorSignal);
+    Variable(const std::string& InitName, const T& InitValue):Node<T>(InitName,InitValue,0){}
+    T Solve(std::string& ErrorSignal){
+        return this->GetValue();
+    }
+    void Backward (T , std::string &);
+};
+
+//	’ºŒª∑˚
+template <typename T>
+class Placeholder : public Node<T>
+{
+private:
+public:
+    Placeholder(const std::string& InitName):Node<T>(InitName, 0,0) {}
+    T Solve(std::string& ErrorSignal){
+        ErrorSignal = "Placeholder missing";                //    »Ù–Ë“™º∆À„ƒ≥Ω·µ„À˘“¿¿µµƒ’ºŒª∑˚Ω·µ„µƒ÷µ£®∂¯≤ª «∏¯≥ˆªÚ’ﬂø…“‘÷±Ω”ªÒµ√∆‰»°÷µ£©£¨
+        return 0;    
+    }
     void Backward (float , std::string &);
 };
 
-//	ռλ��
-class Placeholder : public Node<float>
+//	≥£¡ø
+template <typename T>
+class Constant : public Node<T>
 {
 private:
 public:
-	Placeholder(const std::string& InitName);
-	float Solve(std::string& ErrorSignal);
-    void Backward (float , std::string &);
-};
-
-//	����
-class Constant : public Node<float>
-{
-private:
-public:
-	Constant(const std::string& InitName, const float& InitValue);
-	float Solve(std::string& ErrorSignal);
+    Constant(const std::string& InitName, const float& InitValue):Node<T> (InitName, 0 ,0 ){}
+    T Solve(std::string& ErrorSignal){
+        return this->GetValue();
+    }
     void Backward (float , std::string &);
 };
 #endif
