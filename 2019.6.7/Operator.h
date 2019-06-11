@@ -5,7 +5,7 @@
 #include<iostream>
 
 //  º”∑®
-class PlusOperator : public Node
+class PlusOperator : public Node<float>
 {
 private:
 public:
@@ -15,7 +15,7 @@ public:
 };
 
 //  ºı∑®
-class MinusOperator : public Node
+class MinusOperator : public Node<float>
 {
 private:
 public:
@@ -25,7 +25,7 @@ public:
 };
 
 //  ≥À∑®
-class MultipleOperator : public Node
+class MultipleOperator : public Node<float>
 {
 private:
 public:
@@ -35,7 +35,7 @@ public:
 };
 
 //  ≥˝∑®
-class DivisionOperator : public Node
+class DivisionOperator : public Node<float>
 {
 private:
 public:
@@ -45,7 +45,7 @@ public:
 };
 
 // PRINT
-class PrintOperator :public Node
+class PrintOperator :public Node<float>
 {
 private:
     std::ostream* OutStream;
@@ -56,7 +56,7 @@ public:
 };
 
 //  SIN
-class SinOperator :public Node
+class SinOperator :public Node<float>
 {
 private:
 public:
@@ -66,7 +66,7 @@ public:
 };
 
 //  EXP
-class ExpOperator :public Node {
+class ExpOperator :public Node<float> {
 private:
 public:
     ExpOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
@@ -75,7 +75,7 @@ public:
 };
 
 //  LOG
-class LogOperator :public Node {
+class LogOperator :public Node<float> {
 private:
 public:
     LogOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
@@ -84,7 +84,7 @@ public:
 };
 
 //  TANH
-class TanhOperator :public Node {
+class TanhOperator :public Node <float>{
 private:
 public:
     TanhOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
@@ -93,7 +93,7 @@ public:
 };
 
 //  SIGMOID
-class SigmoidOperator :public Node {
+class SigmoidOperator :public Node<float> {
 private:
 public:
     SigmoidOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
@@ -102,7 +102,7 @@ public:
 };
 
 //  COND
-class CondOperator :public Node {
+class CondOperator :public Node<float> {
 private:
 public:
     CondOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
@@ -111,7 +111,7 @@ public:
 };
 
 //  >
-class GreaterOperator :public Node {
+class GreaterOperator :public Node <float>{
 private:
 public:
     GreaterOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
@@ -120,7 +120,7 @@ public:
 };
 
 //  >=
-class GreaterEqualOperator :public Node {
+class GreaterEqualOperator :public Node<float> {
 private:
 public:
     GreaterEqualOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
@@ -129,7 +129,7 @@ public:
 };
 
 //  <
-class LessOperator :public Node {
+class LessOperator :public Node <float>{
 private:
 public:
     LessOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
@@ -138,7 +138,7 @@ public:
 };
 
 //  <=
-class LessEqualOperator :public Node {
+class LessEqualOperator :public Node <float>{
 private:
 public:
     LessEqualOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
@@ -147,7 +147,7 @@ public:
 };
 
 //  ==
-class EqualOperator :public Node {
+class EqualOperator :public Node <float>{
 private:
 public:
     EqualOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
@@ -156,7 +156,7 @@ public:
 };
 //——————以下是第二阶段修改中添加的部分
 
-class AssertOperator :public Node {
+class AssertOperator :public Node<float> {
 private:
 public:
     AssertOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
@@ -164,7 +164,7 @@ public:
     void Backward(float ,std::string&ErrorSignal);
 };
 
-class BindOperator :public Node {
+class BindOperator :public Node <float>{
 private:
 public:
     BindOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
@@ -173,7 +173,7 @@ public:
 };
 
 // Add by Cai on 6.6
-class GradOperator :public Node {
+class GradOperator :public Node <float>{
 private:
 public:
     GradOperator(const std::string& InitName, const std::vector<Node*>& InitPre);
@@ -182,7 +182,7 @@ public:
 };
 //Grad
 
-class AtOperator: public Node{
+class AtOperator: public Node<float>{
 private:
 public:
     AtOperator(const std::string& InitName, const std::vector<Node*>& InitPre);

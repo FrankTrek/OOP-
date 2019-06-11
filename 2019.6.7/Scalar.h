@@ -4,7 +4,7 @@
 #include "Node.h"
 
 //	变量
-class Variable : public Node
+class Variable : public Node<float>
 {
 private:
 public:
@@ -14,7 +14,7 @@ public:
 };
 
 //	占位符
-class Placeholder : public Node
+class Placeholder : public Node<float>
 {
 private:
 public:
@@ -24,7 +24,7 @@ public:
 };
 
 //	常量
-class Constant : public Node
+class Constant : public Node<float>
 {
 private:
 public:

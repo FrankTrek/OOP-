@@ -6,35 +6,71 @@
 
 const float Epsi = 1e-7;
 
-class Node
-{
+template <typename T>
+class Node {
 private:
 	int Time;
 	std::string Name;
-	float Value;
+	T Value;
     //add by Cai on 6.6
-    float gradi=0;
+    T gradi=0;
     //
 protected:
-	std::vector<Node*>Pre;		//Pre: 计算某结点的Value依赖的前序结点
+	std::vector<Node<T>*>Pre;		//Pre: 计算某结点的Value依赖的前序结点
 public:
-	Node();
-	Node(const std::string& InitName, const float& InitValue, const int& InitTime);
-	float Calc(const int& CurTime, std::string& ErrorSignal);							//	计算某一结点的值
-	void SetValue(const float& Input, const int& CurTime);								//	为结点赋值
-	std::string GetName();																//	获得结点名
-	float GetValue();																	//	获得结点值
+    Node(){
+        Name = "";
+        Value = 0;
+        Time = 0;
+        Pre.clear();
+    }
+	Node(const std::string& InitName, const T& InitValue, const int& InitTime)
+    {
+        Name = InitName;
+        Value = InitValue;
+        Time = InitTime;
+        Pre.clear();
+    }
+	T Calc(const int& CurTime, std::string& ErrorSignal)
+    {
+        SetGradi(0);
+        if (Time == CurTime)                    //    若结点对应的时间等于当前时间，可以直接返回Value;
+        {
+            return Value;
+        }
+        
+        Time = CurTime;
+        Value = this->Solve(ErrorSignal);        //    否则，重新计算
+        return Value;
+    }//	计算某一结点的值
+    void SetValue(const T& Input, const int& CurTime){
+        Value = Input;
+        Time = CurTime;
+    }						//	为结点赋值
+    std::string GetName(){
+        return Name;
+    }														//	获得结点名
+    T GetValue(){
+        return Value;
+    }																//	获得结点值
     //
-    float GetGradi ();
-    void SetGradi (float);
+    T GetGradi (){
+        return gradi;
+    }
+    void SetGradi (T G){
+        gradi= G;
+    }
     //
     
-	int GetTime();																		//	获得结点的时间标记
-	virtual float Solve(std::string&ErrorSignal) = 0;									//	纯虚函数，便于派生类中重写覆盖: 进行不同种类运算符的计算
+    int GetTime(){
+        return Time;
+    }																	//	获得结点的时间标记
+	virtual T Solve(std::string&ErrorSignal) = 0;									//	纯虚函数，便于派生类中重写覆盖: 进行不同种类运算符的计算
     
     //add by Cai on 6.6
-    virtual void Backward(float ,std::string&ErrorSignal) = 0;
+    virtual void Backward(T ,std::string&ErrorSignal) = 0;
     //
-	virtual ~Node() = 0;																//	纯虚析构函数
+    virtual ~Node() {}															//	纯虚析构函数
 };
+
 #endif
