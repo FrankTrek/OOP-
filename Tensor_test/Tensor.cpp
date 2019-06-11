@@ -514,8 +514,8 @@ Tensor exp(const Tensor& a)
     }
     return temp;
 }
-
-Tensor sigmoid(const Tensor& a)
+template <>
+Tensor sigmoid<Tensor>(const Tensor& a)
 {
     Tensor temp(a);
     for(int i = 0; i<temp.values.size();i++)
