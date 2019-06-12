@@ -26,7 +26,7 @@ public :
 	void Construct_Stage3() ;
 	void Construct_Stage4() ;
 	void Method();
-
+	void Delete();
 	float debug_Cal() ;
 	~Newton();
 //	void NewtonMethod() ;

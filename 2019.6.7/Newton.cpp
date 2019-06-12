@@ -1,4 +1,5 @@
 #include "Newton.h"
+#include <iomanip>
 
 Newton::Newton(int nn) :n(nn){
     Timetag = 0;
@@ -67,11 +68,12 @@ void Newton::Method()
         res->Backward(1, ErrorSignal);
         x->GetGradi();
         temp = x0 - res->GetValue() / x->GetGradi();
-        std::cout << temp << " ";
+        std::cout <<std::fixed<<std::setprecision(4)<<temp << " ";
         x0 = temp;
         ErrorSignal.clear();
         
     }
+	std::cout << "\n";
     
 }
 
@@ -89,6 +91,21 @@ float Newton::debug_Cal(){
     result = res->Calc(1,E) ;
     return result ;
     
+}
+
+void Newton::Delete() {
+	for (auto i : Nodes1) {
+		delete i;
+	}
+	for (auto i : Parameter) {
+		delete i;
+	}
+	for (auto i : Nodes2) {
+		delete i;
+	}
+	for (auto i : Nodes3) {
+		delete i;
+	}
 }
 
 Newton::~Newton() {

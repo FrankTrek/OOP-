@@ -12,6 +12,7 @@ void NewtonWrapper::NewtonMathod()
 		a.Construct_Stage3();
 		a.Construct_Stage4();
 		a.Method();
+//		a.Delete();
 	}
 }
 
