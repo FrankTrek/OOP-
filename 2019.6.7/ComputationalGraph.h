@@ -2,6 +2,7 @@
 #define COMPUTATIONALGRAPH_H
 
 #include "Node.h"
+#include "Tensor.h"
 #include <map>
 #include <utility>
 #include <sstream>
@@ -18,13 +19,11 @@ private:
     int TimeTag;                            //TimeTag: 记录结点更新与计算的时间
     std::vector<Node<T>*>NodeAddress;           //NodeAddress：记录所有出现过的结点的指针，用于析构
     Session_Manager Manager;         //对不同varible存值的管理
-    std::vector<Node<T>*> Order_of_Derive;
 public:
     ComputationalGraph(){
         NodeMap.clear();
         PreAnswer.clear();
         NodeAddress.clear();
-        while(Order_of_Derive.size()!=0) Order_of_Derive.pop_back();
         TimeTag = 0;
     }
     void ErrorPrint(std::ostream& OutStream);    //    输出对应的错误信息
@@ -38,13 +37,17 @@ public:
     T GetPreviousAnswer(const int& Index){
         return PreAnswer[Index - 1];
     }    //    获得第 Index 个操作的答案
-    void Calc(const std::string& NodeName, const std::vector<std::pair<std::string, T> >& InitNode, std::ostream& OutStream);    //  计算图中的结点值并输出（或输出错误信息）
+    float Calc(const std::string& NodeName, const std::vector<std::pair<std::string, T> >& InitNode, std::ostream& OutStream);    //  计算图中的结点值并输出（或输出错误信息）
     void AddNode(Node<T>* NewNode){
         NodeMap[NewNode->GetName()] = NewNode;
         NodeAddress.push_back(NewNode);
     }                //    向计算图中增添新结点
     void EmptyCall();                            //    记录 SETCONSTANT 和 SETANSWER 操作
-    
+   
+	//准备特化为Tensor的计算图
+	friend Tensor ToTensor(std::vector<std::string>& a,int& start);
+	///
+
     //Add by Cai on 5.22
     
     std::vector<std::string> info;
@@ -84,7 +87,7 @@ private:
     Session_Manager* Manager;
 public:
     AssignOperator(const std::string& InitName, const std::vector<Node*>& InitPre, Session_Manager* Manager1);
-    float Solve(std::string& ErrorSignal,std::vector<Node<float>*>*  Order_of_Derive = nullptr);
+    float Solve(std::string& ErrorSignal);
     void Backward(float ,std::string&ErrorSignal);
 };
 
