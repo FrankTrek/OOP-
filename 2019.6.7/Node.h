@@ -3,7 +3,6 @@
 
 #include<vector>
 #include<string>
-#include "Tensor.h"
 
 const float Epsi = 1e-7;
 
@@ -17,7 +16,7 @@ private:
     T gradi=0;
     //
 protected:
-	std::vector<Node*> Pre;		//Pre: 计算某结点的Value依赖的前序结点
+	std::vector<Node*> Pre;		//Pre: º∆À„ƒ≥Ω·µ„µƒValue“¿¿µµƒ«∞–ÚΩ·µ„
 public:
     Node(){
         Name = "";
@@ -31,34 +30,33 @@ public:
         Value = InitValue;
         Time = InitTime;
         Pre.clear();
-
     }
-	Node(const std::vector<int>& a) {
-		std::cout << "Tensor Only" << std::endl;
-	}
-
-	T Calc(const int& CurTime, std::string& ErrorSignal)
+    T Calc(const int& CurTime, std::string& ErrorSignal, std::vector<Node<T>*>* Order_of_Derive = nullptr)
     {
         SetGradi(0);
-        if (Time == CurTime)                    //    若结点对应的时间等于当前时间，可以直接返回Value;
+        if (Time == CurTime)                    //    »ÙΩ·µ„∂‘”¶µƒ ±º‰µ»”⁄µ±«∞ ±º‰£¨ø…“‘÷±Ω”∑µªÿValue;
         {
             return Value;
         }
         
         Time = CurTime;
-        Value = this->Solve(ErrorSignal);        //    否则，重新计算
+        Value = this->Solve(ErrorSignal,Order_of_Derive);//    ∑Ò‘Ú£¨÷ÿ–¬º∆À„
+        if(Order_of_Derive)
+        {
+            Order_of_Derive->push_back(this);
+        }
         return Value;
-    }//	计算某一结点的值
+    }//	º∆À„ƒ≥“ªΩ·µ„µƒ÷µ
     void SetValue(const T& Input, const int& CurTime){
         Value = Input;
         Time = CurTime;
-    }						//	为结点赋值
+    }						//	Œ™Ω·µ„∏≥÷µ
     std::string GetName(){
         return Name;
-    }														//	获得结点名
+    }														//	ªÒµ√Ω·µ„√˚
     T GetValue(){
         return Value;
-    }																//	获得结点值
+    }																//	ªÒµ√Ω·µ„÷µ
     //
     T GetGradi (){
         return gradi;
@@ -70,19 +68,13 @@ public:
     
     int GetTime(){
         return Time;
-    }																	//	获得结点的时间标记
-	virtual T Solve(std::string&ErrorSignal) = 0;									//	纯虚函数，便于派生类中重写覆盖: 进行不同种类运算符的计算
+    }																	//	ªÒµ√Ω·µ„µƒ ±º‰±Íº«
+	virtual T Solve(std::string&ErrorSignal, std::vector<Node<T>*>*  Order_of_Derive = nullptr) = 0;									//	¥ø–È∫Ø ˝£¨±„”⁄≈……˙¿‡÷–÷ÿ–¥∏≤∏«: Ω¯––≤ªÕ¨÷÷¿‡‘ÀÀ„∑˚µƒº∆À„
     
     //add by Cai on 6.6
     virtual void Backward(T ,std::string&ErrorSignal) = 0;
     //
-    virtual ~Node() {}															//	纯虚析构函数
+    virtual ~Node() {}															//	¥ø–ÈŒˆππ∫Ø ˝
 };
-
-template<>
-Node<Tensor>::Node(const std::vector<int>& a) {
-	Tensor k(a,0);
-	Value = k;//在递降中使用全部为0
-}
 
 #endif
