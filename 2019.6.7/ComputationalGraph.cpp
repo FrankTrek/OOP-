@@ -16,7 +16,7 @@ void ComputationalGraph<T>::ErrorPrint(std::ostream& OutStream)
 
 //  º∆À„Ω·µ„÷µ≤¢ ‰≥ˆ£®ªÚ ‰≥ˆ¥ÌŒÛ–≈œ¢£©
 template <typename T>
-float ComputationalGraph<T>::Calc(const std::string& NodeName, const std::vector< std::pair<std::string, T> >& InitNode, std::ostream& OutStream)
+void ComputationalGraph<T>::Calc(const std::string& NodeName, const std::vector< std::pair<std::string, T> >& InitNode, std::ostream& OutStream)
 {
     TimeTag++;                            //    ∏¸–¬ ±º‰±Íº«
     for (auto it : InitNode)
@@ -25,17 +25,19 @@ float ComputationalGraph<T>::Calc(const std::string& NodeName, const std::vector
     }
     Manager.Assign_Values(TimeTag);             //更新varible的值
     ErrorSignal.clear();
+    Order_of_Derive.clear();
     T tmpans = NodeMap[NodeName]->Calc(TimeTag, ErrorSignal);
     if (ErrorSignal.size() != 0)
     {
         PreAnswer.push_back(0);            //    µ±ƒ≥∏ˆ≤Ÿ◊˜ πErrorSignal∑«ø’£¨Œﬁ¥∞∏£¨”√0’ºŒª;
         this->ErrorPrint(OutStream);    //    ≤¢ ‰≥ˆ¥ÌŒÛ–≈œ¢;
-        return 0;                        //    ∑µªÿ
+        return ;
+        //return 0;                        //    ∑µªÿ
     }
     PreAnswer.push_back(tmpans);
     OutStream.setf(std::ios::fixed);
     OutStream << std::setprecision(4) << tmpans << std::endl;
-    return tmpans;
+    //return tmpans;
 }
 
 //    º«¬º SETCONSTANT ∫Õ SETANSWER ≤Ÿ◊˜
@@ -219,7 +221,7 @@ void ComputationalGraph<float>::workstage2() {
         {
             std::vector<Node<float>*> vs;
             vs.push_back(Find(info[2]));
-            AddNode(new GradOperator(info[0],vs));
+            AddNode(new GradOperator(info[0],vs,&Order_of_Derive));
         }
         else if(info[1]=="COND")
         {
@@ -332,7 +334,7 @@ AssignOperator::AssignOperator(const std::string & InitName, const std::vector<N
 {
     Pre = InitPre;
 }
-float AssignOperator::Solve(std::string &ErrorSignal)
+float AssignOperator::Solve(std::string &ErrorSignal,std::vector<Node<float>*>*  Order_of_Derive )
 {
     if (ErrorSignal.size() != 0)  return 0;
     Pre[1]->Calc(this->GetTime(), ErrorSignal);
@@ -344,6 +346,5 @@ float AssignOperator::Solve(std::string &ErrorSignal)
 
 void AssignOperator::Backward(float, std::string &ErrorSignal)
 {
-     ErrorSignal= "Not defined Grad for LessEqualOperator yet!";
+    ErrorSignal= "Not defined Grad for LessEqualOperator yet!";
 }
-
