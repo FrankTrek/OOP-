@@ -3,6 +3,7 @@
 
 Newton::Newton(int nn) :n(nn){
     Timetag = 0;
+    
 } ;
 
 void Newton::Construct_Stage1(){
@@ -59,21 +60,26 @@ void Newton::Method()
         Timetag++;//TimeTag的更新
         x->SetValue(x0, Timetag);//为变量赋值
         
-        float result = res->Calc(Timetag, ErrorSignal);//计算fxo
+        float result = res->Calc(Timetag, ErrorSignal,&Order_of_Derive);//计算fxo
         if (ErrorSignal.size()) {
             std::cout << ErrorSignal << "\n";//如果建图有问题（在计算中显现）
             //感觉这里其实不会出现Error的情况，但仍然使用ErrorSignal进行了处理
             return;
         }
-        res->Backward(1, ErrorSignal);
+        res->SetGradi(1);
+        for(int i = Order_of_Derive.size()-1;i>=0;i--)
+        {
+            Order_of_Derive[i]->Backward(Order_of_Derive[i]->GetGradi(), ErrorSignal);
+        }
         x->GetGradi();
+        Order_of_Derive.clear();
         temp = x0 - res->GetValue() / x->GetGradi();
         std::cout <<std::fixed<<std::setprecision(4)<<temp << " ";
         x0 = temp;
         ErrorSignal.clear();
         
     }
-	std::cout << "\n";
+    std::cout << "\n";
     
 }
 
@@ -94,26 +100,21 @@ float Newton::debug_Cal(){
 }
 
 void Newton::Delete() {
-	for (auto i : Nodes1) {
-		delete i;
-	}
-	for (auto i : Parameter) {
-		delete i;
-	}
-	for (auto i : Nodes2) {
-		delete i;
-	}
-	for (auto i : Nodes3) {
-		delete i;
-	}
+    for (auto i : Nodes1) {
+        delete i;
+    }
+    for (auto i : Parameter) {
+        delete i;
+    }
+    for (auto i : Nodes2) {
+        delete i;
+    }
+    for (auto i : Nodes3) {
+        delete i;
+    }
 }
 
 Newton::~Newton() {
     x = nullptr;
     res = nullptr;
 }
-/*
- void Newton::NewtonMethond(){
- float Init ;
- std::cin>>Init ;
- */
