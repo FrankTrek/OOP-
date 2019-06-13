@@ -3,7 +3,7 @@
 
 #include "Node.h"
 
-//	±äÁ¿
+//	Â±â€°Â¡Ã¸
 
 template <typename T>
 class Variable: public Node<T>
@@ -11,34 +11,34 @@ class Variable: public Node<T>
 private:
 public:
     Variable(const std::string& InitName, const T& InitValue):Node<T>(InitName,InitValue,0){}
-    T Solve(std::string& ErrorSignal){
+    T Solve(std::string& ErrorSignal,std::vector<Node<T>*>*  Order_of_Derive = nullptr){
         return this->GetValue();
     }
     void Backward (T , std::string &);
 };
 
-//	Õ¼Î»·û
+//	â€™ÂºÅ’Âªâˆ‘Ëš
 template <typename T>
 class Placeholder : public Node<T>
 {
 private:
 public:
     Placeholder(const std::string& InitName):Node<T>(InitName, 0,0) {}
-    T Solve(std::string& ErrorSignal){
-        ErrorSignal = "Placeholder missing";                //    ÈôĞèÒª¼ÆËãÄ³½áµãËùÒÀÀµµÄÕ¼Î»·û½áµãµÄÖµ£¨¶ø²»ÊÇ¸ø³ö»òÕß¿ÉÒÔÖ±½Ó»ñµÃÆäÈ¡Öµ£©£¬
+    T Solve(std::string& ErrorSignal,std::vector<Node<T>*>*  Order_of_Derive = nullptr){
+        ErrorSignal = "Placeholder missing";                //    Â»Ã™â€“Ã‹â€œâ„¢Âºâˆ†Ã€â€Æ’â‰¥Î©Â·Âµâ€Ã€Ë˜â€œÂ¿Â¿ÂµÂµÆ’â€™ÂºÅ’Âªâˆ‘ËšÎ©Â·Âµâ€ÂµÆ’Ã·ÂµÂ£Â®âˆ‚Â¯â‰¤ÂªÂ Â«âˆÂ¯â‰¥Ë†ÂªÃšâ€™ï¬‚Ã¸â€¦â€œâ€˜Ã·Â±Î©â€ÂªÃ’Âµâˆšâˆ†â€°Â»Â°Ã·ÂµÂ£Â©Â£Â¨
         return 0;    
     }
     void Backward (float , std::string &);
 };
 
-//	³£Á¿
+//	â‰¥Â£Â¡Ã¸
 template <typename T>
 class Constant : public Node<T>
 {
 private:
 public:
-    Constant(const std::string& InitName, const float& InitValue):Node<T> (InitName, InitValue ,0 ){}
-    T Solve(std::string& ErrorSignal){
+    Constant(const std::string& InitName, const T& InitValue):Node<T> (InitName, InitValue ,0 ){}
+    T Solve(std::string& ErrorSignal,std::vector<Node<T>*>*  Order_of_Derive = nullptr){
         
         return this->GetValue();
     }
