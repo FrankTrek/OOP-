@@ -16,7 +16,7 @@ private:
     T gradi=0;
     //
 protected:
-	std::vector<Node<T>*>Pre;		//Pre: 计算某结点的Value依赖的前序结点
+	std::vector<Node*> Pre;		//Pre: 计算某结点的Value依赖的前序结点
 public:
     Node(){
         Name = "";

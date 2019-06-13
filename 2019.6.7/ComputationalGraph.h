@@ -75,6 +75,8 @@ public:
     }
 };
 
+
+
 class AssignOperator: public Node<float>{
 private:
     Session_Manager* Manager;

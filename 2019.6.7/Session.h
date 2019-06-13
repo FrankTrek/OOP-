@@ -37,7 +37,7 @@ private:
     {
         Varible_Value = a.Varible_Value;
     }
-    void Add_Varible(Node* varible)
+    void Add_Varible(Node<float>* varible)
     {
         
         Varible_Value[varible->GetName()] = varible->GetValue();
@@ -96,7 +96,7 @@ class Session_Manager
     Session* session_on;
     int mark;
     std::vector<Session* > sessions;
-    std::map<std::string, Node*> Varible_Pool;
+    std::map<std::string, Node<float>*> Varible_Pool;
 public:
     Session_Manager()
     {
@@ -129,7 +129,7 @@ public:
             mark = i;
         }
     }
-    void Add_Varible(Node* varible)
+    void Add_Varible(Node<float>* varible)
     {
         session_on->Add_Varible(varible);
         Varible_Pool[varible->GetName()] = varible;

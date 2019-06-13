@@ -182,7 +182,7 @@ float AssertOperator::Solve(std::string& ErrorSignal)
     if (ErrorSignal.size() != 0)  return 0;
     float Temp = Pre[0]->Calc(this->GetTime(), ErrorSignal);
     if (ErrorSignal.size() != 0)  return 0;
-    if (Temp <= Epsi)    //    考虑浮点运算的误差
+    if (Temp < -Epsi)    //    考虑浮点运算的误差
     {
         ErrorSignal = "Assertion failed";
         return 0;

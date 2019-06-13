@@ -5,6 +5,7 @@
 #include <sstream>
 #include <map>
 #include "Session.h"
+#include "Tensor.h"
 
 
 
@@ -20,28 +21,35 @@ void Error()
 int main()
 {
     
-    ComputationalGraph CG;
+    ComputationalGraph<float> CG;
     CG.workstage1();
     CG.workstage2();
     CG.workstage3();
     
     
+    
+    //std::vector<std::vector<int>>  a = {{7,7,4},{2,4,6},{1,3,6}};
     /*
-     std::vector<std::vector<int>>  a = {{1,2,3},{7,7,4}};
-     std::vector<int>   b = {1,3,4};
+    std::vector<std::vector<float >>  b = {{1,2,0.7},{5,6,7}};
+    std::vector<std::vector<float >> c = {{1},{5}};
      
-     Tensor test(a);
-     Tensor test2(b);
-     test.Print();
-     test = test-test2;
-     test.Print();
+    //Tensor test(a);
+    //test=test.transposition();
+    Tensor test2(b);
+    
+    Tensor test3 (c);
+    test2 = test2 - test3;
+    test2.Print();
+    
+    //test = concat({test,test2,test3}, 1);
+    //test.Print();
      //test=test.reshape({3,4});
      
      //test.Print();
      //test = test.transposition();
      //test.Print();
      //(test2*test).Print();
-     */
+    */
     //    输入结点属性（和数值）
     /*
      std::cin >> n;

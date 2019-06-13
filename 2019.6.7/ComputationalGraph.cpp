@@ -231,7 +231,8 @@ void ComputationalGraph<float>::workstage2() {
         }
     }
 }
-template <>
+
+template<>
 void ComputationalGraph<float>::workstage3() {
     std::string ini;
     getline(std::cin, ini);
@@ -286,16 +287,16 @@ void ComputationalGraph<float>::workstage3() {
         }
         else if(info[0]=="FILE")   //输入输出session：FILE IN xxx/FILE OUT xxx
         {
-           if(info[1]=="IN")
-           {
-               EmptyCall();
-               Manager.File_in(info[2]);
-           }
-           else
-           {
+            if(info[1]=="IN")
+            {
+                EmptyCall();
+                Manager.File_in(info[2]);
+            }
+            else
+            {
                 EmptyCall();
                 Manager.File_out(info[2]);
-           }
+            }
         }
         else if(info[0]=="DELETE") //DELETE SESSION 删除目前的session
         {
@@ -318,6 +319,8 @@ void ComputationalGraph<float>::workstage3() {
         
     }
 }
+
+
 
 
 //End Add
