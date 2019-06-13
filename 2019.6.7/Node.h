@@ -3,6 +3,7 @@
 
 #include<vector>
 #include<string>
+#include "Tensor.h"
 
 const float Epsi = 1e-7;
 
@@ -16,7 +17,7 @@ private:
     T gradi=0;
     //
 protected:
-	std::vector<Node*> Pre;		//Pre: ¼ÆËãÄ³½áµãµÄValueÒÀÀµµÄÇ°Ğò½áµã
+	std::vector<Node*> Pre;		//Pre: è®¡ç®—æŸç»“ç‚¹çš„Valueä¾èµ–çš„å‰åºç»“ç‚¹
 public:
     Node(){
         Name = "";
@@ -30,29 +31,34 @@ public:
         Value = InitValue;
         Time = InitTime;
         Pre.clear();
+
     }
+	Node(const std::vector<int>& a) {
+		std::cout << "Tensor Only" << std::endl;
+	}
+
 	T Calc(const int& CurTime, std::string& ErrorSignal)
     {
         SetGradi(0);
-        if (Time == CurTime)                    //    Èô½áµã¶ÔÓ¦µÄÊ±¼äµÈÓÚµ±Ç°Ê±¼ä£¬¿ÉÒÔÖ±½Ó·µ»ØValue;
+        if (Time == CurTime)                    //    è‹¥ç»“ç‚¹å¯¹åº”çš„æ—¶é—´ç­‰äºå½“å‰æ—¶é—´ï¼Œå¯ä»¥ç›´æ¥è¿”å›Value;
         {
             return Value;
         }
         
         Time = CurTime;
-        Value = this->Solve(ErrorSignal);        //    ·ñÔò£¬ÖØĞÂ¼ÆËã
+        Value = this->Solve(ErrorSignal);        //    å¦åˆ™ï¼Œé‡æ–°è®¡ç®—
         return Value;
-    }//	¼ÆËãÄ³Ò»½áµãµÄÖµ
+    }//	è®¡ç®—æŸä¸€ç»“ç‚¹çš„å€¼
     void SetValue(const T& Input, const int& CurTime){
         Value = Input;
         Time = CurTime;
-    }						//	Îª½áµã¸³Öµ
+    }						//	ä¸ºç»“ç‚¹èµ‹å€¼
     std::string GetName(){
         return Name;
-    }														//	»ñµÃ½áµãÃû
+    }														//	è·å¾—ç»“ç‚¹å
     T GetValue(){
         return Value;
-    }																//	»ñµÃ½áµãÖµ
+    }																//	è·å¾—ç»“ç‚¹å€¼
     //
     T GetGradi (){
         return gradi;
@@ -64,13 +70,19 @@ public:
     
     int GetTime(){
         return Time;
-    }																	//	»ñµÃ½áµãµÄÊ±¼ä±ê¼Ç
-	virtual T Solve(std::string&ErrorSignal) = 0;									//	´¿Ğéº¯Êı£¬±ãÓÚÅÉÉúÀàÖĞÖØĞ´¸²¸Ç: ½øĞĞ²»Í¬ÖÖÀàÔËËã·ûµÄ¼ÆËã
+    }																	//	è·å¾—ç»“ç‚¹çš„æ—¶é—´æ ‡è®°
+	virtual T Solve(std::string&ErrorSignal) = 0;									//	çº¯è™šå‡½æ•°ï¼Œä¾¿äºæ´¾ç”Ÿç±»ä¸­é‡å†™è¦†ç›–: è¿›è¡Œä¸åŒç§ç±»è¿ç®—ç¬¦çš„è®¡ç®—
     
     //add by Cai on 6.6
     virtual void Backward(T ,std::string&ErrorSignal) = 0;
     //
-    virtual ~Node() {}															//	´¿ĞéÎö¹¹º¯Êı
+    virtual ~Node() {}															//	çº¯è™šææ„å‡½æ•°
 };
+
+template<>
+Node<Tensor>::Node(const std::vector<int>& a) {
+	Tensor k(a,0);
+	Value = k;//åœ¨é€’é™ä¸­ä½¿ç”¨å…¨éƒ¨ä¸º0
+}
 
 #endif
