@@ -26,26 +26,28 @@
 #include <fstream>
 #include <cstdlib>
 
+template <typename T>
 class Session{
 private:
     friend class Session_Manager;
     
-    std::map<std::string, float> Varible_Value;
+    std::map<std::string, T> Varible_Value;
     
     Session () {};
     Session (const Session& a)
     {
         Varible_Value = a.Varible_Value;
     }
-    void Add_Varible(Node<float>* varible)
+    void Add_Varible(Node<T>* varible)
     {
         
         Varible_Value[varible->GetName()] = varible->GetValue();
     }
-    void SetValue(const std::string& name, float value)
+    void SetValue(const std::string& name, T value)
     {
         Varible_Value[name] = value;
     }
+	
     void File_in(const std::string& File_name)     //未完成
     {
         std::fstream fin;
@@ -78,6 +80,8 @@ private:
             fout<<i.first<<"             "<<i.second<<std::endl;
         }
     }
+	//
+
     void Show_Values()
     {
         std::cout<<"VARIBLE"<<"             "<<"VALUES\n";
@@ -90,17 +94,17 @@ private:
 };
 
 
-
+template <typename T>
 class Session_Manager
 {
-    Session* session_on;
+    Session<T>* session_on;
     int mark;
-    std::vector<Session* > sessions;
-    std::map<std::string, Node<float>*> Varible_Pool;
+    std::vector<Session<T>* > sessions;
+    std::map<std::string, Node<T>*> Varible_Pool;
 public:
     Session_Manager()
     {
-        sessions.push_back(new Session());
+        sessions.push_back(new Session<T>());
         session_on = sessions[0];
         mark = 0;
     }
@@ -110,11 +114,11 @@ public:
     }
     void Add_Session()
     {
-        sessions.push_back(new Session(*session_on));
+        sessions.push_back(new Session<T>(*session_on));
     }
     void File_in_New(const std::string& File_name)
     {
-        sessions.push_back(new Session(*session_on));
+        sessions.push_back(new Session<T>(*session_on));
         sessions[sessions.size()-1]->File_in(File_name);
     }
     void Switch(int i)
@@ -129,12 +133,12 @@ public:
             mark = i;
         }
     }
-    void Add_Varible(Node<float>* varible)
+    void Add_Varible(Node<T>* varible)
     {
         session_on->Add_Varible(varible);
         Varible_Pool[varible->GetName()] = varible;
     }
-    void Set_Value(const std::string& name, float value)
+    void Set_Value(const std::string& name, T value)
     {
         session_on->SetValue(name, value);
     }
