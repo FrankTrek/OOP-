@@ -72,7 +72,9 @@ public:
 	virtual T Solve(std::string&ErrorSignal, std::vector<Node<T>*>*  Order_of_Derive = nullptr) = 0;									//	¥ø–È∫Ø ˝£¨±„”⁄≈……˙¿‡÷–÷ÿ–¥∏≤∏«: Ω¯––≤ªÕ¨÷÷¿‡‘ÀÀ„∑˚µƒº∆À„
     
     //add by Cai on 6.6
-    virtual void Backward(T ,std::string&ErrorSignal) = 0;
+    virtual void Backward(T ,std::string&ErrorSignal){
+	    std::cout << "BackWard Defined ERROR"<<std::endl ;
+    }
     //
     virtual ~Node() {}															//	¥ø–ÈŒˆππ∫Ø ˝
 };
