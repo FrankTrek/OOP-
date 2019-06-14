@@ -16,14 +16,16 @@ private:
     std::map<std::string, Node<T>*>NodeMap;    //NodeMap: 结点名到指向结点的指针的映射
     std::vector<T>PreAnswer;            //PreAnswer: 保存前序操作的答案
     std::string ErrorSignal;                //ErrorSignal: 记录错误信息
-    int TimeTag;                            //TimeTag: 记录结点更新与计算的时间
-    std::vector<Node<T>*>NodeAddress;           //NodeAddress：记录所有出现过的结点的指针，用于析构
+    int TimeTag;             //TimeTag: 记录结点更新与计算的时间
+	std::vector<Node<T>*> Order_of_Derive;
+	std::vector<Node<T>*>NodeAddress;           //NodeAddress：记录所有出现过的结点的指针，用于析构
     Session_Manager Manager;         //对不同varible存值的管理
 public:
     ComputationalGraph(){
         NodeMap.clear();
         PreAnswer.clear();
         NodeAddress.clear();
+		while (Order_of_Derive.size() != 0) Order_of_Derive.pop_back();
         TimeTag = 0;
     }
     void ErrorPrint(std::ostream& OutStream);    //    输出对应的错误信息
@@ -37,7 +39,7 @@ public:
     T GetPreviousAnswer(const int& Index){
         return PreAnswer[Index - 1];
     }    //    获得第 Index 个操作的答案
-    float Calc(const std::string& NodeName, const std::vector<std::pair<std::string, T> >& InitNode, std::ostream& OutStream);    //  计算图中的结点值并输出（或输出错误信息）
+    void Calc(const std::string& NodeName, const std::vector<std::pair<std::string, T> >& InitNode, std::ostream& OutStream);    //  计算图中的结点值并输出（或输出错误信息）
     void AddNode(Node<T>* NewNode){
         NodeMap[NewNode->GetName()] = NewNode;
         NodeAddress.push_back(NewNode);
@@ -81,15 +83,17 @@ public:
 };
 
 
-
-class AssignOperator: public Node<float>{
+template <typename T>
+class AssignOperator: public Node<T>{
 private:
     Session_Manager* Manager;
 public:
-    AssignOperator(const std::string& InitName, const std::vector<Node*>& InitPre, Session_Manager* Manager1);
-    float Solve(std::string& ErrorSignal);
-    void Backward(float ,std::string&ErrorSignal);
+    AssignOperator(const std::string& InitName, const std::vector<Node<T>*>& InitPre, Session_Manager<T>* Manager1);
+	T Solve(std::string& ErrorSignal, std::vector<Node<T>*>* Order_of_Derive = nullptr);
+    void Backward(T ,std::string&ErrorSignal);
 };
+
+
 
 
 #endif
