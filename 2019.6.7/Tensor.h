@@ -1,5 +1,13 @@
 //
 //  Tensor.h
+//  计算图_第二阶段
+//
+//  Created by 王一诺 on 2019/6/11.
+//  Copyright © 2019 王一诺. All rights reserved.
+//
+
+//
+//  Tensor.h
 //  Tensor_Test
 //
 //  Created by 王一诺 on 2019/5/26.
@@ -12,13 +20,11 @@
 #include <initializer_list>
 #include <iostream>
 #include <cmath>
-
 template <typename T>
 T sigmoid (const T& a)
 {
     return 1/ (1+std::exp(-a));
 }
-
 
 class Tensor{
     
@@ -52,14 +58,70 @@ public:
     //重载运算符
     //以下为重载数学函数
     friend Tensor sin(const Tensor& a);
-    friend Tensor cos(const Tensor& a);
     friend Tensor log(const Tensor& a);
-    
-    friend Tensor sigmoid<Tensor> (const Tensor& a);
+    friend Tensor sigmoid<Tensor>(const Tensor& a);
     friend Tensor tanh(const Tensor& a);
     friend Tensor exp(const Tensor& a);
+    friend float Distance(const Tensor& a, const Tensor& b);   //损失函数
+
+	friend std::ostream& operator<<(std::ostream& co, const Tensor& s) {
+		for (auto i : s.values) {
+			co << i << " ";
+		}
+		co << std::endl;
+		return co;
+	}
+	friend std::istream& operator>>(std::istream& ci, Tensor& s) {
+		int temp_dim;
+		ci >> temp_dim;
+		if (temp_dim == 1) {
+			std::vector<float> temp_value;
+			for (int i = 1; i <= temp_dim; i++) {
+				float temp_float;
+				ci >> temp_float;
+				temp_value.push_back(temp_float);
+			}
+			Tensor k(temp_value);
+			s = k;
+			return ci;
+		}
+		else if (temp_dim == 2) {
+			int tempm, tempn;
+			ci >> tempm >> tempn;
+			std::vector<std::vector<float>>tempA;
+			for (int i = 1; i <= tempm; i++) {
+				std::vector<float>tempa;
+				for (int i = 1; i <= tempn; i++) {
+					float temp_float;
+					ci >> temp_float;
+					tempa.push_back(temp_float);
+				}
+				tempA.push_back(tempa);
+			}
+			Tensor k(tempA);
+			s = k;
+			return c1;
+		}
+		else {
+			std::cout << "Dim >= 3 " << std::endl;
+			return c1;
+		}
+	}
     //以上为重载的数学函数
+    //以下为各种函数的导数
+    friend Tensor I_Matrix(int size1, int size2);
+    bool Match(std::vector<int>& a,std::vector<int>& b);
+    friend Tensor Derive_Mutiply_left(const Tensor& result, const Tensor& left, const Tensor& right);
+    friend Tensor Derive_Mutiply_right(const Tensor& result, const Tensor& left, const Tensor& right);
+    friend Tensor Derive_sin(const Tensor& result, const Tensor& input);
+    friend Tensor Derive_log(const Tensor& result, const Tensor& input);
+    friend Tensor Derive_sigmoid(const Tensor& result, const Tensor& input);
+    friend Tensor Derive_tanh(const Tensor& result, const Tensor& input);
+    friend Tensor Derive_exp(const Tensor& result, const Tensor& input);
+    friend Tensor Derive_Distance(const Tensor& input1, const Tensor& input2);
+    //以上为各种函数的导数
     //以下为对张量的操作
+    void slim(int i );
     Tensor transposition();   //转置
     std::vector<int> shape() const; //返回形状
     std::vector<int> indexs() const; //返回索引
@@ -75,5 +137,24 @@ public:
 };
 Tensor stack(const std::vector<Tensor>& list, int dim);
 Tensor concat(const std::vector<Tensor>& list, int dim);
+
+Tensor I_Matrix(int size1, int size2);
+Tensor sin(const Tensor& a);
+Tensor log(const Tensor& a);
+Tensor sigmoid(const Tensor& a);
+Tensor tanh(const Tensor& a);
+Tensor exp(const Tensor& a);
+float Distance(const Tensor& a, const Tensor& b);   //损失函数
+Tensor operator *(float a, const Tensor& t);
+
+//求导
+Tensor Derive_Mutiply_left(const Tensor& result, const Tensor& left, const Tensor& right);
+Tensor Derive_Mutiply_right(const Tensor& result, const Tensor& left, const Tensor& right);
+Tensor Derive_sin(const Tensor& result, const Tensor& input);
+Tensor Derive_log(const Tensor& result, const Tensor& input);
+Tensor Derive_sigmoid(const Tensor& result, const Tensor& input);
+Tensor Derive_tanh(const Tensor& result, const Tensor& input);
+Tensor Derive_exp(const Tensor& result, const Tensor& input);
+Tensor Derive_Distance(const Tensor& input1, const Tensor& input2);
 
 #endif /* Tensor_h */
