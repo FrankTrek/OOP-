@@ -9,6 +9,8 @@
 
 
 template <typename T>
+
+
 void ComputationalGraph<T>::ErrorPrint(std::ostream& OutStream)
 {
     OutStream << "ERROR: " << ErrorSignal << std::endl;
@@ -16,7 +18,7 @@ void ComputationalGraph<T>::ErrorPrint(std::ostream& OutStream)
 
 //  º∆À„Ω·µ„÷µ≤¢ ‰≥ˆ£®ªÚ ‰≥ˆ¥ÌŒÛ–≈œ¢£©
 template <typename T>
-float ComputationalGraph<T>::Calc(const std::string& NodeName, const std::vector< std::pair<std::string, T> >& InitNode, std::ostream& OutStream)
+void ComputationalGraph<T>::Calc(const std::string& NodeName, const std::vector< std::pair<std::string, T> >& InitNode, std::ostream& OutStream)
 {
     TimeTag++;                            //    ∏¸–¬ ±º‰±Íº«
     for (auto it : InitNode)
@@ -30,13 +32,16 @@ float ComputationalGraph<T>::Calc(const std::string& NodeName, const std::vector
     {
         PreAnswer.push_back(0);            //    µ±ƒ≥∏ˆ≤Ÿ◊˜ πErrorSignal∑«ø’£¨Œﬁ¥∞∏£¨”√0’ºŒª;
         this->ErrorPrint(OutStream);    //    ≤¢ ‰≥ˆ¥ÌŒÛ–≈œ¢;
-        return 0;                        //    ∑µªÿ
+		return;                   //    ∑µªÿ
     }
     PreAnswer.push_back(tmpans);
     OutStream.setf(std::ios::fixed);
     OutStream << std::setprecision(4) << tmpans << std::endl;
-    return tmpans;
+ 
 }
+
+
+
 
 //    º«¬º SETCONSTANT ∫Õ SETANSWER ≤Ÿ◊˜
 template <typename T>
@@ -59,7 +64,7 @@ Tensor ToTensor(std::vector<std::string>& a, int& start)
 		for (int i = 1; i <= temp_shape; i++) {
 			temp_value.push_back(std::stof(a[++start]));
 		}
-		return Tensor(temp_value);//合法？
+		return Tensor(temp_value);
 	}
 	else if (temp_dim == 2) {
 		int tempm = std::stoi(a[++start]);
@@ -286,11 +291,11 @@ void ComputationalGraph<T>::workstage2(){
         {
             std::vector<Node<T>*> vs;
             vs.push_back(Find(info[2]));
-            AddNode(new GradOperator(info[0],vs));
+            AddNode(new GradOperator(info[0],vs，&Order_of_Derive));
         }
         else if(info[1]=="COND")
         {
-            std::vector<Node<>*> vs;
+            std::vector<Node<T>*> vs;
             vs.push_back(Find(info[2]));
             vs.push_back(Find(info[3]));
             vs.push_back(Find(info[4]));
@@ -404,7 +409,7 @@ void ComputationalGraph<Tensor>::workstage3() {
 				int temp_index = 2;
 				int temp_n = std::stoi(info[temp_index]);
 				for (int i = 1; i <= temp_n; i++) {
-					vc.push_back(std::make_pair(info[temp_index], ToTensor(info, ++temp_index)));
+					vc.push_back(std::make_pair(info[++temp_index], ToTensor(info, ++temp_index)));
 				}
 
 			}
@@ -429,7 +434,8 @@ void ComputationalGraph<Tensor>::workstage3() {
 		else if (info[0] == "SETCONSTANT") {
 			EmptyCall();
 			int timetag = GetTime();
-			Find(info[1])->SetValue(ToTensor(info,2), timetag);
+			int temp_index = 2;
+			Find(info[1])->SetValue(ToTensor(info,temp_index), timetag);
 			Manager.Set_Value(info[1], std::stof(info[2]));
 		}
 		//以下为新增的session_manager的功能
@@ -494,12 +500,14 @@ void ComputationalGraph<Tensor>::workstage3() {
 
 
 
-
-AssignOperator::AssignOperator(const std::string & InitName, const std::vector<Node*>& InitPre, Session_Manager* Manager1) : Node(InitName,0,0), Manager(Manager1)
+template<typename T>
+AssignOperator<T>::AssignOperator(const std::string & InitName, const std::vector<Node<T>*>& InitPre, Session_Manager<T>* Manager1) : Node(InitName,0,0), Manager(Manager1)
 {
     Pre = InitPre;
 }
-float AssignOperator::Solve(std::string &ErrorSignal)
+
+template<>
+float AssignOperator<float>::Solve(std::string &ErrorSignal,std::vector<Node<float>*>* Order_of_Derive = nullptr)
 {
     if (ErrorSignal.size() != 0)  return 0;
     Pre[1]->Calc(this->GetTime(), ErrorSignal);
@@ -509,7 +517,19 @@ float AssignOperator::Solve(std::string &ErrorSignal)
     return Pre[0]->Calc(this->GetTime(), ErrorSignal);
 }
 
-void AssignOperator::Backward(float, std::string &ErrorSignal)
+template<>
+Tensor AssignOperator<Tensor>::Solve(std::string& ErrorSignal, std::vector<Node<Tensor>*>* Order_of_Derive = nullptr)
+{
+	if (ErrorSignal.size() != 0)  return 0;
+	Pre[1]->Calc(this->GetTime(), ErrorSignal);
+	if (ErrorSignal.size() != 0)  return 0;
+	Tensor Value_receive = Pre[1]->GetValue();
+	Manager->Set_Value(Pre[0]->GetName(), Value_receive);
+	return Pre[0]->Calc(this->GetTime(), ErrorSignal);
+}
+
+template<typename T>
+void AssignOperator<T>::Backward(T, std::string &ErrorSignal)
 {
      ErrorSignal= "Not defined Grad for LessEqualOperator yet!";
 }
