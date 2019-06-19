@@ -16,12 +16,12 @@ class ComputationalGraph
 private:
     template <typename To>
     friend class AssignOperator;
-    std::map<std::string, Node<T>*>NodeMap;    //NodeMap: 结点名到指向结点的指针的映射
-    std::vector<T>PreAnswer;            //PreAnswer: 保存前序操作的答案
-    std::string ErrorSignal;                //ErrorSignal: 记录错误信息
-    int TimeTag;                            //TimeTag: 记录结点更新与计算的时间
-    std::vector<Node<T>*>NodeAddress;           //NodeAddress：记录所有出现过的结点的指针，用于析构
-    Session_Manager<T> Manager;         //对不同varible存值的管理
+    std::map<std::string, Node<T>*>NodeMap;    //NodeMap: 缁撶偣鍚嶅埌鎸囧悜缁撶偣鐨勬寚閽堢殑鏄犲皠
+    std::vector<T>PreAnswer;            //PreAnswer: 淇濆瓨鍓嶅簭鎿嶄綔鐨勭瓟妗?
+    std::string ErrorSignal;                //ErrorSignal: 璁板綍閿欒淇℃伅
+    int TimeTag;                            //TimeTag: 璁板綍缁撶偣鏇存柊涓庤绠楃殑鏃堕棿
+    std::vector<Node<T>*>NodeAddress;           //NodeAddress锛氳褰曟墍鏈夊嚭鐜拌繃鐨勭粨鐐圭殑鎸囬拡锛岀敤浜庢瀽鏋?
+    Session_Manager<T> Manager;         //瀵逛笉鍚寁arible瀛樺€肩殑绠＄悊
     std::vector<Node<T>*> Order_of_Derive;
 public:
     ComputationalGraph(){
@@ -31,25 +31,25 @@ public:
         Order_of_Derive.clear();
         TimeTag = 0;
     }
-    void ErrorPrint(std::ostream& OutStream);    //    输出对应的错误信息
+    void ErrorPrint(std::ostream& OutStream);    //    杈撳嚭瀵瑰簲鐨勯敊璇俊鎭?
     Node<T> *Find(const std::string& NodeName){
         if (NodeMap.find(NodeName) == NodeMap.end())    return NULL;
         else return NodeMap[NodeName];
-    }    //    根据结点名寻找相应结点
+    }    //    鏍规嵁缁撶偣鍚嶅鎵剧浉搴旂粨鐐?
     int GetTime(){
         return TimeTag;
-    }                             //    获得当前计算图的时间标记
+    }                             //    鑾峰緱褰撳墠璁＄畻鍥剧殑鏃堕棿鏍囪
     T GetPreviousAnswer(const int& Index){
         return PreAnswer[Index - 1];
-    }    //    获得第 Index 个操作的答案
-    void Calc(const std::string& NodeName, const std::vector<std::pair<std::string, T> >& InitNode, std::ostream& OutStream);    //  计算图中的结点值并输出（或输出错误信息）
+    }    //    鑾峰緱绗?Index 涓搷浣滅殑绛旀
+    void Calc(const std::string& NodeName, const std::vector<std::pair<std::string, T> >& InitNode, std::ostream& OutStream);    //  璁＄畻鍥句腑鐨勭粨鐐瑰€煎苟杈撳嚭锛堟垨杈撳嚭閿欒淇℃伅锛?
     void AddNode(Node<T>* NewNode){
         NodeMap[NewNode->GetName()] = NewNode;
         NodeAddress.push_back(NewNode);
-    }                //    向计算图中增添新结点
-    void EmptyCall();                            //    记录 SETCONSTANT 和 SETANSWER 操作
+    }                //    鍚戣绠楀浘涓娣绘柊缁撶偣
+    void EmptyCall();                            //    璁板綍 SETCONSTANT 鍜?SETANSWER 鎿嶄綔
     
-    //准备特化为Tensor的计算图
+    //鍑嗗鐗瑰寲涓篢ensor鐨勮绠楀浘
     friend Tensor ToTensor(std::vector<std::string>& a,int& start);
     ///
     
@@ -117,14 +117,14 @@ void ComputationalGraph<T>::workstage2(){
     
     while (times--) {
         incision();
-        if(info[2]=="+")                 //为加法;
+        if(info[2]=="+")                 //涓哄姞娉?
         {
             std::vector<Node<T>*> vs;
             vs.push_back(Find(info[1]));
             vs.push_back(Find(info[3]));
             AddNode(new PlusOperator<T>(info[0],vs));
         }
-        else if(info[2]=="-")                 //为乘法
+        else if(info[2]=="-")                 //涓轰箻娉?
         {
             std::vector<Node<T>*> vs;
             vs.push_back(Find(info[1]));
@@ -261,5 +261,3 @@ void ComputationalGraph<T>::workstage2(){
 }
 
 #endif
-
-
