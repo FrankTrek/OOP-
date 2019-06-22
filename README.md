@@ -1,3 +1,14 @@
+
+2
+x V 1.0
+y V 2.0
+5
+a = ASSIGN b = a * y
+c = ASSIGN d = c * x
+res = d * 3
+EVAL res 0
+EVAL x 0
+EVAL y 0
 3
 yo V -0.3072
 w V -2.8278
